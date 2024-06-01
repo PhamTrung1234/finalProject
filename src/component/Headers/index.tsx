@@ -1,7 +1,7 @@
 import { Col, Row } from "antd";
 
 import { Link } from "react-router-dom";
-import ButtonModal from "./ButtonModal";
+
 
 
 
@@ -12,6 +12,7 @@ import {
   handelNavMenu,
 } from "./ButtonModal/NavMenu/Roots";
 import { GlobalOutlined } from "@ant-design/icons";
+import ButtonModal from "./ButtonModal";
 
 export default function Header() {
   
@@ -24,7 +25,7 @@ export default function Header() {
       <Col span={8}>
         <Row>
           <Col span={8} className="flex items-center">
-            {ButtonModal()}
+            <ButtonModal/>
             <Link to={"/"}>
               <img src="/svg/logoup.svg" alt="" />
             </Link>
