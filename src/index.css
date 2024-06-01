@@ -1,3 +1,229 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+body,html{
+    font-size: 16px;
+}
+a{
+    text-decoration: none !important;
+   
+}
+a:hover{
+    text-decoration: none !important;
+}
+.collapse{
+    visibility: visible !important;
+}
+.accordion-body a{
+    color: #000;
+    font-size: 16px;
+}
+.accordion-item{
+    border: none !important;
+}
+.ant-drawer-content .ant-drawer-header.ant-drawer-header-close-only{
+    display: none;
+}
+#reset-button{
+    border: none;
+    background: none;
+    font-size: 20px;
+    outline: none;
+    text-align: center;
+    transform: translateY(-25%);
+    font-weight: bold;
+    display: none;
+}
+@media (max-width:768px){
+    #reset-button{
+        display: block;
+    }
+}
+header{
+    position: fixed;
+    width: 100%;
+    
+    z-index: 10;
+    background-color: #fff;
+}
+.dropdown .dropdown-menu.show li{
+    width: 350px;
+    padding: 0 15px;
+}
+.dropdown .dropdown-menu.show li a{
+    font-size: 16px;
+    color: #000;
+    font-weight: bold;
+}
+.btn{
+    border: none !important;
+    font-size: 16px !important;
+    color: #222325 !important;
+    font-weight: bold !important;
+    padding: 8px 15px !important;
+}
+.dropdown .btn:hover{
+    background-color: #f5f5f5 !important;
+}
+.btn a{
+    color: #222325;
+}
+.btn a:hover{
+    color: #1dbf73;
+}
+.btn-end{
+    border: 2px solid #1dbf73 !important;
+}
+.btn-end a{
+    color: #1dbf73;
+    transition: all 0.5s ease-in-out;
+}
+.btn-end:hover{
+    background-color: #1dbf73 !important;
+}
+.btn-end:hover a{
+    color: #fff;
+}
+.FooterMd h4{
+    font-size: 16px;
+    color: #404145;
+    font-weight: bold;
+    
+}
+.FooterMd a{
+    color: #74767e;
+    font-size: 16px;
+}
+.FooterMd p{
+    font-size: 14px;
+    color: #b5b6ba;
+    
+}
+
+.FooterEnd .btn:hover{
+    background-color: #efeff0;  
+}
+
+.HomeCarousel__left{
+    background-image: url("https://fiverr-res.cloudinary.com/image/upload/f_auto,q_auto,dpr_2.0/v1/attachments/generic_asset/asset/4637ac0b5e7bc7f247cd24c0ca9e36a3-1690384616487/jenny-2x.jpg");
+    
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+@media (max-width:864px) {
+    .HomeCarousel__left{
+        background-image: none;
+        height: 60vh;
+        background-color: #0a4226;
+    }
+}
+.HomeCarousel__right{
+    background-color: #1dbf73;
+    height: 60vh;
+}
+.NavCarousel ul li{
+    display: inline-block;
+    padding-right: 10px;
+}
+.NavCarousel ul li a{
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+    padding: 1px 12px 0;
+    transition: all .2s ease-in-out;
+    z-index: 4;
+    border: 1px solid #fff;
+    border-radius: 40px;
+}
+.NavCarousel ul li a:hover{
+    background-color: #fff;
+    color: #222325;
+}
+.HomeTrusted{
+    padding: 20px 0;
+    background-color: #f5f5f5;
+}
+.HomeTrusted ul li{
+    display: inline-block;
+    padding-right:60px ;
+}
+.HomeTrusted ul li img{
+    width: 71px;
+    height: 60px;
+}
+.HomeTrusted span{
+    padding-right: 60px;
+    font-size: 16px;
+    color: #b5b6ba;
+    font-weight: 600;
+
+}
+.slick-arrow.slick-prev,.slick-arrow.slick-next{
+    z-index: 10;
+}
+.slick-arrow.slick-prev::before,.slick-arrow.slick-next::before{
+    color: #74767e;
+    padding: 15px;
+    border-radius: 50%;
+    background-color: #f5f5f5;
+    font-size: 28px;
+}
+.slick-arrow.slick-next{
+    transform: translate(-200% , -50%);
+}
+.card__item{
+    position: relative;
+}
+.card__item img{
+    width: 100%;
+}
+.ant-card-body{
+    padding: 7px !important;
+    
+}
+.card__title{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+.HomeIdea{
+    background-color: #f1fdf7;
+    
+}
+.HomeIdea .ant-btn.css-dev-only-do-not-override-j9bb5n.ant-btn-default,.ant-btn.css-dev-only-do-not-override-j9bb5n.ant-btn-default:hover{
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+.modal_idea.ant-modal .ant-modal-close:hover,.ant-modal .ant-modal-close{
+    display: none !important;
+}
+.modal_idea.ant-modal .ant-modal-header{
+    display: none !important;
+}
+.modal_idea.ant-modal .ant-modal-footer{
+    display: none !important;
+}
+.modal_idea.ant-modal .ant-modal-content{
+    padding: 0 !important;
+}
+.modal__img{
+    position: relative;
+    
+}
+.modal__icon{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: rgb(0, 0, 0,0.6);
+    text-align: center;
+    line-height: 70px;
+    font-size: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+}

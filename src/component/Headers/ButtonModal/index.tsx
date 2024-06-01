@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Button, Drawer } from 'antd';
 import { MenuOutlined } from "@ant-design/icons";
+import NavMenu from "./NavMenu"; 
+import { Link } from "react-router-dom";
 
 export default function ButtonModal() {
     const [open, setOpen] = useState<boolean>(false);
@@ -15,22 +17,24 @@ export default function ButtonModal() {
     };
   return (
     <>
-    <Button type="primary" onClick={showLoading}>
+    <Button onClick={showLoading} id="reset-button">
     <MenuOutlined />
     </Button>
+    
     <Drawer
       closable
       destroyOnClose
-    //   title={<p>Loading Drawer</p>}
+    
       placement="left"
       open={open}
       loading={loading}
       onClose={() => setOpen(false)}
     >
+      <Link to={"/"} className="ml-4 bg-slate-950 text-white py-3 px-5 rounded-lg text-base">
+      Join Fiverr
+      </Link>
+      <NavMenu/>
       
-      <p>Some contents...</p>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
     </Drawer>
   </>
   )
