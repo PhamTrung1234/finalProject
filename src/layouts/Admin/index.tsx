@@ -6,7 +6,7 @@ import { Header, Content } from 'antd/es/layout/layout';
 import { useState } from 'react'
 
 
-export default function index() {
+export default function AdminTemplate() {
     const [collapsed, setCollapsed] = useState(false);
     const {
         token: { colorBgContainer, borderRadiusLG },
