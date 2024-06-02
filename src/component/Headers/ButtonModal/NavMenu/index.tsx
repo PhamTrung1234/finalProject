@@ -2,12 +2,25 @@
 import { Link } from 'react-router-dom'
 import{explore,usd,language,handelNavMenu, fiverPro, bowserCate} from "./Roots/index"
 import { GlobalOutlined } from '@ant-design/icons'
+import { Button } from 'antd';
+import ModalSignin from '../../ModalSignin';
+import { useState } from 'react';
 export default function NavMenu() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+    const showModal = () => {
+      setIsModalOpen(!isModalOpen);
+    };
+    const callbackMOdal= (data:boolean)=>{
+      setIsModalOpen(data)
+}
   return (
    <div className="accordion mt-5" id="accordionExample">
   <div className='accordion-item'>
-    <h2 className='accordion-header accordion-body accordion'>
-    <Link to={"/"} >Sign in</Link>
+    <h2 className='accordion-header accordion-body accordion navmenu__signin p-0'>
+    <Button type="primary" onClick={showModal}>
+      Join Fiverr
+      </Button>
+      <ModalSignin found={isModalOpen} callbackMOdal={callbackMOdal}/>
     </h2>
   </div>
   <div className="accordion-item">

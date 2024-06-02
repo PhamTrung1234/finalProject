@@ -21,6 +21,11 @@ a:hover{
 .accordion-item{
     border: none !important;
 }
+.ant-btn.css-dev-only-do-not-override-j9bb5n.ant-btn-primary:focus-visible {
+    outline: none !important;
+    transition: none !important;
+    outline-offset: 0 !important;
+}
 .ant-drawer-content .ant-drawer-header.ant-drawer-header-close-only{
     display: none;
 }
@@ -74,12 +79,16 @@ header{
 .btn-end{
     border: 2px solid #1dbf73 !important;
 }
-.btn-end a{
+.btn-end {
     color: #1dbf73;
     transition: all 0.5s ease-in-out;
+    transform: translateY(-20%);
+   
 }
 .btn-end:hover{
     background-color: #1dbf73 !important;
+    color: #212529;
+    
 }
 .btn-end:hover a{
     color: #fff;
@@ -89,6 +98,11 @@ header{
     color: #404145;
     font-weight: bold;
     
+}
+.header__button,.header__button:hover{
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 .FooterMd a{
     color: #74767e;
@@ -143,17 +157,11 @@ header{
     color: #222325;
 }
 .HomeTrusted{
-    padding: 20px 0;
+    padding: 10px 0;
     background-color: #f5f5f5;
+    margin-bottom: 94px;
 }
-.HomeTrusted ul li{
-    display: inline-block;
-    padding-right:60px ;
-}
-.HomeTrusted ul li img{
-    width: 71px;
-    height: 60px;
-}
+
 .HomeTrusted span{
     padding-right: 60px;
     font-size: 16px;
@@ -226,4 +234,31 @@ header{
     top: 50%;
     left: 50%;
     transform: translate(-50% , -50%);
+}
+.TitelSearch button{
+    background-color: #1dbf73;
+    border-radius: 0 6px 6px 0;
+}
+.TitelSearch input {
+    border-radius: 6px 0 0 6px;
+    padding-bottom: 8.5px;
+}
+.navmenu__signin button{
+    background: none;
+    color: #212529;
+    box-shadow: none;
+    border: none;
+    font-weight: bold;
+    font-size: 1rem;
+}
+.ButtonModal__modal{
+    background: none;
+    box-shadow: none;
+    border: none;
+    color: #fff;  
+}
+.ButtonModal__modal span{
+    padding: 15px 35px ;
+    background-color: #212529;
+    border-radius: 6px;
 }
