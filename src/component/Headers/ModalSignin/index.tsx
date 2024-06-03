@@ -2,10 +2,10 @@ import { Modal } from "antd";
 import {  useEffect, useState } from "react";
 type Props= {
     found: boolean;
-    callbackMOdal?:(data?: boolean)=> void ;
+    callbackMOdal?:(data: boolean)=> void ;
 }
 
-export default function ModalSignin(props:any) {
+export default function ModalSignin(props:Props) {
     
     const [isModalOpen, setIsModalOpen] = useState(false);
    useEffect(()=>{
@@ -19,19 +19,17 @@ export default function ModalSignin(props:any) {
    
     const handleOk = () => {
         setIsModalOpen(false);
-        props.callbackMOdal(false)
+        props.callbackMOdal?.(false)
       };
     
       const handleCancel = () => {
         setIsModalOpen(false); 
-        props.callbackMOdal(false)
+        props.callbackMOdal?.(false)
       };
       
   return (
     <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
+    vui quá ha
   </Modal>
 
   )
