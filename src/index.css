@@ -44,7 +44,7 @@ a:hover{
         display: block;
     }
 }
-header{
+ header{
     position: fixed;
     width: 100%;
     
@@ -261,4 +261,60 @@ header{
     padding: 15px 35px ;
     background-color: #212529;
     border-radius: 6px;
+}
+.ModalSignin .ant-modal-close,.ModalSignin .ant-modal-header,.ModalSignin .ant-modal-footer{
+    display: none !important;
+}
+.ModalSignin .ant-modal-content{
+    padding: 0 !important;
+}
+.SigninDesrc__left{
+    position: relative;
+}
+.SigninDesrc__left--items{
+    position: absolute;
+    top: 20px;
+    left: 45px;
+    color: white;
+}
+.NavBarHeader{
+    position: fixed;
+    top:88px;
+    width: 100%;
+    height: 50px;
+    z-index: 2;
+    
+    background-color: #fff;
+}
+
+ .NavBarHeader .ant-space-item{
+    color: #62646a;
+}
+.budget .ant-menu-item ,.Deliverytime .ant-menu-item {
+    height: auto !important;
+}
+.NavAuthent__left .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-light.css-dev-only-do-not-override-j9bb5n {
+    border: none !important;
+}
+.NavAuthent__left .ant-menu-submenu-title,.NavAuthent__left .ant-menu-item {
+    padding-left: 5px !important;
+}
+.authen__item--text{
+    -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+}
+.exploreMore__item{
+    padding: 10px;
+    border-radius: 20px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    font-size: 18px;
+    color: #62646a;
+    background-color: #efeff0;
+}
+.exploreMore__item:hover{
+    text-decoration: underline;
 }

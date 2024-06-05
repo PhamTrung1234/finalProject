@@ -9,11 +9,11 @@ import Header from '../../component/Headers'
 export default function HomePages() {
    
   return (
-    <>
+    <div className='HomePages' >
        <Header/>
        <Outlet/>
        <Footer/>
        <FooterEnd/>
-    </>
+    </div>
   )
 }
