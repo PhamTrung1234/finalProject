@@ -32,7 +32,7 @@ export default function Header() {
   }
   
   return (
-    <header className="py-4  " style={{border:'1px solid #e4e5e7'}}>
+    <header className="py-4  header" style={{border:'1px solid #e4e5e7'}}>
        <div >
        <Row className="container">
       <Col span={8} className="flex items-center">

@@ -4,7 +4,7 @@ import Footer from "../../component/Footer";
 import FooterEnd from "../../component/FooterEnd";
 import NavBarHeader from "../../component/NavBarHeader";
 
-import NavAuthent from "../../component/NavAuthent";
+
 
 
 export default function AuthenLayouts() {
