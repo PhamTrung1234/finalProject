@@ -21,3 +21,15 @@ export  type dsChiTietLoai ={
     id:number;
     tenChiTiet:string;
   }
+export type DetaiJob = {
+  danhGia:number;
+  giaTien:number;
+  hinhAnh:string;
+  id:number;
+  maChiTietLoaiCongViec:number
+  moTa:string;
+  moTaNgan:string;
+  nguoiTao:number;
+  saoCongViec:number;
+  tenCongViec:string;
+}

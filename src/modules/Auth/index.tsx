@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import NavAuthent from "../../component/NavAuthent";
 import ExploreMore from "./ExploreMore";
 import AuthFreelans from "./AuthFreelans";
+import AuthGuides from "./AuthGuides";
 type Job ={
   danhGia:number;
   giaTien:number;
@@ -57,6 +58,7 @@ export default function Authen() {
       
       <ExploreMore/>
       <AuthFreelans/>
+      <AuthGuides/>
     </div>
   )
 }
