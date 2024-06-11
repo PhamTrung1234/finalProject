@@ -1,68 +1,123 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import { UserOutlined, VideoCameraOutlined, UploadOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
-import { Layout, Menu, Button, theme } from 'antd';
-import Sider from 'antd/es/layout/Sider';
-import { Header, Content } from 'antd/es/layout/layout';
-import { useState } from 'react'
+import { useState } from "react";
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UserOutlined,
+  SettingOutlined,
+  CodeSandboxOutlined,
+  CustomerServiceOutlined,
+  AppstoreOutlined,
+} from "@ant-design/icons";
+import { Avatar, Button, Dropdown, Layout, Menu, theme } from "antd";
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import FooterEnd from "../../component/FooterEnd";
 
+const { Header, Sider, Content } = Layout;
 
-export default function AdminTemplate() {
-    const [collapsed, setCollapsed] = useState(false);
-    const {
-        token: { colorBgContainer, borderRadiusLG },
-      } = theme.useToken();
-    
+export default function AdminLayout() {
+
+  const [collapsed, setCollapsed] = useState(false);
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const items = [
+    {
+      key: "1",
+      label: <span> Cài đặt tài khoản </span>,
+    },
+    {
+      key: "2",
+      label: <span>Đăng xuất</span>,
+    },
+  ];
+
+  
+
   return (
-    <Layout>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="demo-logo-vertical" />
+    <Layout className="h-screen">
+      <Sider trigger={null} collapsible collapsed={collapsed} width={230}>
+        <Link to={"/admin"}>
+          <div className="h-[72px] mt-4 mb-4 my-1 text-white flex items-center justify-center">
+            <img src="/vite.svg" width={100} className="cursor-pointer" />
+          </div>
+        </Link>
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={['1']}
+          className="pt-1"
+          defaultSelectedKeys={[location.pathname]}
           items={[
             {
-              key: '1',
+              key: "/admin/user-management",
               icon: <UserOutlined />,
-              label: 'nav 1',
+              label: "Quản lý người dùng",
+            },
+            
+            {
+              key: "/admin/Work",
+              icon: <CodeSandboxOutlined />,
+              label: "Quản lý Công Việc",
             },
             {
-              key: '2',
-              icon: <VideoCameraOutlined />,
-              label: 'nav 2',
+              key: "/admin/Type-work",
+              icon: <AppstoreOutlined />,
+              label: "Quản lý loại công việc",
             },
             {
-              key: '3',
-              icon: <UploadOutlined />,
-              label: 'nav 3',
+              key: "/admin/services-management",
+              icon: <CustomerServiceOutlined />,
+              label: "Quản lý dịch vụ",
+            },
+            {
+              key: "/admin/account-settings",
+              icon: <SettingOutlined />,
+              label: "Cài đặt",
             },
           ]}
+          onClick={({ key }) => navigate(key)}
         />
       </Sider>
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }}>
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: '16px',
-              width: 64,
-              height: 64,
-            }}
-          />
+          <div className="flex items-center justify-between">
+            <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={() => setCollapsed(!collapsed)}
+              className="h-[64px] w-[64px]"
+            />
+            <Dropdown menu={{ items }} arrow={{ pointAtCenter: true }}>
+              <div className="pr-4">
+                <Avatar
+                  size={"large"}
+                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                />
+              </div>
+            </Dropdown>
+          </div>
         </Header>
         <Content
           style={{
-            margin: '24px 16px',
+            margin: "24px 16px",
             padding: 24,
-            minHeight: 280,
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
+            overflowY: "scroll",
           }}
         >
-          Content
+          <Outlet />
+          
         </Content>
+        
       </Layout>
     </Layout>
   );

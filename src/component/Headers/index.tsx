@@ -29,7 +29,7 @@ export default function Header() {
         setIsModalOpen(data)
   }
   return (
-    <header className="py-4 ">
+    <header className="py-4 "style={{position:'fixed',width:'100%',zIndex:10,background:'#fff'}}>
         <Row className="container">
       <Col span={8} className="flex items-center">
       <ButtonModal/>

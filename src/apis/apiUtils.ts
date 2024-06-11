@@ -20,8 +20,9 @@ axiosInstance.interceptors.request.use(
     (error)=>{
         return Promise.reject(error);
     }
-)
-class apiClient{
+);
+
+class APIClient{
     get<T =any>(config: AxiosRequestConfig):Promise<T>{
         return this.request({...config,method: "GET"});
     }
@@ -55,6 +56,6 @@ class apiClient{
         }
     }
 
-export default new apiClient();
+export default new APIClient();
 
 
