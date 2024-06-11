@@ -9,6 +9,9 @@ import Typework from "../modules/Admin/TypeofWork";
 import UserManagement from "../modules/Admin/UserManagement";
 import AccountSetting from "../modules/Admin/AccountSetting";
 import ServiceManagement from "../modules/Admin/ServicesManagement";
+import AuthenLayouts from "../layouts/AuthenLayouts";
+import Authen from "../modules/Auth";
+import DetailJob from "../modules/Auth/DetailJob";
 
 interface CustomRouteType {
     path: string;
@@ -52,7 +55,12 @@ const routes: CustomRouteType[] = [
             {
                 path: '/admin/account-settings',
                 element: <AccountSetting/>
-            }
+            },
+            {
+                path:"/auth",element:<AuthenLayouts/>,children:[
+                {path:"/auth/detail",element:<Authen/>},
+                {path:"/auth/detail/:id",element:<DetailJob/>}
+            ]}
         ]
     }
 ];

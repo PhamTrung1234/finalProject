@@ -1,5 +1,6 @@
 import { Modal } from "antd";
 import {  useEffect, useState } from "react";
+import SigninDesrc from "./SigninDesrc";
 type Props= {
     found: boolean;
     callbackMOdal?:(data: boolean)=> void ;
@@ -28,8 +29,8 @@ export default function ModalSignin(props:Props) {
       };
       
   return (
-    <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-    vui quá ha
+    <Modal className="ModalSignin" width={"70%"} style={{height:'80vh'}} title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+    <SigninDesrc/>
   </Modal>
 
   )

@@ -15,11 +15,13 @@ import { GlobalOutlined } from "@ant-design/icons";
 import ButtonModal from "./ButtonModal";
 import { useState } from "react";
 import ModalSignin from "./ModalSignin";
+import { useWindowScroll } from "@uidotdev/usehooks";
+
 
 
 export default function Header() {
-  
  
+ const [ {y}] = useWindowScroll();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -28,9 +30,11 @@ export default function Header() {
   const callbackMOdal= (data:boolean)=>{
         setIsModalOpen(data)
   }
+  
   return (
-    <header className="py-4 "style={{position:'fixed',width:'100%',zIndex:10,background:'#fff'}}>
-        <Row className="container">
+    <header className="py-4  header" style={{border:'1px solid #e4e5e7'}}>
+       <div >
+       <Row className="container">
       <Col span={8} className="flex items-center">
       <ButtonModal/>
             <Link to={"/"}>
@@ -39,6 +43,7 @@ export default function Header() {
       </Col>
       <Col span={16}>
         <Row >
+          <Col xs={0} md={6} lg={0}></Col>
           <Col xs={0} md={5}>
             <div className="dropdown">
               <button
@@ -80,14 +85,14 @@ export default function Header() {
              </Link>
              </button>
           </Col>
-          <Col xs={15} md={0}></Col>
-          <Col  lg={4} xl={3}>
+          <Col xs={11} sm={13} md={0} ></Col>
+          <Col  xs={6} sm={5} md={4} lg={3}>
           <Button type="primary" className="header__button" onClick={showModal} >
-       <span className="btn" style={{transform:' translateY(-20%)'}}>Sign in</span>
+       <span className="btn" style={{transform:' translateY(-15%)'}}>Sign in</span>
       </Button>
              <ModalSignin found={isModalOpen} callbackMOdal={callbackMOdal}/>
           </Col>
-          <Col span={3}>
+          <Col  xs={6} sm={5} md={4} lg={3}>
           
              
           <Button type="primary" className="header__button" onClick={showModal} >
@@ -103,6 +108,8 @@ export default function Header() {
         </Row>
       </Col>
     </Row>
+       </div>
+    
     </header>
   );
 }
