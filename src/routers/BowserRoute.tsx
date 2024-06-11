@@ -56,13 +56,14 @@ const routes: CustomRouteType[] = [
                 path: '/admin/account-settings',
                 element: <AccountSetting/>
             },
-            {
-                path:"/auth",element:<AuthenLayouts/>,children:[
-                {path:"/auth/detail",element:<Authen/>},
-                {path:"/auth/detail/:id",element:<DetailJob/>}
-            ]}
+            
         ]
-    }
+    },
+    {
+        path:"/auth",element:<AuthenLayouts/>,children:[
+        {path:"/auth/detail",element:<Authen/>},
+        {path:"/auth/detail/:id",element:<DetailJob/>}
+    ]}
 ];
 
 // Create the router with the defined routes
