@@ -2,8 +2,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import apiClient from "../apiUtils";
 import { message } from "antd";
 import { queryClient } from "../../http/tanstack/react-query";
-import { PAGE_SIZE } from "../../constants";
-import { Status, UserPagination } from "../../types/user";
 export interface Users {
   id: number;
   name: string;
@@ -20,14 +18,7 @@ export interface Users {
 export const useListUser = () => {
   return useQuery({
     queryKey: ["listUser"],
-    queryFn: async () => {
-      try {
-        const response = await apiClient.get({ url: `/users`});
-        return response.content;
-      } catch (error) {
-        throw "lỗi"
-      }
-    },
+    queryFn: () => apiClient.get({ url: "/users" }),
   });
 };
 
@@ -77,18 +68,3 @@ export const useDeleteUser=()=>{
           },
     })
 }
-
-//get userList page
-export const useGetListUser = (currentPage: number) => {
-  return useQuery<UserPagination, string[], UserPagination>({
-    queryKey: ["UserPagination",{ currentPage }],
-    queryFn: async () => {
-      try {
-        const response = await apiClient.get<Status<UserPagination>>({ url: `/users/phan-trang-tim-kiem?pageIndex=${currentPage}&pageSize=${PAGE_SIZE}` });
-        return response.content;
-      } catch (error) {
-        throw new Error("Error occurred while fetching user list.");
-      }
-    },
-  });
-};

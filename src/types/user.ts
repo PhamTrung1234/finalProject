@@ -1,6 +1,6 @@
-export type Status<T>= {
+export interface Status {
     statusCode: number;
-    content:    T;
+    content:    User[];
     dateTime:   Date;
 }
 
@@ -29,11 +29,4 @@ export enum BookingJob {
 export enum Role {
     Admin = "ADMIN",
     User = "USER",
-}
-export interface UserPagination {
-    pageIndex: number;
-    pageSize:  number;
-    totalRow:  number;
-    keywords:  null;
-    data:      User[];
 }
