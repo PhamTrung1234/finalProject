@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { Result } from "../types/api";
 import { StorageEnum } from "../types/enum";
-import { getItem, removeItem } from "../utils/storage";
+import { removeItem } from "../utils/storage";
 // import { UserToken } from "../types/entity";
 import { message as Message } from 'antd';
 const axiosInstance=axios.create({

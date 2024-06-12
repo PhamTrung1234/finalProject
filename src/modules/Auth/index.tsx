@@ -25,7 +25,7 @@ export default function Authen() {
   const {isPending,data,error} = useQuery({queryKey:['cong-viec'],queryFn:fetchDataJob})
   
   const handelJob = ()=>{
-      return data?.data.content.map((item:Job)=>{
+      return data?.content.map((item:Job)=>{
              return (
               <Col xs={24} md={12} lg={8} xl={6} key={item.id}>
                   <Link to={`/auth/detail/${item.id}`}>

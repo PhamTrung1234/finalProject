@@ -92,3 +92,12 @@ export const useGetListUser = (currentPage: number) => {
     },
   });
 };
+
+
+export const fetchUser = async(id:string|number)=>{
+   try{
+     return await apiClient.get({url:`/users`})
+   }catch(error){
+    throw ('lỗi tùm lum')
+   }
+}

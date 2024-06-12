@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import "../style.css"
 import { fecthComment } from "../../../../apis/CallApiComment";
-// import { fetchUser } from "../../../../apis/CallApiUser";
+
 import { Rate } from "antd";
 
 import dayjs from "dayjs";
 import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import { fetchUser } from "../../../../apis/CallApiUser/user";
 type Props = {
     id:string;
 }
@@ -21,15 +22,9 @@ type Comment = {
 export default function DetailComment(props : Props) {
     const {data} = useQuery({queryKey:['comment'],queryFn:()=>fecthComment(props.id)})
    
-    const array = ["5418","5419","5420",'5421']
-    const handelarray = ()=>{
-        return array.map(item=>{
-            const data = useQuery({queryKey:[`user-${item}`],queryFn:()=>fetchUser(item)})
-            console.log(data)
-        })
-    }
-    handelarray();
-    const listcComment = data?.data.content;
+    
+    
+    const listcComment = data?.content;
     const today = new Date()
     const [found1 ,setFound1] = useState(false);
     const [found2 ,setFound2] = useState(false);
@@ -50,8 +45,8 @@ export default function DetailComment(props : Props) {
 
               <div className="flex items-center font-bold">
                 <span >Helpful?</span>
-                <button onClick={()=>{setFound1(!found1)}} className="px-3">{found1 ?(<span style={{color:'#1dbf73'}}><LikeOutlined/> Yes</span>): (<span><LikeOutlined /> Yes</span>)} </button>
-                <button onClick={()=>{setFound2(!found2)}}> {found2 ? (<span style={{color:'red'}}><DislikeOutlined /> No</span>):(<span><DislikeOutlined /> No</span>)}</button>
+                <button onClick={()=>{if(!found2) setFound1(!found1)}} className="px-3">{found1 ?(<span style={{color:'#1dbf73'}}><LikeOutlined/> Yes</span>): (<span><LikeOutlined /> Yes</span>)} </button>
+                <button onClick={()=>{if(!found1) setFound2(!found2)}}> {found2 ? (<span style={{color:'red'}}><DislikeOutlined /> No</span>):(<span><DislikeOutlined /> No</span>)}</button>
               </div>
             </div>
          )
@@ -71,8 +66,8 @@ export default function DetailComment(props : Props) {
 
               <div className="flex items-center font-bold">
                 <span >Helpful?</span>
-                <button onClick={()=>{setFound1(!found1)}} className="px-3">{found1 ?(<span style={{color:'#1dbf73'}}><LikeOutlined/> Yes</span>): (<span><LikeOutlined /> Yes</span>)} </button>
-                <button onClick={()=>{setFound2(!found2)}}> {found2 ? (<span style={{color:'red'}}><DislikeOutlined /> No</span>):(<span><DislikeOutlined /> No</span>)}</button>
+                <button onClick={()=>{if(!found2) setFound1(!found1)}} className="px-3">{found1 ?(<span style={{color:'#1dbf73'}}><LikeOutlined/> Yes</span>): (<span><LikeOutlined /> Yes</span>)} </button>
+                <button onClick={()=>{if(!found1) setFound2(!found2)}}> {found2 ? (<span style={{color:'red'}}><DislikeOutlined /> No</span>):(<span><DislikeOutlined /> No</span>)}</button>
               </div>
             </div>
             )
