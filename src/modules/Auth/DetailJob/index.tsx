@@ -18,7 +18,7 @@ export default function DetailJob() {
     if(id) return fetchDetailJob(id)
   }})
  
-  const detailJob = data?.data.content
+  const detailJob = data?.content
  
   if(isPending || error) return <Spin/>
   return (

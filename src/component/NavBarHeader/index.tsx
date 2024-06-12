@@ -6,7 +6,7 @@ import NavItems from "./NavItems";
 
 export default function NavBarHeader() {
    const {isPending,data,error} = useQuery({queryKey:['ma-loai-cong-viec'],queryFn:fetchJobTypeCode})
-   
+  
     const settings = {
         dots: false,
         accessibility: false,
@@ -39,11 +39,13 @@ export default function NavBarHeader() {
         ]
       };
     const handelItems = ()=>{
-      return data?.data.content.map((item:MaLoaiCongViec)=>{
+      
+        return data?.content.map((item:MaLoaiCongViec)=>{
           return(
             <NavItems data={item} key={item.id}/>
           )
       })
+      
     }
     
    if(isPending|| error) return null   
