@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import "../style.css"
 import { fecthComment } from "../../../../apis/CallApiComment";
-import { fetchUser } from "../../../../apis/CallApiUser";
+// import { fetchUser } from "../../../../apis/CallApiUser";
 import { Rate } from "antd";
 
 import dayjs from "dayjs";

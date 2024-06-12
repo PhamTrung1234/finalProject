@@ -12,3 +12,7 @@ export const getItem=<T>(key: StorageEnum): T | null=>{
     catch(error){console.error(error);}
     return value;
 }
+
+export const removeItem = (key: StorageEnum): void => {
+    localStorage.removeItem(key);
+  };
