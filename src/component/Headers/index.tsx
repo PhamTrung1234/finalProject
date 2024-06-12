@@ -19,11 +19,11 @@ export default function Header() {
   };
 
   return (
-    <header className="py-4  header" style={{ border: "1px solid #e4e5e7" }}>
-      <div>
-        <Row className="container  items-center">
-          <Col span={8} className="flex items-center">
-            <ButtonModal />
+    <header className="py-4  header" style={{position:'fixed',width:'100%',zIndex:10,background:'#fff'}}>
+       <div >
+       <Row className="container">
+      <Col span={8} className="flex items-center">
+      <ButtonModal/>
             <Link to={"/"}>
               <img src="/svg/logoup.svg" alt="" />
             </Link>

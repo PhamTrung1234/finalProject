@@ -5,7 +5,8 @@ import { getItem } from "../utils/storage";
 import { UserToken } from "../types/entity";
 
 const axiosInstance=axios.create({
-    baseURL: import.meta.env.VITE_APP_BASE_API as string,
+    // baseURL: import.meta.env.VITE_APP_BASE_API as string,
+    baseURL: "",
     timeout: 50000,
     headers: {tokenCybersoft : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCA2MiIsIkhldEhhblN0cmluZyI6IjE3LzEwLzIwMjQiLCJIZXRIYW5UaW1lIjoiMTcyOTEyMzIwMDAwMCIsIm5iZiI6MTcwMDE1NDAwMCwiZXhwIjoxNzI5MjcwODAwfQ.xKQVYYnO9233wkXRw5oU4Dtx41flqDuUnA0DbkDYRmM'},
 })
@@ -20,8 +21,9 @@ axiosInstance.interceptors.request.use(
     (error)=>{
         return Promise.reject(error);
     }
-)
-class apiClient{
+);
+
+class APIClient{
     get<T =any>(config: AxiosRequestConfig):Promise<T>{
         return this.request({...config,method: "GET"});
     }
@@ -55,6 +57,6 @@ class apiClient{
         }
     }
 
-export default new apiClient();
+export default new APIClient();
 
 

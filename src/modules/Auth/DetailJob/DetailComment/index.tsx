@@ -50,8 +50,8 @@ export default function DetailComment(props : Props) {
 
               <div className="flex items-center font-bold">
                 <span >Helpful?</span>
-                <button onClick={()=>{setFound1(!found1)}} className="px-3">{found1 ?(<span style={{color:'#1dbf73'}}><LikeOutlined/> Yes</span>): (<span><LikeOutlined /> Yes</span>)} </button>
-                <button onClick={()=>{setFound2(!found2)}}> {found2 ? (<span style={{color:'red'}}><DislikeOutlined /> No</span>):(<span><DislikeOutlined /> No</span>)}</button>
+                <button onClick={()=>{if(!found2) setFound1(!found1)}} className="px-3">{found1 ?(<span style={{color:'#1dbf73'}}><LikeOutlined/> Yes</span>): (<span><LikeOutlined /> Yes</span>)} </button>
+                <button onClick={()=>{if(!found1) setFound2(!found2)}}> {found2 ? (<span style={{color:'red'}}><DislikeOutlined /> No</span>):(<span><DislikeOutlined /> No</span>)}</button>
               </div>
             </div>
          )
@@ -71,8 +71,8 @@ export default function DetailComment(props : Props) {
 
               <div className="flex items-center font-bold">
                 <span >Helpful?</span>
-                <button onClick={()=>{setFound1(!found1)}} className="px-3">{found1 ?(<span style={{color:'#1dbf73'}}><LikeOutlined/> Yes</span>): (<span><LikeOutlined /> Yes</span>)} </button>
-                <button onClick={()=>{setFound2(!found2)}}> {found2 ? (<span style={{color:'red'}}><DislikeOutlined /> No</span>):(<span><DislikeOutlined /> No</span>)}</button>
+                <button onClick={()=>{if(!found2) setFound1(!found1)}} className="px-3">{found1 ?(<span style={{color:'#1dbf73'}}><LikeOutlined/> Yes</span>): (<span><LikeOutlined /> Yes</span>)} </button>
+                <button onClick={()=>{if(!found1) setFound2(!found2)}}> {found2 ? (<span style={{color:'red'}}><DislikeOutlined /> No</span>):(<span><DislikeOutlined /> No</span>)}</button>
               </div>
             </div>
             )

@@ -2,7 +2,7 @@
 import { DetaiJob } from "../../../../types"
 import { Col, Rate, Row } from "antd";
 import "../style.css"
-import { StarOutlined } from "@ant-design/icons";
+import { StarFilled } from "@ant-design/icons";
 type Props ={
     data:DetaiJob
 }
@@ -73,13 +73,13 @@ export default function DetailReview(props:Props) {
           <Col span={12} className="DetailReview__right">
             <h4>Rating Breakdown</h4>
             <h6 className="flex justify-between"><span>Seller communication level</span>
-            <span><StarOutlined /> {data.saoCongViec}</span>
+            <span><StarFilled /> {data.saoCongViec}</span>
             </h6>
             <h6 className="flex justify-between"><span>Recommend to a friend</span>
-            <span><StarOutlined /> {data.saoCongViec}</span>
+            <span><StarFilled /> {data.saoCongViec}</span>
             </h6>
             <h6 className="flex justify-between"><span>Service as described</span>
-            <span><StarOutlined /> {data.saoCongViec}</span>
+            <span><StarFilled /> {data.saoCongViec}</span>
             </h6>
           </Col>
         </Row>
