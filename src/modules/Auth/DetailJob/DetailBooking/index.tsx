@@ -1,12 +1,12 @@
 import { useWindowScroll } from "@uidotdev/usehooks";
 import { handelBookingDescription } from "./bookingDescription";
-import { useEffect } from "react";
+
 
 
 
 export default function DetailBooking() {
   const [{y}] = useWindowScroll();
-  console.log(window.innerWidth)
+  
  
   return (
     
