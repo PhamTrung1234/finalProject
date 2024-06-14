@@ -1,4 +1,4 @@
-import { TableProps, Tag, Table, Pagination, Button, Col, Form, Input, Row, Popconfirm } from "antd";
+import { TableProps, Tag, Table, Pagination, Button, Col, Form, Input, Row, Popconfirm, Breadcrumb } from "antd";
 import { User } from "../../../types/user";
 import { useGetListUser } from "../../../apis/CallApiUser/user";
 import { useState } from "react";
@@ -104,62 +104,78 @@ export default function UserManagement() {
     form.resetFields();
   };
   return (
-    <div className="overflow-hidden h-full">
+    <>
+    <div className="flex items-center justify-between">
+        <Breadcrumb
+          items={[
+            {
+              title: "Trang chủ",
+              path: "/admin",
+            },
+            {
+              title: "Quản lý người dùng",
+            },
+          ]}
+        />
+        
+    </div>
+    <div className="mt-3 text-2xl">
     <Form form={form} onFinish={onFinishHandler}>
-          <Row gutter={24} justify="space-between">
-            <Col span={20}>
-              <Row gutter={24}>
-                <Col span={8}>
-                  <Form.Item name="Search">
-                    <Input placeholder="Search by name" allowClear />
+      <Row gutter={24} justify="space-between">
+        <Col span={20}>
+          <Row gutter={24}>
+            <Col span={8}>
+              <Form.Item name="Search">
+                <Input placeholder="Search by name" allowClear />
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Row>
+                <Col span={7}>
+                  <Form.Item name="search">
+                    <Button type="primary" htmlType="submit">
+                      Search
+                    </Button>
                   </Form.Item>
                 </Col>
-                <Col span={8}>
-                  <Row>
-                    <Col span={7}>
-                      <Form.Item name="search">
-                        <Button type="primary" htmlType="submit">
-                          Search
-                        </Button>
-                      </Form.Item>
-                    </Col>
-                    <Col span={7}>
-                      <Button type="primary" onClick={resetHandler}>
-                        Reset
-                      </Button>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-            </Col>
-            <Col span={2}>
-              <Row>
-                <Col span={12}>
-                  <Button type="primary">New</Button>
+                <Col span={7}>
+                  <Button type="primary" onClick={resetHandler}>
+                    Reset
+                  </Button>
                 </Col>
               </Row>
             </Col>
           </Row>
-        </Form>
+        </Col>
+        <Col span={2}>
+          <Row>
+            <Col span={12}>
+              <Button type="primary">New</Button>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+    </Form>
+    
       <Table 
-      className="mt-2"
-      columns={columns}
-      rowKey={"id"}
-      dataSource={dataSource}
-      pagination={false}
-      scroll={{ y: undefined }}
-      loading={isLoading}
+        columns={columns}
+        rowKey="id"
+        dataSource={dataSource}
+        pagination={false}
+        
+        loading={isLoading}
       />
-      <div className="flex float-end mt-2 pb-5">
-          <Pagination
-            defaultCurrent={currentPage} 
-            total={totalCount} 
-            pageSize={PAGE_SIZE}
-            onChange={(page: number) => {
-              setCurrentPage(page);
-            }}
-          />
-        </div>
+    <div className="flex float-end mt-4 pb-4">
+      <Pagination
+        defaultCurrent={currentPage} 
+        total={totalCount} 
+        pageSize={PAGE_SIZE}
+        onChange={(page) => {
+          setCurrentPage(page);
+        }}
+      />
     </div>
+  </div>
+  </>
   )
 }

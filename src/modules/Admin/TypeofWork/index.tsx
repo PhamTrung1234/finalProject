@@ -1,6 +1,6 @@
-import { TableProps, Tag, Table, Pagination, Button, Col, Form, Input, Row, Popconfirm, Tooltip } from "antd";
+import { TableProps, Tag, Table, Pagination, Button, Col, Form, Input, Row, Popconfirm, Tooltip, Breadcrumb } from "antd";
 import { useState } from "react";
-import { PAGE_SIZE } from "../../../constants";
+import { PAGE_SIZE, PAGE_SIZE_TYPEJOB } from "../../../constants";
 import { IconButton, Iconify } from "../../../icon";
 import { JobType } from "../../../types/job";
 import { useGetListJobType } from "../../../apis/CallApiMaLoaiCongViec/typejob";
@@ -63,7 +63,22 @@ export default function Typework() {
     form.resetFields();
   };
   return (
-    <div className="overflow-hidden h-full">
+    <>
+    <div className="flex items-center justify-between">
+        <Breadcrumb
+          items={[
+            {
+              title: "Trang chủ",
+              path: "/admin",
+            },
+            {
+              title: "Quản lý loại công việc",
+            },
+          ]}
+        />
+        
+    </div>
+    <div className="mt-3 text-2xl">
     <Form form={form} onFinish={onFinishHandler}>
           <Row gutter={24} justify="space-between">
             <Col span={20}>
@@ -106,19 +121,20 @@ export default function Typework() {
       rowKey={"id"}
       dataSource={dataSource}
       pagination={false}
-      scroll={{ y: 400 }}
+     
       loading={isLoading}
       />
-      <div className="flex float-end mt-2 pb-5">
+      <div className="flex float-end mt-4 pb-4">
           <Pagination
             defaultCurrent={currentPage} 
             total={totalCount} 
-            pageSize={PAGE_SIZE}
+            pageSize={PAGE_SIZE_TYPEJOB}
             onChange={(page: number) => {
               setCurrentPage(page);
             }}
           />
         </div>
     </div>
+    </>
   )
 }
