@@ -2,7 +2,7 @@
 import { Button, Checkbox, DatePicker, Form, Input, Select } from "antd";
 import dayjs from "dayjs";
 import { useAddUPostSignup } from "../../../../../apis/CallApiPostSignUp";
-import { useGetListUser, useListUser } from "../../../../../apis/CallApiUser/user";
+import {  useListUser } from "../../../../../apis/CallApiUser/user";
 import { useEffect, useState } from "react";
 import { User } from "../../../../../types/user";
 
