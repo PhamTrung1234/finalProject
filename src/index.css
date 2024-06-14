@@ -316,3 +316,25 @@ a:hover{
     --tw-text-opacity: 1;
     color: rgb(255 86 48 / var(--tw-text-opacity));
 }
+
+.full-height {
+    height: 100vh; /* Chiều cao bằng 100% viewport height */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .table-container {
+    flex: 1; /* Chiếm không gian còn lại */
+    overflow: auto; /* Đảm bảo có thể cuộn nếu nội dung quá lớn */
+  }
+  
+  .table-container .ant-table-wrapper {
+    height: 100%;
+  }
+  
+  .table-container .ant-table-body {
+    max-height: 100%;
+    overflow: auto;
+  }
+  
+    

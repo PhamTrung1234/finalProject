@@ -1,1 +1,2 @@
-export const PAGE_SIZE=4
+export const PAGE_SIZE=7
+export const PAGE_SIZE_TYPEJOB=6
