@@ -11,12 +11,12 @@ export interface User {
     password:      string;
     phone:         string;
     birthday:      string;
-    avatar:        string;
+    avatar?:        string;
     gender:        boolean;
     role:          Role;
     skill:         string[] | null;
     certification: BookingJob[] | null;
-    bookingJob:    BookingJob[];
+    bookingJob?:    BookingJob[];
 }
 
 export enum BookingJob {

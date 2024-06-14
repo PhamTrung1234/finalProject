@@ -3,19 +3,8 @@ import apiClient from "../apiUtils";
 import { message } from "antd";
 import { queryClient } from "../../http/tanstack/react-query";
 import { PAGE_SIZE } from "../../constants";
-import { Status, UserPagination } from "../../types/user";
-export interface Users {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-  phone: string;
-  birthday: string;
-  gender: boolean;
-  role: string;
-  skill: string[];
-  certification: string[];
-}
+import { Status, User, UserPagination } from "../../types/user";
+
 //get user
 export const useListUser = () => {
   return useQuery({
@@ -34,7 +23,7 @@ export const useListUser = () => {
 //add user
 export const useAddUser = (payload?: any) => {
   return useMutation({
-    mutationFn: async (values: Users) => {
+    mutationFn: async (values: User) => {
       try {
         const response = await apiClient.post({
           url: "/users",
