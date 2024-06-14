@@ -17,6 +17,8 @@ export interface User {
     skill:         string[] | null;
     certification: BookingJob[] | null;
     bookingJob?:    BookingJob[];
+    token?: string;
+    
 }
 
 export enum BookingJob {
