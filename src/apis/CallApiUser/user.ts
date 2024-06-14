@@ -46,9 +46,9 @@ export const useAddUser = (payload?: any) => {
 };
 
 //delete user
-export const useDeleteUser=()=>{
+export const useDeleteUser=(currentPage:number)=>{
     return useMutation({
-        mutationFn: async(values:any)=>{
+        mutationFn: async(values:number)=>{
            try{
             const response =await apiClient.delete({
                 url: `/users`,
@@ -61,9 +61,14 @@ export const useDeleteUser=()=>{
             
         },
         onSuccess: () => {
-            message.success("User Deleted successfully");
-            queryClient.invalidateQueries({ queryKey: ["listUser"] });
-          },
+          queryClient.invalidateQueries({ queryKey: ['UserPagination'] });
+          queryClient.refetchQueries({
+            queryKey: ["UserPagination", { currentPage }],
+            type: "active",
+          });
+          message.success("User Deleted successfully");
+        },
+        
     })
 }
 
