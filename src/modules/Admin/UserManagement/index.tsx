@@ -1,8 +1,9 @@
-import { TableProps, Tag, Space, Table, Pagination, Button } from "antd";
+import { TableProps, Tag, Table, Pagination, Button, Col, Form, Input, Row, Popconfirm } from "antd";
 import { User } from "../../../types/user";
 import { useGetListUser } from "../../../apis/CallApiUser/user";
 import { useState } from "react";
 import { PAGE_SIZE } from "../../../constants";
+import { IconButton, Iconify } from "../../../icon";
 
 
 export default function UserManagement() {
@@ -63,32 +64,93 @@ export default function UserManagement() {
     {
       title: 'Action',
       key: 'action',
+      align: 'center',
       
       render: () => (
-        <Space size="middle">
-          <Button type="primary">Edit</Button>
-          <Button type="primary" danger>Delete</Button>
-        </Space>
+        <div className="text-gray flex w-full items-center justify-center">
+          <IconButton >
+            <Iconify icon="solar:pen-bold-duotone" size={18} />
+          </IconButton>
+          <Popconfirm
+            title="Delete User?"
+            okText="Yes"
+            cancelText="No"
+            placement="left"
+            onConfirm={() => {
+              // submitHandleDelete(record.id.toString());
+            }}
+          >
+            <IconButton>
+              <Iconify
+                icon="mingcute:delete-2-fill"
+                size={18}
+                className="text-error"
+              />
+            </IconButton>
+          </Popconfirm>
+        </div>
       ),
     },
   ];
   const [currentPage,setCurrentPage]=useState(1);
   const {data, isLoading}=useGetListUser(currentPage);
   const dataSource=data?.data ||[]
- 
+  const [form] = Form.useForm();
   const totalCount=data?.totalRow||0;
+  const onFinishHandler = (values: any) => {
+    console.log(values);
+  };
+  const resetHandler = () => {
+    form.resetFields();
+  };
   return (
-    <>
+    <div className="overflow-hidden h-full">
+    <Form form={form} onFinish={onFinishHandler}>
+          <Row gutter={24} justify="space-between">
+            <Col span={20}>
+              <Row gutter={24}>
+                <Col span={8}>
+                  <Form.Item name="Search">
+                    <Input placeholder="Search by name" allowClear />
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Row>
+                    <Col span={7}>
+                      <Form.Item name="search">
+                        <Button type="primary" htmlType="submit">
+                          Search
+                        </Button>
+                      </Form.Item>
+                    </Col>
+                    <Col span={7}>
+                      <Button type="primary" onClick={resetHandler}>
+                        Reset
+                      </Button>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </Col>
+            <Col span={2}>
+              <Row>
+                <Col span={12}>
+                  <Button type="primary">New</Button>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </Form>
       <Table 
       className="mt-2"
       columns={columns}
       rowKey={"id"}
       dataSource={dataSource}
       pagination={false}
-      
+      scroll={{ y: undefined }}
       loading={isLoading}
       />
-      <div className="flex float-end mt-4 pb-4">
+      <div className="flex float-end mt-2 pb-5">
           <Pagination
             defaultCurrent={currentPage} 
             total={totalCount} 
@@ -98,6 +160,6 @@ export default function UserManagement() {
             }}
           />
         </div>
-    </>
+    </div>
   )
 }
