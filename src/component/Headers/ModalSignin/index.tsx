@@ -27,10 +27,12 @@ export default function ModalSignin(props:Props) {
         setIsModalOpen(false); 
         props.callbackMOdal?.(false)
       };
-      
+      const onClose=(found:boolean)=>{
+          setIsModalOpen(found)
+      }
   return (
     <Modal className="ModalSignin" width={"70%"} style={{height:'80vh'}} title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-    <SigninDesrc/>
+    <SigninDesrc onClose={onClose}/>
   </Modal>
 
   )

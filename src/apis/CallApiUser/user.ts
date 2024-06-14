@@ -90,7 +90,7 @@ export const useGetListUser = (currentPage: number) => {
 
 export const fetchUser = async(id:string|number)=>{
    try{
-     return await apiClient.get({url:`/users`})
+     return await apiClient.get({url:`/users/${id}`})
    }catch(error){
     throw ('lỗi tùm lum')
    }

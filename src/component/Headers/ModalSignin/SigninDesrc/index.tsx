@@ -5,8 +5,14 @@ import Signup from "./Signup";
 import { CheckOutlined } from "@ant-design/icons";
 
 
-export default function SigninDesrc() {
+export default function SigninDesrc(props:any) {
     const [found , setFound] = useState(false)
+    const nextPage = (found:boolean)=>{
+        setFound(found)
+    }
+    const onClose=(found:boolean)=>{
+        props.onClose(found)
+    }
   return (
     <Row>
         <Col xs={0} md={12}>
@@ -27,7 +33,7 @@ export default function SigninDesrc() {
                     <h3>Sign in to your account</h3>
                     <p>Don’t have an account? <button onClick={()=>{setFound(true)}}>Join here</button></p>
                 </div>
-                <Signin/>
+                <Signin onClose = {onClose}/>
                 
                 </div>
             )}
@@ -37,7 +43,7 @@ export default function SigninDesrc() {
                     <h3>Create a new account</h3>
                     <p>Already have an account? <button onClick={()=>{setFound(false)}}>Sign in</button></p>
                 </div>
-                <Signup/>
+                <Signup nextPage={nextPage}/>
                 
                 </div>
             )}

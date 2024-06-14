@@ -7,3 +7,6 @@ export const fecthComment = async(id:string)=>{
         throw Error(error);
     }
 }
+
+
+// style={{ color: "#1dbf73" }}

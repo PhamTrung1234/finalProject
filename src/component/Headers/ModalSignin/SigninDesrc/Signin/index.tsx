@@ -1,19 +1,41 @@
 import type { FormProps } from 'antd';
 import { Button, Checkbox, Form, Input } from 'antd';
+import { postSignIn } from '../../../../../apis/CallApiPostSignUp';
+
+import { useAppDispatch } from '../../../../../store/hook';
+import { setCurrenUser } from '../../../../../store/Slice/counterSlice';
+import { useEffect } from 'react';
 
 type FieldType = {
-    username?: string;
+    email?: string;
     password?: string;
     remember?: string;
   };
-export default function Signin() {
+export default function Signin(props:any) {
+   const dispatch = useAppDispatch();
+   const {mutate:loginUser,data } = postSignIn()
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-        console.log('Success:', values);
+        
+        if(values.email&&values.password){
+          const formData={
+            email:values.email,
+            password:values.password
+          }
+          loginUser(formData)
+         
+          dispatch(setCurrenUser(formData.email))
+          if(values.remember){
+            localStorage.setItem("user",JSON.stringify(formData.email));
+          }
+        }
+       
       };
-      
-      const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-      };
+  useEffect(()=>{
+    if(data){
+      props.onClose(false)
+    }
+  },[data])
+     
   return (
     <Form
     name="basic"
@@ -22,13 +44,23 @@ export default function Signin() {
     style={{ maxWidth: 600 }}
     initialValues={{ remember: true }}
     onFinish={onFinish}
-    onFinishFailed={onFinishFailed}
+    
     autoComplete="off"
   >
     <Form.Item<FieldType>
-      label="Username"
-      name="username"
-      rules={[{ required: true, message: 'Please input your username!' }]}
+       name="email"
+       label="E-mail"
+       rules={[
+         {
+           type: "email",
+           message: "The input is not valid E-mail!",
+         },
+         {
+           required: true,
+           message: "Please input your E-mail!",
+           min:12,
+         },
+       ]}
     >
       <Input />
     </Form.Item>

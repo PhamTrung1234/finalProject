@@ -15,7 +15,7 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import FooterEnd from "../../component/FooterEnd";
+
 
 const { Header, Sider, Content } = Layout;
 
