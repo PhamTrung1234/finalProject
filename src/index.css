@@ -312,3 +312,7 @@ a:hover{
 .exploreMore__item:hover{
     text-decoration: underline;
 }
+.text-error {
+    --tw-text-opacity: 1;
+    color: rgb(255 86 48 / var(--tw-text-opacity));
+}
