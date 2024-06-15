@@ -14,7 +14,7 @@ export default function DetailJob() {
   const {id} = useParams();
   let newid = '';
   if(id) newid = id;
-  const {data,isPending,error} = useQuery({queryKey:['detail-job'],queryFn:()=>{
+  const {data,isPending,error} = useQuery({queryKey:[`detail-job-${id}`],queryFn:()=>{
     if(id) return fetchDetailJob(id)
   }})
  
@@ -40,7 +40,7 @@ export default function DetailJob() {
         <DetailComment id={newid}/>
         </Col>
         <Col span={9}>
-         <DetailBooking/>
+         <DetailBooking price = {detailJob.giaTien}/>
         </Col>
       </Row>
     </div>

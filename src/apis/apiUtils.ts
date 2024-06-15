@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { Result } from "../types/api";
 import { StorageEnum } from "../types/enum";
 import { removeItem } from "../utils/storage";
-// import { UserToken } from "../types/entity";
+
 import { message as Message } from 'antd';
 const axiosInstance=axios.create({
     baseURL: import.meta.env.VITE_APP_BASE_API as string,
@@ -12,10 +12,10 @@ const axiosInstance=axios.create({
 axiosInstance.interceptors.request.use(
     (config:any) => {
       const userLocal = localStorage.getItem("user");
-      const currentUser = userLocal ? userLocal : null;
-      config.headers = {
+      const currentUser = userLocal ? JSON.parse(userLocal) : null;
+      config.headers = { 
         ...config.headers,
-        token: currentUser ? `Bearer ${currentUser}` : "",
+        token: currentUser ? `Bearer ${currentUser.token}` : "",
         TokenCybersoft:
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCA2MiIsIkhldEhhblN0cmluZyI6IjE3LzEwLzIwMjQiLCJIZXRIYW5UaW1lIjoiMTcyOTEyMzIwMDAwMCIsIm5iZiI6MTcwMDE1NDAwMCwiZXhwIjoxNzI5MjcwODAwfQ.xKQVYYnO9233wkXRw5oU4Dtx41flqDuUnA0DbkDYRmM",
       };

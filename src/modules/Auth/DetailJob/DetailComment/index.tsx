@@ -22,7 +22,7 @@ type Comment = {
 export default function DetailComment(props: Props) {
  
   const { data } = useQuery({
-    queryKey: ["comment"],
+    queryKey: [`comment-${props.id}`],
     queryFn: () => fecthComment(props.id),
   });
   
