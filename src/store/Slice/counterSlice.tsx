@@ -1,12 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 
-const user = localStorage.getItem("user")
+const users = localStorage.getItem("user")
+type Store = {
+  user:string | null;
+}
 
 
-
-const initialState = {
-  user:user?JSON.parse(user):null,
+const initialState :Store= {
+  user:users?users:null,
 }
 
 export const counterSlice = createSlice({

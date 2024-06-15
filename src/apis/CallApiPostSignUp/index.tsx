@@ -1,6 +1,6 @@
 
 import { useMutation } from "@tanstack/react-query";
-import { Users } from "../CallApiUser/user";
+
 import apiClient from "../apiUtils"
 import { message } from "antd";
 import { queryClient } from "../../http/tanstack/react-query";
@@ -13,7 +13,7 @@ type UserSignin = {
 
 export const useAddUPostSignup = (payload?: any) => {
     return useMutation({
-      mutationFn: async (values: Users) => {
+      mutationFn: async (values: any) => {
         try {
           const response = await apiClient.post({
             url: "/auth/signup",
@@ -49,6 +49,7 @@ export const useAddUPostSignup = (payload?: any) => {
             }
          },
          onSuccess:()=>{
+           
             message.success("Logged in successfully")
             
          },

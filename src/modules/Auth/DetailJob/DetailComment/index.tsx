@@ -6,8 +6,8 @@ import { Rate } from "antd";
 
 import dayjs from "dayjs";
 import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
-import { useEffect, useState } from "react";
-
+import {  useState } from "react";
+import "../style.css"
 type Props = {
   id: string;
 };
@@ -32,25 +32,43 @@ export default function DetailComment(props: Props) {
   const today = new Date();
   const [found1, setFound1] = useState(false);
   const [found2, setFound2] = useState(false);
-  const randomColor = `#${Math.floor(Math.random() * 999999)}`;
-  let count1 = 0;
+  
+
   
   const onClickLike = (event:any)=>{
-      count1 ++;
-      if(count1%2===0){
-          event.target.style.color = ""
-      }else{
-          event.target.style.color = "#1dbf73"
-      }
+    const {id} = event.target
+    if(id){
+      const lable : any = document.querySelector(`.${id}`)
+      const lableDisLike :any = document.getElementById(`dis${id}`)
+      
+    if(event.target.checked){
+      lable.style.color = "#1dbf73";
+      lableDisLike.disabled = true;
+    }else{
+      lable.style.color = "";
+      lableDisLike.disabled = false;
+    }
+    }
 
   }
   const onClickDisLike = (event:any)=>{
-    console.log(event.target.checked)
-  if(event.target.checked){
-    event.target.style.color = "red"
-  }else{
-    event.target.style.color = ""
-  }
+    const {id} = event.target
+    
+    if(id){
+      
+      const newid= id.replace("dis","").trim()
+      const lable : any = document.querySelector(`.${id}`)
+      const lableLike :any = document.getElementById(`${newid}`)
+      
+    if(event.target.checked){
+      lable.style.color = "red";
+      lableLike.disabled = true;
+    }else{
+      lable.style.color = "";
+      lableLike.disabled = false;
+    }
+    }
+    
 
 }
   const handelComment = () => {
@@ -138,7 +156,7 @@ export default function DetailComment(props: Props) {
                 ) : (
                   <div
                     className="comment__logo"
-                    style={{ backgroundColor: `${randomColor}` }}
+                    
                   >
                     {logouser}
                   </div>
@@ -166,19 +184,24 @@ export default function DetailComment(props: Props) {
                 <button
                   onClick={onClickLike}
                   
-                  className="px-3 button__like"
+                  className="px-3 "
                 >
-                <span>
+                <div>
+                  <label htmlFor={`like__${items.id}`}>
+                  <span className={`like__${items.id} cursor-pointer`}>
                       <LikeOutlined /> Yes
                     </span>
+                  </label>
+                  <input type="checkbox" className="hidden" id={`like__${items.id}`} />
+                </div>
                 </button>
                 <button
                 onClick={onClickDisLike}
-                  className="button__dislike"
+                  
                 >
                   <div>
                   <label htmlFor={`dislike__${items.id}`}>
-                  <span>
+                  <span className={`dislike__${items.id} cursor-pointer`}>
                       <DislikeOutlined /> No
                       
                     </span>
