@@ -4,15 +4,16 @@ import { postSignIn } from '../../../../../apis/CallApiPostSignUp';
 
 import { useAppDispatch } from '../../../../../store/hook';
 import { setCurrenUser } from '../../../../../store/Slice/counterSlice';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 type FieldType = {
     email?: string;
     password?: string;
-    remember?: string;
+    // remember?: string;
   };
 export default function Signin(props:any) {
    const dispatch = useAppDispatch();
+   const [rememberMe,setRemember] = useState(false)
    const {mutate:loginUser,data } = postSignIn()
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
         
@@ -22,18 +23,23 @@ export default function Signin(props:any) {
             password:values.password
           }
           loginUser(formData)
-         
-          dispatch(setCurrenUser(formData.email))
-          if(values.remember){
-            localStorage.setItem("user",JSON.stringify(formData.email));
-          }
         }
+        
        
       };
+    
   useEffect(()=>{
-    if(data){
+    
+    if(data ){
       props.onClose(false)
+      if(rememberMe){
+        localStorage.setItem("user",data.content.token);
+        dispatch(setCurrenUser(data.content.token));
+      }else{
+        dispatch(setCurrenUser(data.content.token));
+      }
     }
+    
   },[data])
      
   return (
@@ -74,11 +80,11 @@ export default function Signin(props:any) {
     </Form.Item>
 
     <Form.Item<FieldType>
-      name="remember"
+     
       valuePropName="checked"
       wrapperCol={{ offset: 8, span: 16 }}
     >
-      <Checkbox>Remember me</Checkbox>
+      <Checkbox onChange={(e)=>{setRemember(e.target.checked)}}>Remember me</Checkbox>
     </Form.Item>
 
     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>

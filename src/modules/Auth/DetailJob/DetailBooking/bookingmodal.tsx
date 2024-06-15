@@ -56,7 +56,7 @@ export default function BookingModal(props:any) {
         <p className='text-sm font-normal'><span className='  font-semibold'>Minimalist Logo Design {title()}</span> Our agency will do modern, minimalist and business logo design</p>
         <h5 className='font-semibold text-base'>How often do you need this order?</h5>
         <div>
-            <p className='flex justify-between'><span className='text-base font-semibold'>Single order</span><span text-base font-normal>{priceBooking()} $</span></p>
+            <p className='flex justify-between'><span className='text-base font-semibold'>Single order</span><span className='text-base font-normal'>{priceBooking()} $</span></p>
             <div className='flex justify-between text-base'>
                 <span >Gig Quantity</span>
                 <div><button onClick={()=>{onClickQuantity(false)}}><LeftCircleOutlined /></button>
@@ -67,7 +67,7 @@ export default function BookingModal(props:any) {
         <div className='DetailBooking__button flex justify-center pt-4'>
         {contextHolder}
       <Space>
-        <Button onClick={success}>Continue ({priceBooking()})</Button>
+        <Button onClick={success}>Continue ({priceBooking()}$)</Button>
       
       </Space>
         </div>

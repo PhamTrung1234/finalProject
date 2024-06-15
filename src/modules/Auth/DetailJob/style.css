@@ -173,3 +173,11 @@
     height: auto;
     top: 150px;
 }
+.comment__logo{
+    text-align: center;
+    color: rgb(255, 255, 255);
+    line-height: 64px;
+    font-size: 28px;
+    font-weight: 700;
+    background-color: #404145;
+}
