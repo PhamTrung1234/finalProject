@@ -13,7 +13,6 @@ axiosInstance.interceptors.request.use(
     (config:any) => {
       const userLocal = localStorage.getItem("user");
       const currentUser = userLocal ? JSON.parse(userLocal) : null;
-  
       config.headers = {
         ...config.headers,
         token: currentUser ? `Bearer ${currentUser.token}` : "",
