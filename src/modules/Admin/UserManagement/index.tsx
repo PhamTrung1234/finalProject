@@ -1,14 +1,13 @@
 import { TableProps, Tag, Table, Pagination, Button, Col, Form, Input, Row, Popconfirm, Breadcrumb, Modal, Checkbox, DatePicker, Radio, Upload, Select, message } from "antd";
 import { Role, User } from "../../../types/user";
-import { useDeleteUser, useGetListUser } from "../../../apis/CallApiUser/user";
+import { useAddUserForm, useDeleteUser, useGetListUser } from "../../../apis/CallApiUser/user";
 import { useState } from "react";
 import { PAGE_SIZE } from "../../../constants";
 import { IconButton, Iconify } from "../../../icon";
 import { Controller, useForm } from "react-hook-form";
 import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
-import { isPending } from "@reduxjs/toolkit";
-import { queryClient } from "../../../http/tanstack/react-query";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMars, faVenus } from '@fortawesome/free-solid-svg-icons';
 
 export default function UserManagement() {
   
@@ -21,7 +20,7 @@ export default function UserManagement() {
       password: "",
       phone: "",
       birthday: "",
-      avatar: "",
+      avatar: undefined,
       gender: true,
       role: Role.User,
       skill: [],
@@ -39,8 +38,9 @@ export default function UserManagement() {
       title: 'Avatar',
       dataIndex: 'avatar',
       key: 'avatar',
+      align: 'center',
       render: (key:string) => (
-        <div>
+        <div className="flex justify-center">
           <img className="w-[80px] h-[80px] rounded object-cover" src={key===""?hinhAnh:key} alt="avatar" />
         </div>
       ),
@@ -49,21 +49,46 @@ export default function UserManagement() {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
+      align: 'center'
     },
     {
       title: 'Email',
       dataIndex: 'email',
       key: 'email',
+      align: 'center'
     },
     {
       title: 'Phone',
       dataIndex: 'phone',
       key: 'phone',
+      align: 'center'
+    },
+    {
+      title: 'Gender',
+      key: 'gender',
+      dataIndex: 'gender',
+      align: 'center',
+      render: (_, { gender }) => {
+        let color = 'green'; // Default color
+    
+        // Apply custom logic to set color based on role
+        if (gender === true) {
+          color = 'blue';
+        } else if (gender === false) {
+          color = 'pink';
+        } 
+        return (
+          <>
+            <Tag color={color}>{gender?<FontAwesomeIcon size="2xl" icon={faMars}/>:<FontAwesomeIcon size="2xl" icon={faVenus}/>}</Tag>
+          </>
+        );
+      },
     },
     {
       title: 'Role',
       key: 'role',
       dataIndex: 'role',
+      align: 'center',
       render: (_, { role }) => {
         let color = 'green'; // Default color
     
@@ -116,6 +141,8 @@ export default function UserManagement() {
   //delete user
   const { mutate: deleteUser } = useDeleteUser(currentPage);
 
+  //add user
+  const {mutate: handleaddUser,isPending}=useAddUserForm(currentPage)
   const handleDelete = (userId:number) => {
     deleteUser(userId);
   };
@@ -126,11 +153,12 @@ export default function UserManagement() {
   const totalCount=data?.totalRow||0;
   const [openModal,setIsOpenModal]=useState(false);
   const [isupDate,setisupdate]=useState(false);
+  
+  const { Option } = Select;
+  const hinhAnhValue = watch("avatar");
   const previewImage = (file: File) => {
     return URL.createObjectURL(file);
   };
-  const { Option } = Select;
-  const hinhAnhValue = watch("avatar");
   const onFinishHandler = (values: any) => {
     console.log(values);
   };
@@ -138,8 +166,21 @@ export default function UserManagement() {
     form.resetFields();
   };
 
-  const onsubmit=()=>{
-    console.log("submit");
+  const onsubmit=(formValues:any)=>{
+    const formdata=new FormData();
+    formdata.append("id",formValues.id);
+    formdata.append("name",formValues.name);
+    formdata.append("email",formValues.email);
+    formdata.append("password",formValues.password);
+    formdata.append("gender",formValues.gender?"true":"false");
+    formdata.append("phone",formValues.phone);
+    formdata.append("birthday",formValues.birthday);
+    formdata.append("role",formValues.role);
+    formdata.append("avatar",formValues.avatar);
+    formdata.append("skill",formValues.skill);
+    formdata.append("certification",formValues.certification);
+
+    handleaddUser(formdata);
   }
   return (
     <>
@@ -279,7 +320,7 @@ export default function UserManagement() {
                 name="password"
                 control={control}
                 render={({ field }) => (
-                  <Input
+                  <Input.Password
                     size="large"
                     className="mt-1"
                     placeholder="password..."
@@ -397,8 +438,8 @@ export default function UserManagement() {
             </Col>
             <Col span={24} className="text-end">
               <Button
-                loading={isLoading}
-                disabled={isLoading}
+                loading={isPending}
+                disabled={isPending}
                 htmlType="submit"
                 size="large"
                 type="primary"

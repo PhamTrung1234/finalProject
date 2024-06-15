@@ -87,6 +87,27 @@ export const useGetListUser = (currentPage: number) => {
   });
 };
 
+//add user form data
+export const useAddUserForm = (currentPage:number) => {
+  return useMutation({
+    mutationFn: async (values:FormData) => {
+      try{
+        
+        const response = await apiClient.post({url: '/users/upload-avatar',data:values});
+        return response.data.content;
+      }catch(error){throw "Error"}
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['UserPagination'] });
+      queryClient.refetchQueries({
+        queryKey: ["UserPagination", { currentPage }],
+        type: "active",
+      });
+      message.success("User Add successfully");
+    },
+  })
+
+};
 
 export const fetchUser = async(id:string|number)=>{
    try{
