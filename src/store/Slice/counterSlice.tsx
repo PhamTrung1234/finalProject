@@ -8,6 +8,7 @@ type Store = {
     avatar:string;
     token:string;
     name:string;
+    email:string;
   }|null;
 }
 

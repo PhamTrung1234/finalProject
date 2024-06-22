@@ -11,7 +11,6 @@ import {
   Tooltip,
   Breadcrumb,
   Modal,
-  Upload,
 } from "antd";
 import { useState } from "react";
 import { PAGE_SIZE } from "../../../constants";
@@ -19,7 +18,7 @@ import { IconButton, Iconify } from "../../../icon";
 import { useAddJob, useDeleteJob, useGetListJob, useUpdateJob } from "../../../apis/CallApiCongViec/job";
 import { Career } from "../../../types/job";
 import { Controller, useForm } from "react-hook-form";
-import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
 
 export default function Work() {
   const { handleSubmit, control, watch, setValue, reset } = useForm<Career>({

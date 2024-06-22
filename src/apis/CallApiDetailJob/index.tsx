@@ -9,3 +9,5 @@ export const fetchDetailJob = async(id:string)=>{
     }
 }
 
+//add type job
+

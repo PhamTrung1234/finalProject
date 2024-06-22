@@ -24,7 +24,7 @@ export default function Header() {
   const logouser = user?.name.trim().charAt(0).toUpperCase();
   const items: MenuProps["items"] = [
     {
-      label: <Link to="/">thông tin chi tiết</Link>,
+      label: <Link to="/user-detail">thông tin chi tiết</Link>,
       key: "0",
     },
     {
