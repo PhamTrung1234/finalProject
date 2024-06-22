@@ -15,7 +15,7 @@ export interface User {
     gender:        boolean;
     role:          Role;
     skill:         string[] | null;
-    certification: BookingJob[] | null;
+    certification: string[]  ;
     bookingJob?:    BookingJob[];
     token?: string;
     
