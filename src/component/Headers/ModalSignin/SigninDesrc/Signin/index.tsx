@@ -34,7 +34,8 @@ export default function Signin(props:any) {
       const user = {
         avatar: data.content.user.avatar,
         token:data.content.token,
-        name:data.content.user.name
+        name:data.content.user.name,
+        id:data.content.user.id
       }
       if(rememberMe){
         
