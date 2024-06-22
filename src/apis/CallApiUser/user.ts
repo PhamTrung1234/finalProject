@@ -88,13 +88,13 @@ export const useGetListUser = (currentPage: number) => {
 };
 
 //add user form data
-export const useAddUserForm = (currentPage:number) => {
+export const useAddUserForm = (currentPage:number,onCloseModal: () => void,resetForm: () => void) => {
   return useMutation({
-    mutationFn: async (values:FormData) => {
+    mutationFn: async (values:User) => {
       try{
         
-        const response = await apiClient.post({url: '/users/upload-avatar',data:values});
-        return response.data.content;
+        const response = await apiClient.post({url: '/users',data:values});
+        return response;
       }catch(error){throw "Error"}
     },
     onSuccess: () => {
@@ -104,10 +104,34 @@ export const useAddUserForm = (currentPage:number) => {
         type: "active",
       });
       message.success("User Add successfully");
+      onCloseModal();
+      resetForm();
     },
   })
 
 };
+
+//Update User
+export const useUpdateUser=(currentPage:number,oncloseModal:()=>void,handleReset:()=>void)=>{
+  return useMutation({
+    mutationFn:async({ user, values }: { user: User, values: number })=>{
+      try{
+        const response=await apiClient.put({url: `/users/${values}`,data:user});
+        return response;
+      }catch(error){throw "Error"}
+    },
+    onSuccess:()=>{
+      queryClient.invalidateQueries({queryKey: ['UserPagination']});
+      queryClient.refetchQueries({
+        queryKey: ['UserPagination',{currentPage}],
+        type: 'active',
+      });
+      message.success("Update Successfully");
+      oncloseModal();
+      handleReset();
+    }
+  })
+}
 
 export const fetchUser = async(id:string|number)=>{
    try{

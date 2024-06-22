@@ -12,7 +12,7 @@ export interface Career {
     danhGia:               number;
     giaTien:               number;
     nguoiTao:              number;
-    hinhAnh:               string;
+    hinhAnh:               string | undefined;
     moTa:                  string;
     maChiTietLoaiCongViec: number;
     moTaNgan:              string;
@@ -45,4 +45,25 @@ export interface JobHired {
     maNguoiThue: number;
     ngayThue:    string;
     hoanThanh:   boolean;
+}
+
+export interface DetailTypeJobPagination {
+    pageIndex: number;
+    pageSize:  number;
+    totalRow:  number;
+    keywords:  string;
+    data:      DetailJobType[];
+}
+
+export interface DetailJobType {
+    id:             number;
+    tenNhom:        string;
+    hinhAnh:        string;
+    maLoaiCongviec: number;
+    dsChiTietLoai:  ListDetailJobType[];
+}
+
+export interface ListDetailJobType {
+    id:         number;
+    tenChiTiet: string;
 }
