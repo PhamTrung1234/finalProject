@@ -3,7 +3,10 @@ import { Button, Collapse, CollapseProps } from "antd";
 import { useState } from "react";
 import BookingModal from "./bookingmodal";
 import "../style.css"
+import ModalSignin from "../../../../component/Headers/ModalSignin";
+import { useAppSelector } from "../../../../store/hook";
 export const handelBookingDescription = (found: number,price:number) => {
+    const user = useAppSelector((state)=>state.currentUser.user)
     const included = (found:number) =>{
         return (
             <div>
@@ -32,11 +35,13 @@ export const handelBookingDescription = (found: number,price:number) => {
         {key:3,label:"What's Included",children:included(3)}
     ]
     const [open, setOpen] = useState(false);
-
+    
   const showDrawer = () => {
     setOpen(!open);
   };
-
+  const callbackMOdal= (found:boolean)=>{
+    setOpen(found)
+  }
   const onchangeShow = (found:boolean)=>{
     setOpen(found);
   }
@@ -109,7 +114,11 @@ export const handelBookingDescription = (found: number,price:number) => {
       <Button onClick={showDrawer} className="px-0">
         <span>Continue <ArrowRightOutlined /></span>
       </Button>
-      <BookingModal found={open} price = {price}  show = {found} onClose= {onchangeShow}/>
+      {user ? (<BookingModal found={open} price = {price}  show = {found} onClose= {onchangeShow}/>):(
+        <ModalSignin found={open} callbackMOdal={callbackMOdal}/>
+      )}
+      
+      
       </div>
     </div>
   );

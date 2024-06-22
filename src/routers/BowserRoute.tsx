@@ -61,8 +61,8 @@ const routes: CustomRouteType[] = [
     },
     {
         path:"/auth",element:<AuthenLayouts/>,children:[
-        {path:"/auth/detail",element:<Authen/>},
-        {path:"/auth/detail/:id",element:<DetailJob/>}
+        {path:"/auth/detail/:derc",element:<Authen/>},
+        {path:"/auth/detail/description/:id",element:<DetailJob/>}
     ]}
 ];
 

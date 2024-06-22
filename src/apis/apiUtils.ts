@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { Result } from "../types/api";
 import { StorageEnum } from "../types/enum";
 import { removeItem } from "../utils/storage";
-// import { UserToken } from "../types/entity";
+
 import { message as Message } from 'antd';
 const axiosInstance=axios.create({
     baseURL: import.meta.env.VITE_APP_BASE_API as string,
@@ -13,7 +13,7 @@ axiosInstance.interceptors.request.use(
     (config:any) => {
       const userLocal = localStorage.getItem("user");
       const currentUser = userLocal ? JSON.parse(userLocal) : null;
-      config.headers = {
+      config.headers = { 
         ...config.headers,
         token: currentUser ? ` ${currentUser.token}` : "",
         TokenCybersoft:

@@ -49,6 +49,7 @@ export const useAddUPostSignup = (payload?: any) => {
             }
          },
          onSuccess:()=>{
+           
             message.success("Logged in successfully")
             
          },

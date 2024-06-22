@@ -123,7 +123,10 @@ export default function Work() {
       key: "action",
       align: "center",
 
+
       render: (_,{id,tenCongViec,danhGia,giaTien,nguoiTao,saoCongViec,moTa,hinhAnh,moTaNgan,maChiTietLoaiCongViec}) => (
+
+      
         <div className="text-gray flex w-full items-center justify-center">
           <IconButton onClick={()=>{
             setisopenModal(true); 
