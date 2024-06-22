@@ -15,7 +15,7 @@ export default function NavItems(props:any) {
         items.push({
           key:item.id,
           label:(
-            <Link to={"/auth/detail"}>
+            <Link to={`/auth/detail/${item.id}`}>
             {item.tenNhom}
             </Link>
           )

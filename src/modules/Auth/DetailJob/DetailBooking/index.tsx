@@ -4,9 +4,9 @@ import { handelBookingDescription } from "./bookingDescription";
 
 
 
-export default function DetailBooking() {
+export default function DetailBooking(props:any) {
   const [{y}] = useWindowScroll();
-  
+  console.log(props)
  
   return (
     
@@ -20,7 +20,7 @@ export default function DetailBooking() {
     </div>
   </nav>
   <div className="tab-content pt-5" id="nav-tabContent">
-    <div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabIndex={0}>{handelBookingDescription(1,15)}</div>
+    <div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabIndex={0}>{handelBookingDescription(1,props.price)}</div>
     <div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabIndex={0}>{handelBookingDescription(2,25)}</div>
     <div className="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabIndex={0}>{handelBookingDescription(3,75)}</div>
     

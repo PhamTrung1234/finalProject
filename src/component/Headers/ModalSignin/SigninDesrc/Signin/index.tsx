@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 type FieldType = {
     email?: string;
     password?: string;
-    // remember?: string;
+    
   };
 export default function Signin(props:any) {
    const dispatch = useAppDispatch();
@@ -27,17 +27,23 @@ export default function Signin(props:any) {
         
        
       };
-    
+   
   useEffect(()=>{
     
     if(data ){
-      props.onClose(false)
-      if(rememberMe){
-        localStorage.setItem("user",data.content.token);
-        dispatch(setCurrenUser(data.content.token));
-      }else{
-        dispatch(setCurrenUser(data.content.token));
+      const user = {
+        avatar: data.content.user.avatar,
+        token:data.content.token,
+        name:data.content.user.name
       }
+      if(rememberMe){
+        
+        localStorage.setItem("user",JSON.stringify(user));
+        dispatch(setCurrenUser(user));
+      }else{
+        dispatch(setCurrenUser(user));
+      }
+      props.onClose(false)
     }
     
   },[data])
