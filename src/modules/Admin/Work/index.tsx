@@ -123,7 +123,10 @@ export default function Work() {
       key: "action",
       align: "center",
 
-      render: (_,{id,tenCongViec,danhGia,giaTien,nguoiTao,moTa,hinhAnh,moTaNgan,maChiTietLoaiCongViec}) => (
+
+      render: (_,{id,tenCongViec,danhGia,giaTien,nguoiTao,saoCongViec,moTa,hinhAnh,moTaNgan,maChiTietLoaiCongViec}) => (
+
+      
         <div className="text-gray flex w-full items-center justify-center">
           <IconButton onClick={()=>{
             setisopenModal(true); 
@@ -136,6 +139,7 @@ export default function Work() {
             setValue("moTa",moTa);
             setValue("moTaNgan",moTaNgan);
             setValue("hinhAnh",hinhAnh);
+            setValue("saoCongViec",saoCongViec);
             setValue("maChiTietLoaiCongViec",maChiTietLoaiCongViec);
 
           }}>
