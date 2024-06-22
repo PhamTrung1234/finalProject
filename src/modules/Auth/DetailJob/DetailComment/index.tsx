@@ -1,13 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import "../style.css";
-import { fecthComment } from "../../../../apis/CallApiComment";
+import { fecthComment, useAddComment } from "../../../../apis/CallApiComment";
 
-import { Rate } from "antd";
+import {  Input,  Rate } from "antd";
 
 import dayjs from "dayjs";
 import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
-import {  useState } from "react";
+import {  useEffect, useState } from "react";
 import "../style.css"
+import { useAppSelector } from "../../../../store/hook";
 type Props = {
   id: string;
 };
@@ -25,14 +26,23 @@ export default function DetailComment(props: Props) {
     queryKey: [`comment-${props.id}`],
     queryFn: () => fecthComment(props.id),
   });
-  
+  const queryClient = useQueryClient()
 
+
+  const {mutate : addComment,data:newComment} = useAddComment()
+  const user = useAppSelector(state=>state.currentUser.user)
+  const logouser = user?.name.trim().charAt(0).toUpperCase();
   
- 
   const today = new Date();
   const [found1, setFound1] = useState(false);
   const [found2, setFound2] = useState(false);
-  
+
+
+  useEffect(()=>{
+    if(newComment){
+      queryClient.invalidateQueries({ queryKey: [`comment-${props.id}`] })
+    }
+  },[newComment])
 
   
   const onClickLike = (event:any)=>{
@@ -94,7 +104,7 @@ export default function DetailComment(props: Props) {
                 />
               </span>{" "}
               <span className="text-base pl-5">
-                {dayjs(today).format("DD/MM/YYYY")}
+                {toDay}
               </span>
             </div>
             <p className="text-base">
@@ -166,7 +176,7 @@ export default function DetailComment(props: Props) {
               <div className="flex items-center py-3">
                 <span>
                   <Rate
-                    defaultValue={5}
+                    defaultValue={items.saoBinhLuan}
                     disabled={true}
                     style={{ color: "#404145" }}
                   />
@@ -209,6 +219,7 @@ export default function DetailComment(props: Props) {
                     <input type="checkbox" className="hidden" id={`dislike__${items.id}`}/>
                   </div>
                 </button>
+               
               </div>
             </div>
           );
@@ -217,5 +228,55 @@ export default function DetailComment(props: Props) {
     }
     
   };
-  return <div className="pt-5">{handelComment()}</div>;
+  const [value,setValue] = useState(0);
+  const { TextArea } = Input;
+  const [comment , setComment] = useState("")
+  const toDay  = dayjs(today).format("DD/MM/YYYY")
+  
+  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+   
+    setComment(e.target.value)
+  };
+  return <div className="pt-5">
+    {handelComment()}
+    {user&&(
+      <form >
+      <div className="flex justify-between items-center">
+      <div className="flex items-center">
+              <img
+                className="comment__logo"
+                src={user?.avatar ? (user.avatar):(logouser)}
+                alt="trump"
+              />
+              <span className="font-bold text-lg pl-3">{user?.name}</span>
+            </div>
+       <div>
+       <span className="font-bold text-lg pr-3">Evaluate :</span>
+       <Rate value={value} onChange={setValue} style={{color:"#404145"}} />
+       </div>
+      </div>
+     
+      <TextArea
+      className="mt-3"
+      value={comment}
+      onChange={onChange}
+      
+      style={{ height: 120, resize: 'none' ,borderColor:"#62646a"}}
+    />
+      <button onClick={(e)=>{e.preventDefault()
+        const formData = {
+          id:0,
+          maCongViec:props.id,
+          maNguoiBinhLuan:user.id,
+          ngayBinhLuan:toDay,
+          noiDung:comment,
+          saoBinhLuan:value
+    }
+       addComment(formData);
+       setComment("");
+       setValue(0);
+      }} type="submit" className="btn">Send</button>
+    </form>
+    )}
+    </div>;
 }

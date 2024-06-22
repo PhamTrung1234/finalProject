@@ -9,3 +9,12 @@ export const fetchDetailJob = async(id:string)=>{
     }
 }
 
+export const fetchDataSearch = async(id:string)=>{
+    try{
+        return await apiClient.get({
+            url:`/cong-viec/lay-danh-sach-cong-viec-theo-ten/${id}`
+        })
+    }catch(error:any){
+        throw Error(error)
+    }
+}

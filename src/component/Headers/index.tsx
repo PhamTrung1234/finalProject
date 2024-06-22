@@ -140,7 +140,7 @@ export default function Header() {
                       <Space>
                         
                         <img
-                          className="comment__logo"
+                         
                           src={user?.avatar ? (user.avatar):(logouser)}
                           alt="..."
                         />
