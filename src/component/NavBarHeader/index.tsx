@@ -50,11 +50,13 @@ export default function NavBarHeader() {
     
    if(isPending|| error) return null   
   return (
-    <div className="slider-container pt-2">
+    <div className="NavBarHeader py-3">
+      <div className="slider-container pt-2 NavBarHeader__content container">
     <Slider {...settings}>
       {handelItems()}
     </Slider>
   </div>
+    </div>
 
   )
 }

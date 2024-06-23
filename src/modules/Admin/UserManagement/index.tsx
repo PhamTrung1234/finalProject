@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 export default function UserManagement() {
   
   const hinhAnh='https://t4.ftcdn.net/jpg/01/24/65/69/360_F_124656969_x3y8YVzvrqFZyv3YLWNo6PJaC88SYxqM.jpg'
-  const { handleSubmit, control, watch, setValue, reset } = useForm<User>({
+  const { handleSubmit, control, setValue, reset } = useForm<User>({
     defaultValues: {
       id:0,
       name: "",

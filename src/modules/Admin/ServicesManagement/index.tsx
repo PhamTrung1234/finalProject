@@ -1,8 +1,8 @@
-import { TableProps, Tag, Table, Pagination, Button, Col, Form, Input, Row, Popconfirm, Tooltip, Breadcrumb } from "antd";
+import { TableProps, Tag, Table, Pagination, Button, Col, Form, Input, Row, Popconfirm,  Breadcrumb } from "antd";
 import { useState } from "react";
 import { PAGE_SIZE } from "../../../constants";
 import { IconButton, Iconify } from "../../../icon";
-import { useGetListJob } from "../../../apis/CallApiCongViec/job";
+
 import {  JobHired } from "../../../types/job";
 import { useGetLisJobHired } from "../../../apis/CallApiJobHired/jobhire";
 

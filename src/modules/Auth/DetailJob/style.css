@@ -169,9 +169,9 @@
 
 .fixed__booking{
     position: fixed;
-    width: 25.8888%;
+    width: 24.8888%;
     height: auto;
-    top: 150px;
+    top: 30px;
 }
 .comment__logo{
     text-align: center;
@@ -180,4 +180,9 @@
     font-size: 28px;
     font-weight: 700;
     background-color: #404145;
+}
+@media (max-width:1180px) {
+    .fixed__booking{
+        width: 331px;
+    }
 }

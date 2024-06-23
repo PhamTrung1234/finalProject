@@ -1,0 +1,157 @@
+.HomePages .header {
+    background: none;
+    position: absolute;
+    
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: 10;
+    
+}
+.accordion-body a{
+    color: #000;
+    font-size: 16px;
+}
+.accordion-item{
+    border: none !important;
+}
+.ant-btn.css-dev-only-do-not-override-j9bb5n.ant-btn-primary:focus-visible {
+    outline: none !important;
+    transition: none !important;
+    outline-offset: 0 !important;
+}
+.ant-drawer-content .ant-drawer-header.ant-drawer-header-close-only{
+    display: none;
+}
+#reset-button{
+    border: none;
+    background: none;
+    font-size: 20px;
+    outline: none;
+    text-align: center;
+    transform: translateY(-25%);
+    font-weight: bold;
+    display: none;
+}
+@media (max-width:768px){
+    #reset-button{
+        display: block;
+    }
+}
+.dropdown .dropdown-menu.show li{
+    width: 350px;
+    padding: 0 15px;
+}
+.dropdown .dropdown-menu.show li a{
+    font-size: 16px;
+    color: #000;
+    font-weight: bold;
+}
+.btn {
+    border: none !important;
+    font-size: 16px !important;
+    color: #212529 !important;
+    font-weight: bold !important;
+    padding: 8px 15px !important;
+}
+.HomePages .btn{
+    
+    color: #f5f5f5 !important;
+    
+}
+ .dropdown .btn:hover{
+    background-color: #f5f5f5 !important;
+}
+.HomePages .dropdown .btn:hover{
+    background-color: #1dbf73!important;
+}
+.btn a{
+    color: #212529;
+}
+.HomePages .btn a{
+    color: #f5f5f5;
+}
+.btn a:hover,.btn-hover-and:hover{
+    color: #1dbf73 !important;
+}
+.btn-end{
+    border: 2px solid #1dbf73 !important;
+}
+.btn-end {
+    color: #1dbf73;
+    transition: all 0.5s ease-in-out;
+    transform: translateY(-20%);
+   
+}
+.btn-end:hover{
+    background-color: #1dbf73 !important;
+    color: #212529 !important;
+}
+.header__button,.header__button:hover{
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.header__icon--logo img{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    
+ }
+ .header__icon--logo{
+    color: #212529;
+    font-weight: bold;
+   font-size: 16px;
+   transition: all 5s ease-in-out;
+ }
+.HomePages .header__icon--logo {
+   color: #f5f5f5;
+  
+ }
+ .header__icon--logo:hover span{
+    color: #1dbf73;
+    transition: all 0.5s ease-in-out;
+ }
+ .HomePages .NavBarHeader{
+    position: absolute;
+    top:85px;
+    width: 100%;
+    height: auto;
+    z-index: 2;
+    
+    background-color: #fff;
+}
+
+ .NavBarHeader .ant-space-item{
+    color: #62646a;
+}
+.NavBarHeader__content {
+    border-top: 1px solid #dadbdd;
+}
+.fixed-top-header{
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    height: auto;
+    top: 0;
+    
+}
+.fixed-top-header header{
+    background-color: #fff !important;
+}
+.fixed-top-header .btn {
+   color: #212529 !important;
+}
+.fixed-top-header .btn a {
+    color: #212529;
+}
+.fixed-top-header .btn-hover-and:hover{
+    color: #1dbf73 !important;
+}
+.fixed-top-header .dropdown .btn:hover{
+    background-color: #f5f5f5!important;
+}
+.fixed-top-header .header__icon--logo{
+    color: #212529;
+}
