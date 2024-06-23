@@ -1,11 +1,20 @@
 import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons';
-import { Button, Drawer, Space, message } from 'antd'
+import { Button, Drawer } from 'antd'
 import { useEffect, useState } from 'react'
 import "../style.css"
+import { useParams } from 'react-router-dom';
+import { useAppSelector } from '../../../../store/hook';
+import dayjs from 'dayjs';
+import { usePostJobHired } from '../../../../apis/CallApiJobHired/jobhire';
 export default function BookingModal(props:any) {
+    const {id} = useParams();
+    const user = useAppSelector(state=>state.currentUser.user)
     const [open, setOpen] = useState(false);
     const [quantity,setQuantity] = useState(1)
     const {show,price,found} = props;
+
+    const {mutate:postJob} = usePostJobHired() 
+
     useEffect(()=>{
           setOpen(found)
     },[found])
@@ -39,14 +48,21 @@ export default function BookingModal(props:any) {
             return (price*quantity*90/100)
         }
     }
-    const [messageApi, contextHolder] = message.useMessage();
+    const today = new Date();
+   
     const success = () => {
+        const formData = {
+            id:0,
+            maCongViec:id,
+            maNguoiThue:user?.id,
+            ngayThue:dayjs(today).format("DD/MM/YYYY"),
+            hoanThanh:false
+        }
+        postJob(formData);
+        
         setOpen(false);
         props.onClose(false)
-        messageApi.open({
-          type: 'success',
-          content: 'You have made a successful payment',
-        });
+        
         
       };
   return (
@@ -65,11 +81,11 @@ export default function BookingModal(props:any) {
             </div>
         </div>
         <div className='DetailBooking__button flex justify-center pt-4'>
-        {contextHolder}
-      <Space>
+        
+      
         <Button onClick={success}>Continue ({priceBooking()}$)</Button>
       
-      </Space>
+      
         </div>
       </Drawer>
     </div>

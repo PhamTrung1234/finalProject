@@ -2,12 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchDataJob } from "../../apis/CallApiCongViec";
 import { Card, Col, Pagination, Row, Spin } from "antd";
 import { StarOutlined } from "@ant-design/icons";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import NavAuthent from "../../component/NavAuthent";
 import ExploreMore from "./ExploreMore";
 import AuthFreelans from "./AuthFreelans";
 import AuthGuides from "./AuthGuides";
-import { fetchDataSearch } from "../../apis/CallApiDetailJob";
+
 
 type Job = {
   danhGia: number;

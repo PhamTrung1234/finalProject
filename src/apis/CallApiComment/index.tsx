@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import apiClient from "../apiUtils"
-import { queryClient } from "../../http/tanstack/react-query";
+
 
 type Comment = {
     id:number;

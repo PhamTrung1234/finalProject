@@ -29,10 +29,10 @@ export default function DetailJob() {
 
   if (isPending || error) return <Spin />;
   return (
-    <div className="container pt-36 DetailJob">
+    <div className="container pt-4 DetailJob">
       <Row>
         <Col xs={24} lg={15}>
-          <h1 className="font-bold pt-3">{detailJob.tenCongViec}</h1>
+          <h2 className="font-bold pt-3">{detailJob.tenCongViec}</h2>
           <div className="flex items-center py-5 cursor-pointer">
             <img
               className="DetailJob__logo"

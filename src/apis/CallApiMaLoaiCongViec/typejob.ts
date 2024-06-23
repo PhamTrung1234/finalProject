@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { PAGE_SIZE, PAGE_SIZE_TYPEJOB } from "../../constants";
+import {  PAGE_SIZE_TYPEJOB } from "../../constants";
 import { Status } from "../../types/user";
 import apiClient from '../apiUtils'
-import { DetailJobType, DetailTypeJobPagination, JobTypePagination } from "../../types/job";
+import {  DetailTypeJobPagination, JobTypePagination } from "../../types/job";
 
 //get list type job
 export const useGetListJobType = (currentPage: number) => {

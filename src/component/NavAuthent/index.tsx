@@ -3,7 +3,7 @@ import { serviceoOptions, sellerDetails, budget, deliveryTime } from "./Roots";
 
 export default function NavAuthent() {
   return (
-    <div className="pt-36 container pb-5 px-0">
+    <div className="py-5 container px-0">
       <div className=" NavAuthent__left">
         <Row className="items-start">
             <Col xs={24} lg={15}>
