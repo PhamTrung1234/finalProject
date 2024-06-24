@@ -135,12 +135,16 @@ export default function Header(props : {found:boolean}) {
                       className="header__icon--logo"
                     >
                       <Space>
-                        
-                        <img
+                        {user?.avatar ? (
+                             <img
                          
-                          src={user?.avatar ? (user.avatar):(logouser)}
-                          alt="..."
-                        />
+                             src={user.avatar}
+                             alt="..."
+                           />
+                        ):(
+                          <div className="header__icon--logo--1 font-bold text-lg"> {logouser}</div>
+                        )}
+                        
                         <span className="whitespace-nowrap">{user?.name}</span>
                       </Space>
                     </a>
