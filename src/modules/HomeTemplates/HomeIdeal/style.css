@@ -1,0 +1,6 @@
+.HomeIdea button,.HomeIdea button:focus,.HomeIdea button:active,.HomeIdea button:focus-visible{
+    background: none !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}

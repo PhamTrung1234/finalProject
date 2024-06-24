@@ -1,14 +1,16 @@
 
 import { Col, Row } from "antd"
 
-import { SearchOutlined } from "@ant-design/icons"
+
 import { useForm } from "react-hook-form"
+import {  useNavigate } from "react-router-dom"
 
 export default function TitelSearch() {
+  const navigate=useNavigate(); 
   const{handleSubmit,register } = useForm()
    const onSubmit = (event:any)=>{
+       navigate(`/auth/detail/${event.search}`)
       
-       console.log(event)
    }
    
   return (

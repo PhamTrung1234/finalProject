@@ -8,6 +8,7 @@ import ExploreMore from "./ExploreMore";
 import AuthFreelans from "./AuthFreelans";
 import AuthGuides from "./AuthGuides";
 
+
 type Job = {
   danhGia: number;
   giaTien: number;

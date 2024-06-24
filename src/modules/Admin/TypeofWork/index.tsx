@@ -141,7 +141,7 @@ export default function Typework() {
   const dataSource=data?.data ||[]
   const [form] = Form.useForm();
   const totalCount=data?.totalRow||0;
-  const dataDetailJob=[...dataSource]||[];
+  // const dataDetailJob=[...dataSource]||[];
   const [currentPagedetail,setcurrentpageDetail]=useState(1);
   const {data:typejobdetail,isLoading:loadingtypejobdetail}=useListDetailTypeJob(currentPagedetail)
   const [isopenModal,setisopenModal]=useState(false);

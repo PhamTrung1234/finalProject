@@ -36,6 +36,7 @@ export default function Signin(props:any) {
         token:data.content.token,
         name:data.content.user.name,
         email:data.content.user.email,
+        id:data.content.user.id
       }
       if(rememberMe){
         

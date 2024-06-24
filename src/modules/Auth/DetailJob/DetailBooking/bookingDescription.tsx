@@ -1,10 +1,12 @@
 import { ArrowRightOutlined, CheckOutlined, FieldTimeOutlined, SyncOutlined } from "@ant-design/icons";
 import { Button, Collapse, CollapseProps } from "antd";
 import { useState } from "react";
-import BookingModal from "./bookingmodal";
+
 import "../style.css"
 import ModalSignin from "../../../../component/Headers/ModalSignin";
 import { useAppSelector } from "../../../../store/hook";
+import BookingModal from "./BookingModal";
+
 export const handelBookingDescription = (found: number,price:number) => {
     const user = useAppSelector((state)=>state.currentUser.user)
     const included = (found:number) =>{
