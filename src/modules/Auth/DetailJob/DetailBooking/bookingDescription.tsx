@@ -5,7 +5,7 @@ import { useState } from "react";
 import "../style.css"
 import ModalSignin from "../../../../component/Headers/ModalSignin";
 import { useAppSelector } from "../../../../store/hook";
-import BookingModal from "./BookingModal";
+import  BookingModal from './bookingmodal'
 
 export const handelBookingDescription = (found: number,price:number) => {
     const user = useAppSelector((state)=>state.currentUser.user)

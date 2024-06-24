@@ -1,5 +1,5 @@
 
-import { handelBookingDescription } from '../BookingDescription'
+import { handelBookingDescription } from '../bookingDescription'
 
 export default function BookingHomes(props:any) {
   return (
