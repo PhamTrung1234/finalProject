@@ -93,7 +93,7 @@ export default function Header(props : {found:boolean}) {
                 </button>
               </Col>
               {!user && (
-                <Col xs={6} sm={5} md={4} lg={3}>
+                <Col xs={0} sm={5} md={4} lg={3}>
                   <Button
                     type="primary"
                     className="header__button"
