@@ -12,6 +12,7 @@ import ServiceManagement from "../modules/Admin/ServicesManagement";
 import AuthenLayouts from "../layouts/AuthenLayouts";
 import Authen from "../modules/Auth";
 import DetailJob from "../modules/Auth/DetailJob";
+import UserDetails from "../modules/UserDetails";
 
 interface CustomRouteType {
     path: string;
@@ -28,6 +29,10 @@ const routes: CustomRouteType[] = [
             {
                 path: "/",
                 element: <HomeTemplates />
+            },
+            {
+                path: "/user-detail",
+                element: <UserDetails />
             }
         ]
     },

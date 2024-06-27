@@ -151,14 +151,14 @@ export default function Typework() {
   const [id,setid]=useState(0);
   const {data:detailData,isLoading:detailLoad}=useDetailTypeJob()
   const detaildata=detailData?.filter((item:DetailJobType) => item.maLoaiCongviec === id)||[];
-  
+  const [addModal,setaddModal]=useState(false);
   const onFinishHandler = (values: any) => {
     console.log(values);
   };
   const resetHandler = () => {
     form.resetFields();
   };
-  
+  const handleOpenmodal=()=>{}
   const handledetailJob = () => {
     setDetailOpenModal(true);
     
@@ -208,7 +208,7 @@ export default function Typework() {
                   <Button onClick={()=>setisopenModal(true)}  type="primary" danger >List Detail Job</Button>
                 </Col>
                 <Col xs={12} sm={12} lg={24}>
-                  <Button type="primary" >Add new Type</Button>
+                  <Button type="primary" onClick={()=>handleOpenmodal()} >Add new Type</Button>
                 </Col>
               </Row>
             </Col>

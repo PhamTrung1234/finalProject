@@ -15,6 +15,8 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
+import { setCurrenUser } from "../../store/Slice/counterSlice";
+import { useAppDispatch } from "../../store/hook";
 
 
 const { Header, Sider, Content } = Layout;
@@ -25,7 +27,7 @@ export default function AdminLayout() {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -36,7 +38,11 @@ export default function AdminLayout() {
     },
     {
       key: "2",
-      label: <span>Đăng xuất</span>,
+      label: <Button onClick={()=>{
+        localStorage.removeItem("user");
+        dispatch(setCurrenUser(null));
+        navigate("/");
+      }}>Đăng xuất</Button>,
     },
   ];
 

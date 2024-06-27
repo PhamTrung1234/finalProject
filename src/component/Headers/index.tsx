@@ -1,6 +1,6 @@
 import { Button, Col, Dropdown, MenuProps, Row, Space } from "antd";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { explore, fiverPro, handelNavMenu } from "./ButtonModal/NavMenu/Roots";
 import { GlobalOutlined } from "@ant-design/icons";
@@ -21,10 +21,11 @@ export default function Header(props : {found:boolean}) {
   };
   const user = useAppSelector((state) => state.currentUser.user);
   const dispatch = useAppDispatch();
-  const logouser = user?.name.trim().charAt(0).toUpperCase();
+  const navigate = useNavigate();
+  const logouser = user?.name?.trim().charAt(0).toUpperCase();
   const items: MenuProps["items"] = [
     {
-      label: <Link to="/">thông tin chi tiết</Link>,
+      label: <Link to="/user-detail">thông tin chi tiết</Link>,
       key: "0",
     },
     {
@@ -32,6 +33,7 @@ export default function Header(props : {found:boolean}) {
         
         localStorage.removeItem("user");
         dispatch(setCurrenUser(null));
+        navigate("/");
       }}> đăng xuất</Button>,
       key: "1",
     },

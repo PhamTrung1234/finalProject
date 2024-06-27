@@ -133,6 +133,23 @@ export const useUpdateUser=(currentPage:number,oncloseModal:()=>void,handleReset
   })
 }
 
+//upload avatar
+export const useUploadFile=()=>{
+  return useMutation(
+    {
+      mutationFn:async (values: any) => apiClient.post({
+        url: '/users/upload-avatar',
+        data: values,
+      }),
+      onSuccess:()=>{
+        message.success('Upload successfully');
+        queryClient.invalidateQueries({ queryKey: ['UserPagination'] });
+      }
+    }
+    
+  )
+}
+
 export const fetchUser = async(id:string|number)=>{
    try{
      return await apiClient.get({url:`/users/${id}`})

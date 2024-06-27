@@ -271,3 +271,147 @@ a:hover{
     display: inline-block;
    color: #212529;
   }
+
+
+  .profile-card {
+    width: 450px;
+    padding: 30px;
+    text-align: center;
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .profile-header {
+    position: relative;
+  }
+  
+  .profile-avatar {
+    background-color: #6a0dad;
+    font-size: 60px;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .profile-avatar:hover {
+    background-color: #4a0072;
+  }
+  
+  .avatar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.5); /* Màu đen với độ mờ 50% */
+    opacity: 0; /* Ban đầu ẩn đi */
+    transition: opacity 1s ease; /* Hiệu ứng chuyển đổi opacity trong 0.3s */
+  }
+  
+  .avatar-container:hover .avatar-overlay {
+    opacity: 1; /* Khi hover vào, hiển thị màn phủ đen */
+  }
+  
+  .camera-icon {
+    position: absolute;
+    bottom: -50px; /* Đặt biểu tượng ở dưới nền Avatar */
+    left: 50%;
+    top:50%;
+    transform: translateX(-50%);
+    color: white;
+     /* Thay đổi kích thước biểu tượng nếu cần thiết */
+    z-index: 1000;
+    opacity: 0; /* Ban đầu ẩn biểu tượng */
+    transition: bottom 0.3s ease, opacity 0.5s ease; /* Hiệu ứng di chuyển và xuất hiện */
+  }
+  
+  .avatar-container:hover .camera-icon {
+    bottom: 10px; /* Khi hover vào, di chuyển biểu tượng lên gần nền Avatar */
+    opacity: 1; /* Hiển thị biểu tượng */
+  }
+  
+  .profile-status {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 16px;
+    color: green;
+  }
+  
+  .status-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: green;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+  
+  .profile-info {
+    margin-top: 20px;
+  }
+  
+  .profile-name {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+
+.edit-icon {
+  font-size: 18px;
+  margin-left: 5px;
+  color: #8c8c8c;
+  cursor: pointer;
+}
+
+.new-badge {
+  background-color: #ff4d4f;
+  color: #fff;
+  font-size: 14px;
+  border-radius: 10px;
+  padding: 2px 5px;
+  margin-left: 5px;
+}
+
+.profile-username {
+  font-size: 20px;
+  color: #8c8c8c;
+  margin: 5px 0;
+}
+
+.profile-button {
+  width: 100%;
+  margin-top: 15px;
+  font-size: 16px;
+}
+
+.profile-details {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #8c8c8c;
+  text-align: left;
+}
+
+.profile-icon {
+  margin-right: 5px;
+}
+
+.profile-detail {
+  font-weight: bold;
+  color: #000;
+}
+
+.avatar-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+}
+
+  
+  
+  
