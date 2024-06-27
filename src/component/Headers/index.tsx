@@ -21,7 +21,7 @@ export default function Header(props : {found:boolean}) {
   };
   const user = useAppSelector((state) => state.currentUser.user);
   const dispatch = useAppDispatch();
-  const logouser = user?.name?.trim().charAt(0).toUpperCase();
+  const logouser = user?.name.trim().charAt(0).toUpperCase();
   const items: MenuProps["items"] = [
     {
       label: <Link to="/user-detail">thông tin chi tiết</Link>,
