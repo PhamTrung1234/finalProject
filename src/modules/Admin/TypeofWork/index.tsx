@@ -3,7 +3,8 @@ import {  useState } from "react";
 import {  PAGE_SIZE_TYPEJOB } from "../../../constants";
 import { IconButton, Iconify } from "../../../icon";
 import { DetailJobType, JobType, ListDetailJobType } from "../../../types/job";
-import {  useDetailTypeJob, useGetListJobType, useListDetailTypeJob } from "../../../apis/CallApiMaLoaiCongViec/typejob";
+import {  useDeleteTypeJob, useDetailTypeJob, useGetListJobType, useListDetailTypeJob } from "../../../apis/CallApiMaLoaiCongViec/typejob";
+import WorkTypeForm from "./typework.create";
 
 
 export default function Typework() {
@@ -24,25 +25,28 @@ export default function Typework() {
       key: 'action',
       align: 'center',
       
-      render: () => (
+      render: (_,record) => (
         <div className="text-gray flex w-full items-center justify-center">
           <IconButton >
-            <Iconify icon="solar:pen-bold-duotone" size={18} />
+            <Iconify icon="solar:pen-bold-duotone" onClick={(e)=>openFormHandler(e,record)} size={18} />
           </IconButton>
           <Popconfirm
             title="Delete This Type?"
             okText="Yes"
             cancelText="No"
             placement="left"
-            onConfirm={() => {
+            onConfirm={(e:any) => {
               // submitHandleDelete(record.id.toString());
+              e.stopPropagation();
+              deleteTypeJob(record.id)
             }}
           >
-            <IconButton>
+            <IconButton onClick={(e) => e.stopPropagation()}>
               <Iconify
                 icon="mingcute:delete-2-fill"
                 size={18}
                 className="text-error"
+                
               />
             </IconButton>
           </Popconfirm>
@@ -66,6 +70,7 @@ export default function Typework() {
     {
       title: 'Image',
       dataIndex: 'hinhAnh',
+      align: 'center',
       key: 'hinhAnh',
       render: (_,{hinhAnh}, index) => (
         <Image
@@ -83,6 +88,7 @@ export default function Typework() {
     {
       title: 'Details',
       dataIndex: 'dsChiTietLoai',
+      align: 'center',
       key: 'dsChiTietLoai',
       render: (details: ListDetailJobType[]) => {
         const content = (
@@ -151,18 +157,32 @@ export default function Typework() {
   const [id,setid]=useState(0);
   const {data:detailData,isLoading:detailLoad}=useDetailTypeJob()
   const detaildata=detailData?.filter((item:DetailJobType) => item.maLoaiCongviec === id)||[];
-  const [addModal,setaddModal]=useState(false);
+  const [formwork,setformwork]=useState<any>(false);
+  
+  const closeFormOrder=async()=>{
+    setformwork(false);
+  };
+  const {mutateAsync:deleteTypeJob}=useDeleteTypeJob(closeFormOrder)
   const onFinishHandler = (values: any) => {
     console.log(values);
   };
   const resetHandler = () => {
     form.resetFields();
   };
-  const handleOpenmodal=()=>{}
+  
   const handledetailJob = () => {
     setDetailOpenModal(true);
     
   };
+  const openFormHandler=(e:any,record?:any)=>{
+    e.stopPropagation();
+    if(record){
+      setformwork(record);
+    } else{
+      setformwork(undefined);
+    }
+  };
+  
   
   return (
     <>
@@ -182,18 +202,18 @@ export default function Typework() {
     </div>
     <div className="mt-3 text-2xl">
     <Form form={form} onFinish={onFinishHandler}>
-          <Row gutter={24}  justify="space-between">
-            <Col   xs={12} md={18} sm={14} lg={4} xl={20} xxl={18}>
-              <Row  gutter={[12,12]}>
+          <Row gutter={12}  justify="space-evenly">
+            <Col   span={12}>
+              <Row  gutter={[24,24]}>
                 <Col xs={24} md={21} sm={12}>
                   <Row>
-                  <Col  xs={23} md={21} sm={24} lg={8}>
+                  <Col  xs={23} md={21} sm={24} lg={14}>
                   <Form.Item name="Search">
                     <Input placeholder="Search by name" allowClear />
                   </Form.Item>
                   </Col>
                   
-                    <Col xs={24} md={3} sm={24} lg={16} >
+                    <Col xs={24} md={3} sm={24} lg={10} >
                       <Button  type="primary" onClick={resetHandler}>
                         Reset
                       </Button>
@@ -202,13 +222,13 @@ export default function Typework() {
                 </Col>
               </Row>
             </Col>
-            <Col xs={12} sm={10} md={6} lg={20} xl={4} xxl={6}>
-              <Row gutter={[12,12]}>
-              <Col xs={24} sm={12} lg={24}>
+            <Col span={12}>
+              <Row gutter={5}>
+              <Col xs={24} sm={12} lg={12}>
                   <Button onClick={()=>setisopenModal(true)}  type="primary" danger >List Detail Job</Button>
                 </Col>
-                <Col xs={12} sm={12} lg={24}>
-                  <Button type="primary" onClick={()=>handleOpenmodal()} >Add new Type</Button>
+                <Col xs={12} sm={12} lg={12}>
+                  <Button type="primary" onClick={(e)=>openFormHandler(e)} >Add new Type</Button>
                 </Col>
               </Row>
             </Col>
@@ -228,6 +248,7 @@ export default function Typework() {
           onClick: () => {
             setid(id)
             handledetailJob();
+            
           },
         };
       }}
@@ -295,6 +316,7 @@ export default function Typework() {
       />
       
       </Modal>
+      {formwork!==false &&(<WorkTypeForm formData={formwork} onclose={closeFormOrder}/>)}
     </div>
     </>
   )

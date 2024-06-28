@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 export default function UserManagement() {
   
   const hinhAnh='https://t4.ftcdn.net/jpg/01/24/65/69/360_F_124656969_x3y8YVzvrqFZyv3YLWNo6PJaC88SYxqM.jpg'
-  const { handleSubmit, control, setValue, reset } = useForm<User>({
+  const { handleSubmit, control, setValue, reset,formState: {errors} } = useForm<User>({
     defaultValues: {
       id:0,
       name: "",
@@ -301,165 +301,183 @@ export default function UserManagement() {
         onCancel={() => setIsOpenModal(false)}
         footer={false}
       >
-        <Form className="mt-4" onFinish={handleSubmit(onsubmit)}>
-          <Row gutter={[18, 18]}>
-           {isupDate &&(<Col span={24} >
-              <label className="text-sm" htmlFor="">
-                ID
-              </label>
-              <Controller
-                name="id"
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    size="large"
-                    className="mt-1"
-                    disabled
-                    {...field}
-                  />
-                )}
-              />
-            </Col>)}
-            <Col span={24}>
-              <label className="text-sm" htmlFor="">
-                Tên Người dùng
-              </label>
-              <Controller
-                name="name"
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    size="large"
-                    className="mt-1"
-                    placeholder="Tên người dùng"
-                    {...field}
-                  />
-                )}
-              />
-            </Col>
-            <Col span={24}>
-              <label className="text-sm" htmlFor="">
-                Email
-              </label>
-              <Controller
-                name="email"
-                control={control}
-                render={({ field }) => {
-                  return (
-                    <Input
-                    size="large"
-                    className="mt-1"
-                    placeholder="email"
-                    {...field}
-                  />
-                  );
-                }}
-              />
-            </Col>
-            <Col span={24}>
-              <label className="text-sm" htmlFor="">
-                Password
-              </label>
-              <Controller
-                name="password"
-                control={control}
-                render={({ field }) => (
-                  <Input.Password
-                    size="large"
-                    className="mt-1"
-                    placeholder="password..."
-                    {...field}
-                  />
-                )}
-              />
-            </Col>
-            <Col span={24}>
-              <Controller
-                name="gender"
-                control={control}
-                render={({ field }) => {
-                  return (
-                    <Radio.Group {...field}>
-                      <Radio value={true}>Male</Radio>
-                      <Radio value={false}>Female</Radio>
-                    </Radio.Group>
-                  );
-                }}
-              />
-            </Col>
-            <Col span={24}>
-            <label className="text-sm" htmlFor="">
-                Phone number
-              </label>
-              <Controller
-                control={control}
-                name="phone"
-                render={({ field }) => (
-                  <Input
-                    size="large"
-                    className="mt-1"
-                    placeholder="Phone Number..."
-                    {...field}
-                  />
-                )}
-              />
-            </Col>
-            <Col span={12}>
-              <label className="text-sm" htmlFor="">
-               Birthday
-              </label>
-              <Controller
-                name="birthday"
-                control={control}
-                render={({field}) => {
-                  return (
-                    <DatePicker
-                      {...field}
-                      className="mt-1 w-full"
-                      size="large"
-                      placeholder="Chọn ngày"
-                      format={"DD/MM/YYYY"}
-                      value={
-                        field.value ? dayjs(field.value, "DD/MM/YYYY") : null
-                      }
-                      onChange={(date) =>
-                        field.onChange(date ? date.format("DD/MM/YYYY") : "")
-                      }
-                    />
-                  );
-                }}
-              />
-            </Col>
-            <Col span={12}>
-              <label className="text-sm" htmlFor="">
-                Vai trò:
-              </label>
-              <Controller
-                name="role"
-                control={control}
-                render={({ field }) => (
-                    <Select {...field} defaultValue={Role.Admin} className="mt-2 w-100" placeholder="Select Role">
-                        <Option value={Role.Admin}>{Role.Admin}</Option>
-                        <Option value={Role.User}>{Role.User}</Option>
-                    </Select>
-                )}
+    <Form className="mt-4" onFinish={handleSubmit(onsubmit)}>
+      <Row gutter={[18, 18]}>
+        {isupDate && (
+          <Col span={24}>
+            <label className="text-sm" htmlFor="id">
+              ID
+            </label>
+            <Controller
+              name="id"
+              control={control}
+              render={({ field }) => (
+                <Input size="large" className="mt-1" disabled {...field} />
+              )}
             />
-            </Col>
-            
-           
-            <Col span={24} className="text-end">
-              <Button
-                loading={isPending}
-                disabled={isPending}
-                htmlType="submit"
+          </Col>
+        )}
+        <Col span={24}>
+          <label className="text-sm" htmlFor="name">
+            Tên Người dùng
+          </label>
+          <Controller
+            name="name"
+            control={control}
+            rules={{ required: 'Tên Người dùng is required' }}
+            render={({ field }) => (
+              <Input
                 size="large"
-                type="primary"
-              >
-                {isupDate? "Update":"Add new"}
-              </Button>
-            </Col>
-          </Row>
-        </Form>
+                className="mt-1"
+                placeholder="Tên người dùng"
+                {...field}
+              />
+            )}
+          />
+          {errors.name && <p className="text-red-600">{errors.name.message}</p>}
+        </Col>
+        <Col span={24}>
+          <label className="text-sm" htmlFor="email">
+            Email
+          </label>
+          <Controller
+            name="email"
+            control={control}
+            rules={{
+              required: 'Email is required',
+              pattern: {
+                value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                message: 'Invalid email address'
+              }
+            }}
+            render={({ field }) => (
+              <Input
+                size="large"
+                className="mt-1"
+                placeholder="email"
+                {...field}
+              />
+            )}
+          />
+          {errors.email && <p className="text-red-600">{errors.email.message}</p>}
+        </Col>
+        <Col span={24}>
+          <label className="text-sm" htmlFor="password">
+            Password
+          </label>
+          <Controller
+            name="password"
+            control={control}
+            rules={{ required: 'Password is required',
+              pattern:{
+                value: /^(?=.*[A-Za-z])(?=.*\d{4,})[A-Za-z\d]{5,}$/,
+                message: 'Password must be at least one letter and least 4 numbers'
+              }
+             }}
+            render={({ field }) => (
+              <Input.Password
+                size="large"
+                className="mt-1"
+                placeholder="password..."
+                {...field}
+                
+              />
+            )}
+          />
+          {errors.password && <p className="text-red-600">{errors.password.message}</p>}
+        </Col>
+        <Col span={24}>
+          <Controller
+            name="gender"
+            control={control}
+            render={({ field }) => (
+              <Radio.Group {...field}>
+                <Radio value={true}>Male</Radio>
+                <Radio value={false}>Female</Radio>
+              </Radio.Group>
+            )}
+          />
+          {errors.gender && <p className="text-red-600">{errors.gender.message}</p>}
+        </Col>
+        <Col span={24}>
+          <label className="text-sm" htmlFor="phone">
+            Phone number
+          </label>
+          <Controller
+            name="phone"
+            control={control}
+            rules={{
+              required: 'Phone number is required',
+              pattern: {
+                value: /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/,
+                message: 'Enter Correct format'
+              }
+            }}
+            render={({ field }) => (
+              <Input
+                size="large"
+                className="mt-1"
+                placeholder="Phone Number..."
+                {...field}
+              />
+            )}
+          />
+          {errors.phone && <p className="text-red-600">{errors.phone.message}</p>}
+        </Col>
+        <Col span={12}>
+          <label className="text-sm" htmlFor="birthday">
+            Birthday
+          </label>
+          <Controller
+            name="birthday"
+            control={control}
+            rules={{ required: 'Birthday is required' }}
+            render={({ field }) => (
+              <DatePicker
+                {...field}
+                className="mt-1 w-full"
+                size="large"
+                placeholder="Chọn ngày"
+                format={"DD/MM/YYYY"}
+                value={field.value ? dayjs(field.value, "DD/MM/YYYY") : null}
+                onChange={(date) =>
+                  field.onChange(date ? date.format("DD/MM/YYYY") : "")
+                }
+              />
+            )}
+          />
+          {errors.birthday && <p className="text-red-600">{errors.birthday.message}</p>}
+        </Col>
+        <Col span={12}>
+          <label className="text-sm" htmlFor="role">
+            Vai trò
+          </label>
+          <Controller
+            name="role"
+            control={control}
+            rules={{ required: 'Role is required' }}
+            render={({ field }) => (
+              <Select {...field} className="mt-2 w-100" placeholder="Select Role">
+                <Option value={Role.Admin}>{Role.Admin}</Option>
+                <Option value={Role.User}>{Role.User}</Option>
+              </Select>
+            )}
+          />
+          {errors.role && <p className="text-red-600">{errors.role.message}</p>}
+        </Col>
+        <Col span={24} className="text-end">
+          <Button
+            loading={isPending}
+            disabled={isPending}
+            htmlType="submit"
+            size="large"
+            type="primary"
+          >
+            {isupDate ? "Update" : "Add new"}
+          </Button>
+        </Col>
+      </Row>
+    </Form>
       </Modal>
   </>
   )

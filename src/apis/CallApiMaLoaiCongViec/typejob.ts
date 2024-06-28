@@ -1,8 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {  PAGE_SIZE_TYPEJOB } from "../../constants";
 import { Status } from "../../types/user";
 import apiClient from '../apiUtils'
 import {  DetailTypeJobPagination, JobTypePagination } from "../../types/job";
+import { queryClient } from "../../http/tanstack/react-query";
+import { message } from "antd";
 
 //get list type job
 export const useGetListJobType = (currentPage: number) => {
@@ -51,5 +53,44 @@ export const useGetListJobType = (currentPage: number) => {
     })
   }
 
-  //update Detail Job
-  
+  //update Type Job
+  export const useUpdateTypeJob=(onclose:()=>void)=>{
+    return useMutation({
+   mutationFn: async (values: any) => 
+     apiClient.put({ url: `/loai-cong-viec/${values.id}`, data:values }),
+   onSuccess: () => {
+     queryClient.invalidateQueries({ queryKey: ['JobTypePagination'] });
+     message.success('Cập Nhật thành công')
+     onclose();
+   }
+ });
+   
+ };
+
+  //create type job
+  export const useCreateTypeJob=(onclose:()=>void)=>{
+     return useMutation({
+    mutationFn: async (values: any) => 
+      apiClient.post({ url: '/loai-cong-viec', data: values }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['JobTypePagination'] });
+      message.success('Tạo thành công')
+      onclose();
+    }
+  });
+    
+  };
+
+  //delete type job
+  export const useDeleteTypeJob=(onclose:()=>void)=>{
+    return useMutation({
+   mutationFn: async (values: any) => 
+     apiClient.delete({ url: `/loai-cong-viec/${values}` }),
+   onSuccess: () => {
+     queryClient.invalidateQueries({ queryKey: ['JobTypePagination'] });
+     message.success('Xóa thành công')
+     onclose();
+   }
+ });
+   
+ };

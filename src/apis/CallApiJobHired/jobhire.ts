@@ -38,3 +38,17 @@ export const useGetLisJobHired = (currentPage: number) => {
         }
       })
   }
+
+  export const useGetJobHired = () => {
+    return useQuery({
+      queryKey: ["JobHired"],
+      queryFn: async () => {
+        try {
+          const response = await apiClient.get({ url: '/thue-cong-viec/lay-danh-sach-da-thue' });
+          return response.content;
+        } catch (error) {
+          throw new Error("Error occurred while fetching user list.");
+        }
+      },
+    });
+  };
