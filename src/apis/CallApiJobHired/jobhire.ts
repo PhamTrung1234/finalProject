@@ -4,6 +4,7 @@ import {  Status } from "../../types/user";
 import { JobHiredPagination } from "../../types/job";
 import apiClient from '../apiUtils'
 import { message } from "antd";
+import { queryClient } from "../../http/tanstack/react-query";
 export const useGetLisJobHired = (currentPage: number) => {
     return useQuery({
       queryKey: ["JobHiredPagination",{ currentPage }],
@@ -35,6 +36,7 @@ export const useGetLisJobHired = (currentPage: number) => {
         },
         onSuccess:()=>{
           message.success("You have made a successful payment")
+          queryClient.refetchQueries({ queryKey: ['JobHired'] })
         }
       })
   }
@@ -52,3 +54,27 @@ export const useGetLisJobHired = (currentPage: number) => {
       },
     });
   };
+  export const useUpdateJobHired=()=>{
+    return useMutation({
+   mutationFn: async (values: any) => 
+     apiClient.post({ url: `/thue-cong-viec/hoan-thanh-cong-viec/${values}` }),
+   onSuccess: () => {
+     queryClient.invalidateQueries({ queryKey: ['JobHired'] });
+     message.success('Congratulation!')
+   }
+ });
+   
+ };
+
+ export const useDeleteJobHired=()=>{
+  return useMutation({
+ mutationFn: async (values: any) => 
+   apiClient.delete({ url: `/thue-cong-viec/${values}` }),
+ onSuccess: () => {
+   queryClient.invalidateQueries({ queryKey: ['JobHired'] });
+   message.success('Xóa thành công')
+   
+ }
+});
+ 
+};
