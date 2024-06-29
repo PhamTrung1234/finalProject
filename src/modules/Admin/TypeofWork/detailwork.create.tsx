@@ -1,17 +1,17 @@
-import { Modal, Button, Form, Input, message } from "antd"
-import { useState } from "react";
-import { useCreateTypeJob, useUpdateTypeJob } from "../../../apis/CallApiMaLoaiCongViec/typejob";
+import { Modal, Button, Input,Form, message } from 'antd'
+import { useState } from 'react';
+import { useCreateDetailTypeJob } from '../../../apis/CallApiMaLoaiCongViec/typejob';
 
-type WorkFormProps={
+
+
+type detailFormProps={
     formData?: any,
-    onclose: ()=>void
+    onclose:()=>void
 }
 
-export default function WorkTypeForm({formData,onclose}:WorkFormProps) {
-    const [loading,setloading]=useState<boolean>(false);
-    const [form]=Form.useForm();
-    const {mutateAsync:handleCreteTypeJob}=useCreateTypeJob(onclose);
-    const {mutateAsync:updateTypeJob}=useUpdateTypeJob(onclose)
+export default function DetailFormWork({formData,onclose}:detailFormProps) {
+    const [form] = Form.useForm();
+    const [loading,setloading]=useState(false);
     const submitHandle=async()=>{
         const values=await form.validateFields();
         try{
@@ -19,9 +19,11 @@ export default function WorkTypeForm({formData,onclose}:WorkFormProps) {
                 const updateData:any={
                   ...formData,
                  id:values.id,
-                 tenLoaiCongViec:values.tenLoaiCongViec
+                 tenChiTiet:values.tenChiTiet,
+                 maLoaiCongViec:values.maLoaiCongViec
+
                 }
-                await updateTypeJob(updateData)
+               // await updateTypeJob(updateData)
                 setloading(false);
               }else{
                 const createData:any={
@@ -29,20 +31,21 @@ export default function WorkTypeForm({formData,onclose}:WorkFormProps) {
                   
                 };
                 // await createInvoice(createData);
-                await handleCreteTypeJob(createData)
+                await useCreateDetailTypeJob(createData);
+                // await handleCreteTypeJob(createData)
                 setloading(false);
                 
               }
-        } catch (error:any) {
-          message.error(error.message || error);
-          console.log(error);
-          setloading(false);
-        }
+        }catch (error:any) {
+            message.error(error.message || error);
+            console.log(error);
+            setloading(false);
+          }
     }
   return (
     <div>
         <Modal
-        title={formData?.id?"Edit Type Job":"Create Type Job"}
+        title={formData?.id?"Edit Detail Job":"Create Detail Job"}
         open
         onOk={submitHandle}
         onCancel={()=> onclose()}
@@ -65,6 +68,14 @@ export default function WorkTypeForm({formData,onclose}:WorkFormProps) {
             form={form}
             layout="vertical"
         >
+            <Form.Item
+                label="Id Loại Công Việc "
+                name='id'
+                required
+                rules={[{required: true, message: "Vui lòng nhập id"}]}
+            > 
+                <Input/>
+            </Form.Item>
             <Form.Item
                 label="Id Loại Công Việc "
                 name='id'

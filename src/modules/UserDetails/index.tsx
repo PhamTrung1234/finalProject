@@ -1,24 +1,46 @@
 import { CalendarOutlined, CameraOutlined, EditOutlined, EnvironmentOutlined, UploadOutlined } from "@ant-design/icons";
-import { Row, Col, Avatar, Button, Form, Upload, Card, Tooltip, Tag,Image } from "antd";
-import { useAppSelector } from "../../store/hook";
+import { Row, Col, Avatar, Button, Form, Upload, Card, Tooltip, Tag,Image, Popconfirm, message } from "antd";
+import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { Controller, useForm } from "react-hook-form";
 import { useUploadFile } from "../../apis/CallApiUser/user";
 import Table from "antd/es/table";
-import { useGetJobHired } from "../../apis/CallApiJobHired/jobhire";
+import { useDeleteJobHired, useGetJobHired, useUpdateJobHired } from "../../apis/CallApiJobHired/jobhire";
+import { setCurrenUser } from "../../store/Slice/counterSlice";
+import { IconButton, Iconify } from "../../icon";
 
 export default function UserDetails() {
   const [form] = Form.useForm();
-  const {data: getJobhired,isLoading}=useGetJobHired()
-  const {user} = useAppSelector(state=>state.currentUser)
-  const dataSource=getJobhired?.data || []
+  const {data: getJobhired}=useGetJobHired()
+  const {user} = useAppSelector(state=>state.currentUser);
+  const {mutateAsync:updateStatusJobHired}=useUpdateJobHired();
+  const {mutateAsync:DeleteJobHired}=useDeleteJobHired()
   const { handleSubmit, control, watch } = useForm({
-    defaultValues: {avatar: undefined,}
+    defaultValues: {avatar: user?.avatar,}
   })
   const columns= [
     {
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
+      
+    },
+    
+    {
+      title: 'Hình Ảnh',
+      dataIndex: ['congViec', 'hinhAnh'],
+      key: 'hinhAnh',
+      render: (text: string) => <Image width={50} height={50} src={text} />,
+    },
+   
+    {
+      title: 'Tên',
+      dataIndex: ['congViec', 'tenCongViec'],
+      key: 'tenCongViec',
+      render: (text:any) => (
+        <Tooltip title={text}>
+          <span>{text.length > 20 ? `${text.substring(0, 20)}...` : text}</span>
+        </Tooltip>
+      ),
     },
     {
       title: 'Ngày Thuê',
@@ -26,108 +48,95 @@ export default function UserDetails() {
       key: 'ngayThue',
       render: (text: string) => new Date(text).toLocaleDateString(),
     },
+   
+    {
+      title: 'Giá Tiền',
+      dataIndex: ['congViec', 'giaTien'],
+      key: 'giaTien',
+      render: (giaTien: number) => {
+        const formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        });
+        return <Tag color="green-inverse" className="font-bold text-center">{formatter.format(giaTien)}</Tag>;
+      },
+    },
     {
       title: 'Hoàn Thành',
       dataIndex: 'hoanThanh',
       key: 'hoanThanh',
       render: (text: boolean) => (text ? <Tag color="green">Finish</Tag> : <Tag color="red">Not Yet</Tag>),
     },
+    
     {
-      title: 'ID Công Việc',
-      dataIndex: ['congViec', 'id'],
-      key: 'congViecId',
-    },
-    {
-      title: 'Tên Công Việc',
-      dataIndex: ['congViec', 'tenCongViec'],
-      key: 'tenCongViec',
-      render: (text:any) => (
-        <Tooltip title={text}>
-          <span>{text.length > 3 ? `${text.substring(0, 3)}...` : text}</span>
-        </Tooltip>
+      title: 'Action',
+      dataIndex: 'action',
+      key: 'action',
+      render: (text: string,record:any) => (
+        <div className="text-gray flex w-full items-center justify-center">
+          <IconButton  >
+            <Iconify   icon="solar:pen-bold-duotone" onClick={()=>{if(record.hoanThanh){
+              return message.warning("Your Job is already finished") 
+              
+            }
+            return updateStatusJobHired(record.id)
+            }} size={18} />
+          </IconButton>
+          <Popconfirm
+            title="Delete This Type?"
+            okText="Yes"
+            cancelText="No"
+            placement="left"
+            onConfirm={() => {
+              DeleteJobHired(record.id)
+              // submitHandleDelete(record.id.toString());
+            }}
+          >
+            <IconButton>
+              <Iconify
+                icon="mingcute:delete-2-fill"
+                size={18}
+                className="text-error"
+              />
+            </IconButton>
+          </Popconfirm>
+          
+        </div>
+      
       ),
-    },
-    {
-      title: 'Đánh Giá',
-      dataIndex: ['congViec', 'danhGia'],
-      key: 'danhGia',
-    },
-    {
-      title: 'Giá Tiền',
-      dataIndex: ['congViec', 'giaTien'],
-      key: 'giaTien',
-    },
-    {
-      title: 'Người Tạo',
-      dataIndex: ['congViec', 'nguoiTao'],
-      key: 'nguoiTao',
-    },
-    {
-      title: 'Hình Ảnh',
-      dataIndex: ['congViec', 'hinhAnh'],
-      key: 'hinhAnh',
-      render: (text: string) => <Image width={50} height={50} src={text} />,
-    },
-    {
-      title: 'Mô Tả',
-      dataIndex: ['congViec', 'moTa'],
-      key: 'moTa',
-      render: (text:any) => (
-        <Tooltip title={text}>
-          <span>{text.length > 3 ? `${text.substring(0, 3)}...` : text}</span>
-        </Tooltip>
-      ),
-    },
-    {
-      title: 'Mã Chi Tiết Loại Công Việc',
-      dataIndex: ['congViec', 'maChiTietLoaiCongViec'],
-      key: 'maChiTietLoaiCongViec',
-    },
-    {
-      title: 'Mô Tả Ngắn',
-      dataIndex: ['congViec', 'moTaNgan'],
-      key: 'moTaNgan',
-      render: (text:any) => (
-        <Tooltip title={text}>
-          <span>{text.length > 3 ? `${text.substring(0, 3)}...` : text}</span>
-        </Tooltip>
-      ),
-    },
-    {
-      title: 'Sao Công Việc',
-      dataIndex: ['congViec', 'saoCongViec'],
-      key: 'saoCongViec',
-      render: (_:any, record:any) => (
-        <>
-          {Array.from({ length: record.congViec.saoCongViec }, (_, index) => (
-            <span key={index} style={{ color: "#ffcc00", fontSize: "16px" }}>
-              ★
-            </span>
-          ))}
-        </>
-      ),
+
     },
   ];
-  
-
+  const dispatch = useAppDispatch();
+  const onSuccessCallback = (data: any) => {
+    dispatch(setCurrenUser({ avatar: data.avatar }));
+    const userString = localStorage.getItem('user');
+    if (userString) {
+      const user = JSON.parse(userString);
+      user.avatar = data.avatar; // Assume response contains the new avatar URL
+      localStorage.setItem('user', JSON.stringify(user));
+    }
+  };
   const hinhAnhValue = watch("avatar");
-  const {mutateAsync:handleUpload}=useUploadFile()
+  
+  const {mutateAsync:handleUpload}=useUploadFile(onSuccessCallback)
   const previewImage = (file: File) => {
     return URL.createObjectURL(file);
   };
-  const onSubmit=(values:any)=>{
+  
+  const onSubmit=async (values:any)=>{
     console.log(values.avatar)
     const formData = new FormData();
     formData.append("formFile", values.avatar);
-    handleUpload(formData);
+    await handleUpload(formData);
   }
  
  
   const memberSince = new Date().toLocaleString('en-US', {day: 'numeric', month: 'short', year: 'numeric' });
   return (
-    <div className="min-h-screen items-center justify-around pt-24 bg-lime-800 overflow-hidden pb-0">
-      <Row gutter={10} justify='space-between' className=" items-center mt-5">
-        <Col span={24} className="container flex flex-col">
+    <div className="min-h-screen items-center pt-24 bg-lime-800 overflow-hidden pb-0">
+      <Row gutter={0} justify='space-between' className="container items-center mt-5">
+        <Col span={4} className="container flex flex-col">
           <Card className="profile-card" bordered={false}>
             <div className="profile-header">
               <Form form={form} onFinish={handleSubmit(onSubmit)}>
@@ -148,7 +157,7 @@ export default function UserDetails() {
                         <div className="avatar-container">
                           <Avatar
                             size={200}
-                            className="profile-avatar"
+                            
                             src={
                               (hinhAnhValue &&
                                 (typeof hinhAnhValue === "string"
@@ -207,9 +216,11 @@ export default function UserDetails() {
             </Row>
           </Card>
         </Col>
-        <Col span={24}>
+        <Col span={14}>
         
-        <Table scroll={{x:500}} className="mt-3" columns={columns} dataSource={getJobhired} />
+       <Card title='Your Job' >
+       <Table pagination={{pageSize: 3,}}  bordered scroll={{y:500}} size="large"  columns={columns} dataSource={getJobhired} />
+       </Card>
 
         
         </Col>

@@ -134,18 +134,34 @@ export const useUpdateUser=(currentPage:number,oncloseModal:()=>void,handleReset
 }
 
 //upload avatar
-export const useUploadFile=(payload?:any)=>{
+export const useUploadFile=(avatarchange:(data:any)=>void,payload?:any)=>{
   return useMutation(
     {
-      mutationFn:async (values: any) => apiClient.post({
-        url: '/users/upload-avatar',
-        params:payload,
-        data: values,
-      }),
-      onSuccess:()=>{
+      mutationFn: async (values: any) => {
+        const response = await apiClient.post({
+          url: '/users/upload-avatar',
+          params: payload,
+          data: values,
+        });
+        return response.data; // Assuming response.data contains the updated user object
+      },
+      onSuccess: (data) => {
         message.success('Upload successfully');
-        queryClient.invalidateQueries({ queryKey: ['UserPagination'] });
-      }
+        avatarchange(data)
+        // Update the avatar in localStorage
+        const userString = localStorage.getItem('user');
+        if (userString) {
+          const user = JSON.parse(userString);
+          user.avatar = data.avatar; // Assume response contains the new avatar URL
+          localStorage.setItem('user', JSON.stringify(user));
+        }
+
+        // Invalidate queries to refetch data
+        queryClient.invalidateQueries();
+        
+        // Reload the page to reflect the updated avatar
+         window.location.reload();
+      },
     }
     
   )
