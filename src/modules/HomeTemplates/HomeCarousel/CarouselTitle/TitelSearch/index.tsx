@@ -9,7 +9,7 @@ export default function TitelSearch() {
   const navigate=useNavigate(); 
   const{handleSubmit,register } = useForm()
    const onSubmit = (event:any)=>{
-       navigate(`/auth/detail/${event.search}`)
+       navigate(`/auth/detail/serach${event.search}`)
       
    }
    

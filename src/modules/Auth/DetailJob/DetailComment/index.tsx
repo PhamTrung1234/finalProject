@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import "../style.css";
 import { fecthComment, useAddComment } from "../../../../apis/CallApiComment";
 
-import {  Input,  Rate } from "antd";
+import {  Col, Input,  Rate, Row } from "antd";
 
 import dayjs from "dayjs";
 import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
@@ -237,12 +237,14 @@ export default function DetailComment(props: Props) {
    
     setComment(e.target.value)
   };
-  return <div className="pt-5">
+  return <div className="py-5">
     {handelComment()}
     {user&&(
-      <form >
-      <div className="flex justify-between items-center">
-      <div className="flex items-center">
+      <form className="DetailComment__formre">
+      
+      <Row className="justify-between items-center">
+        <Col xs={24} sm={8} className="mb-3">
+        <div className="flex items-center">
               <img
                 className="comment__logo"
                 src={user?.avatar ? (user.avatar):(logouser)}
@@ -250,12 +252,14 @@ export default function DetailComment(props: Props) {
               />
               <span className="font-bold text-lg pl-3">{user?.name}</span>
             </div>
-       <div>
+        </Col>
+        <Col >
+        <div>
        <span className="font-bold text-lg pr-3">Evaluate :</span>
        <Rate value={value} onChange={setValue} style={{color:"#404145"}} />
        </div>
-      </div>
-     
+        </Col>
+      </Row>
       <TextArea
       className="mt-3"
       value={comment}
@@ -263,7 +267,7 @@ export default function DetailComment(props: Props) {
       
       style={{ height: 120, resize: 'none' ,borderColor:"#62646a"}}
     />
-      <button onClick={(e)=>{e.preventDefault()
+      <button disabled={comment?false:true} onClick={(e)=>{e.preventDefault()
         const formData = {
           id:0,
           maCongViec:props.id,
@@ -275,7 +279,10 @@ export default function DetailComment(props: Props) {
        addComment(formData);
        setComment("");
        setValue(0);
-      }} type="submit" className="btn">Send</button>
+      }} type="submit" className="btn DetailComment__buttonasb">
+        <i data-visualcompletion="css-img" className="x1b0d499 xi3auck" style={{backgroundImage: 'url("https://static.xx.fbcdn.net/rsrc.php/v3/yw/r/0uJRGjrhtZ5.png?_nc_eui2=AeGd1ktBBPCNY68qtyTWJb73uKGrgKwm-de4oauArCb516832DmRepe1FSt30wUA36_Mu4TtLa9ZEIN2P4foV2rB")', backgroundPosition: '0px -1223px', backgroundSize: 'auto', width: 16, height: 16, backgroundRepeat: 'no-repeat', display: 'inline-block'}} />
+
+      </button>
     </form>
     )}
     </div>;

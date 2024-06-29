@@ -9,7 +9,7 @@ import AuthFreelans from "./AuthFreelans";
 import AuthGuides from "./AuthGuides";
 
 
-type Job = {
+export type Job = {
   danhGia: number;
   giaTien: number;
   hinhAnh: string;

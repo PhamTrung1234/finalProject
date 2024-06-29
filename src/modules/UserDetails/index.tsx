@@ -1,5 +1,5 @@
 import { CalendarOutlined, CameraOutlined, EditOutlined, EnvironmentOutlined, UploadOutlined } from "@ant-design/icons";
-import { Row, Col, Avatar, Button, Form, Upload, Card, Tooltip, Tag,Image } from "antd";
+import { Row, Col, Avatar, Button, Form, Upload, Card, Tooltip, Tag,Image, Spin } from "antd";
 import { useAppSelector } from "../../store/hook";
 import { Controller, useForm } from "react-hook-form";
 import { useUploadFile } from "../../apis/CallApiUser/user";
@@ -8,7 +8,7 @@ import { useGetJobHired } from "../../apis/CallApiJobHired/jobhire";
 
 export default function UserDetails() {
   const [form] = Form.useForm();
-  const {data: getJobhired,isLoading}=useGetJobHired()
+  const {data: getJobhired,isLoading,isError}=useGetJobHired()
   const {user} = useAppSelector(state=>state.currentUser)
   const dataSource=getJobhired?.data || []
   const { handleSubmit, control, watch } = useForm({
@@ -124,6 +124,8 @@ export default function UserDetails() {
  
  
   const memberSince = new Date().toLocaleString('en-US', {day: 'numeric', month: 'short', year: 'numeric' });
+  console.log(memberSince)
+  if(isLoading||isError) return <Spin/>
   return (
     <div className="min-h-screen items-center justify-around pt-24 bg-lime-800 overflow-hidden pb-0">
       <Row gutter={10} justify='space-between' className=" items-center mt-5">

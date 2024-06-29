@@ -10,9 +10,10 @@ import UserManagement from "../modules/Admin/UserManagement";
 import AccountSetting from "../modules/Admin/AccountSetting";
 import ServiceManagement from "../modules/Admin/ServicesManagement";
 import AuthenLayouts from "../layouts/AuthenLayouts";
-import Authen from "../modules/Auth";
+import Authen from "../modules/Auth/list-job";
 import DetailJob from "../modules/Auth/DetailJob";
 import UserDetails from "../modules/UserDetails";
+import ListJobBySearch from "../modules/Auth/detail-job";
 
 interface CustomRouteType {
     path: string;
@@ -20,7 +21,7 @@ interface CustomRouteType {
     children?: CustomRouteType[];
 }
 
-// Define the routes array with the custom type
+
 const routes: CustomRouteType[] = [
     {
         path: "/",
@@ -67,7 +68,8 @@ const routes: CustomRouteType[] = [
     },
     {
         path:"/auth",element:<AuthenLayouts/>,children:[
-        {path:"/auth/detail/:derc",element:<Authen/>},
+        {path:"/auth/list-job",element:<Authen/>},
+        {path:"/auth/detail/:derc",element:<ListJobBySearch/>},
         {path:"/auth/detail/description/:id",element:<DetailJob/>}
     ]}
 ];

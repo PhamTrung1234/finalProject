@@ -12,26 +12,10 @@ import HomeTrusted from "./HomeTrusted";
 
 export default function HomeTemplates() {
   const user = localStorage.getItem('user')
-  
-  
-  
-  if(!user){
-    return(
-      <>
-      
-      <ModalSignin found={true}/>
-      <HomeCarousels/>
-      <HomeTrusted/>
-      <HomeBanner/>
-      <HomeIdea/>
-      <HomeContact/>
-    </>
-    )
-     
-  }
   return (
     <>
-      <HomeCarousels/>
+     <ModalSignin found={user?false:true}/>
+      <HomeCarousels />
       <HomeTrusted/>
       <HomeBanner/>
       <HomeIdea/>

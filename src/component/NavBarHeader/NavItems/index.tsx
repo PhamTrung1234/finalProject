@@ -5,20 +5,25 @@ import { Link } from "react-router-dom";
 
 
 export default function NavItems(props:any) {
-  
+  // console.log(props.data.dsNhomChiTietLoai)
   
   const items: MenuProps['items'] = [];
   const handelItem = ()=>{
       props?.data.dsNhomChiTietLoai.map((item:dsNhomChiTietLoai)=>{ 
-        
+        const option : MenuProps['items']=[]
+        item.dsChiTietLoai.map((job:{id:number|string,tenChiTiet:string})=>{
+           option.push({
+            key:job.id,
+            label:(
+              <Link to={`/auth/list-job`}>{job.tenChiTiet}</Link>
+            )
+          }) 
+        })
        
         items.push({
           key:item.id,
-          label:(
-            <Link to={`/auth/detail/${item.id}`}>
-            {item.tenNhom}
-            </Link>
-          )
+          label:item.tenNhom,
+          children:option
         })
         
     })
@@ -28,13 +33,13 @@ export default function NavItems(props:any) {
     items.push({
       key:100,
       label:(
-        <Link to="/">
+        <Link to="/auth/list-job">
            Business 
             </Link>
       )
     })
   }
-  
+ 
   return (
     <Dropdown menu={{ items }} className="cursor-pointer">
     <a onClick={(e) => e.preventDefault()}>

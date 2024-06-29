@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query"
 import apiClient from "../apiUtils"
 
 
@@ -13,6 +14,18 @@ export const fetchDataSearch = async(id:string)=>{
     try{
         return await apiClient.get({
             url:`/cong-viec/lay-danh-sach-cong-viec-theo-ten/${id}`
+        })
+    }catch(error:any){
+        throw Error(error)
+    }
+}
+
+
+
+export const fetchListJobBySearch = async(param:string)=>{
+    try{
+        return await apiClient.get({
+            url:`/cong-viec/lay-danh-sach-cong-viec-theo-ten/${param}`
         })
     }catch(error:any){
         throw Error(error)
