@@ -1,19 +1,35 @@
 import { CalendarOutlined, CameraOutlined, EditOutlined, EnvironmentOutlined, UploadOutlined } from "@ant-design/icons";
-import { Row, Col, Avatar, Button, Form, Upload, Card, Tooltip, Tag,Image, Popconfirm, message } from "antd";
+import { Row, Col, Avatar, Button, Form, Upload, Card, Tooltip, Tag,Image, Popconfirm, message, Modal, Input, Select, Switch } from "antd";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { Controller, useForm } from "react-hook-form";
-import { useUploadFile } from "../../apis/CallApiUser/user";
+import { useGetUserById, useUploadFile } from "../../apis/CallApiUser/user";
 import Table from "antd/es/table";
 import { useDeleteJobHired, useGetJobHired, useUpdateJobHired } from "../../apis/CallApiJobHired/jobhire";
 import { setCurrenUser } from "../../store/Slice/counterSlice";
 import { IconButton, Iconify } from "../../icon";
+import { useState, useEffect } from "react";
 
 export default function UserDetails() {
   const [form] = Form.useForm();
   const {data: getJobhired}=useGetJobHired()
   const {user} = useAppSelector(state=>state.currentUser);
   const {mutateAsync:updateStatusJobHired}=useUpdateJobHired();
-  const {mutateAsync:DeleteJobHired}=useDeleteJobHired()
+  const {mutateAsync:DeleteJobHired}=useDeleteJobHired();
+  const {data:userbyid,isLoading}=useGetUserById(user?.id);
+  const initialData = {
+    id: userbyid?.id,
+    name: userbyid?.name,
+    email: userbyid?.email,
+    password: userbyid?.password,
+    phone: userbyid?.phone,
+    birthday: userbyid?.birthday,
+    avatar: userbyid?.avatar || undefined,
+    gender: userbyid?.gender,
+    role: 'USER',
+    skill: ['string'],
+    certification: ['string'],
+    bookingJob: ['string'],
+  };
   const { handleSubmit, control, watch } = useForm({
     defaultValues: {avatar: user?.avatar,}
   })
@@ -130,12 +146,36 @@ export default function UserDetails() {
     formData.append("formFile", values.avatar);
     await handleUpload(formData);
   }
- 
+  const [userform] = Form.useForm();
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState(initialData);
+  const [userModal,setUsermodal]=useState(false);
+  useEffect(() => {
+    userform.setFieldsValue(formData);
+  }, [userform, formData]);
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleSave = () => {
+    form.validateFields().then((values) => {
+      setFormData(values);
+      setIsEditing(false);
+      console.log('Saved Data:', values);
+    }).catch((info) => {
+      console.log('Validate Failed:', info);
+    });
+  };
  
   const memberSince = new Date().toLocaleString('en-US', {day: 'numeric', month: 'short', year: 'numeric' });
   return (
     <div className="min-h-screen items-center pt-24 bg-lime-800 overflow-hidden pb-0">
-      <Row gutter={0} justify='space-between' className="container items-center mt-5">
+      <Row
+        gutter={0}
+        justify="space-between"
+        className="container items-center mt-5"
+      >
         <Col span={4} className="container flex flex-col">
           <Card className="profile-card" bordered={false}>
             <div className="profile-header">
@@ -157,7 +197,6 @@ export default function UserDetails() {
                         <div className="avatar-container">
                           <Avatar
                             size={200}
-                            
                             src={
                               (hinhAnhValue &&
                                 (typeof hinhAnhValue === "string"
@@ -189,7 +228,9 @@ export default function UserDetails() {
                     );
                   }}
                 />
-                <button type="submit" className="btn btn-success ">Change Avatar</button>
+                <button type="submit" className="btn btn-success ">
+                  Change Avatar
+                </button>
               </Form>
               <div className="profile-status">
                 <span className="status-indicator"></span>Online
@@ -202,7 +243,7 @@ export default function UserDetails() {
               </h2>
               <h3 className="profile-username">{user?.email}</h3>
               <EditOutlined className="edit-icon" />
-              <Button className="profile-button">Preview Fiverr Profile</Button>
+              <Button onClick={()=>setUsermodal(true)} className="profile-button">Preview Fiverr Profile</Button>
             </div>
             <Row className="profile-details">
               <Col span={24}>
@@ -217,14 +258,97 @@ export default function UserDetails() {
           </Card>
         </Col>
         <Col span={14}>
-        
-       <Card title='Your Job' >
-       <Table pagination={{pageSize: 3,}}  bordered scroll={{y:500}} size="large"  columns={columns} dataSource={getJobhired} />
-       </Card>
-
-        
+          <Card title="Your Job">
+            <Table
+              rowKey="id"
+              pagination={{ pageSize: 3 }}
+              bordered
+              scroll={{ y: 500 }}
+              size="large"
+              columns={columns}
+              dataSource={getJobhired}
+            />
+          </Card>
         </Col>
       </Row>
+      <Modal
+        title="Basic Modal"
+         open={userModal}
+         footer={false}       
+      >
+        <Form form={userform} layout="vertical" initialValues={initialData}>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                name="name"
+                label="Name"
+                rules={[{ required: true, message: "Please input your name!" }]}
+              >
+                <Input disabled={!isEditing} />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="email"
+                label="Email"
+                rules={[
+                  { required: true, message: "Please input your email!" },
+                ]}
+              >
+                <Input disabled={!isEditing} />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                name="phone"
+                label="Phone"
+                rules={[
+                  { required: true, message: "Please input your phone!" },
+                ]}
+              >
+                <Input disabled={!isEditing} />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="birthday"
+                label="Birthday"
+                rules={[
+                  { required: true, message: "Please input your birthday!" },
+                ]}
+              >
+                <Input disabled={!isEditing} />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item name="gender" label="Gender" valuePropName="checked">
+                <Switch
+                  disabled={!isEditing}
+                  checkedChildren="Male"
+                  unCheckedChildren="Female"
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={12}>
+              {isEditing ? (
+                <Button type="primary" onClick={()=>{handleSave;setUsermodal(false);setIsEditing(false)}}>
+                  Save
+                </Button>
+              ) : (
+                <Button type="primary" onClick={handleEdit}>
+                  Edit
+                </Button>
+              )}
+            </Col>
+          </Row>
+        </Form>
+      </Modal>
     </div>
   );
 }
