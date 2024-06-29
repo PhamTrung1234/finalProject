@@ -8,6 +8,9 @@
     z-index: 10;
     
 }
+.HomePages .HomePages__block .header{
+    position: relative !important;
+}
 .accordion-body a{
     color: #000;
     font-size: 16px;
@@ -38,7 +41,7 @@
         display: block;
     }
 }
-.dropdown .dropdown-menu.show li{
+.dropdown .dropdown-menu.show li {
     width: 350px;
     padding: 0 15px;
 }
@@ -47,7 +50,7 @@
     color: #000;
     font-weight: bold;
 }
-.btn {
+.btn,.HomePages .HomePages__block .header .btn {
     border: none !important;
     font-size: 16px !important;
     color: #212529 !important;
@@ -59,13 +62,13 @@
     color: #f5f5f5 !important;
     
 }
- .dropdown .btn:hover{
+ .dropdown .btn:hover,.HomePages .HomePages__block .header .dropdown .btn:hover{
     background-color: #f5f5f5 !important;
 }
 .HomePages .dropdown .btn:hover{
     background-color: #1dbf73!important;
 }
-.btn a{
+.btn a ,.HomePages .HomePages__block .header .btn a{
     color: #212529;
 }
 .HomePages .btn a{
@@ -74,7 +77,7 @@
 .btn a:hover,.btn-hover-and:hover{
     color: #1dbf73 !important;
 }
-.btn-end{
+.btn-end,.HomePages .HomePages__block .header .btn-end{
     border: 2px solid #1dbf73 !important;
 }
 .btn-end {
@@ -93,17 +96,19 @@
     box-shadow: none !important;
 }
 
-.header__icon--logo img{
+.header__icon--logo img ,.header__icon--logo--1{
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    
+    text-align: center;
+    line-height: 45px;
+    background-color: #62646a;
  }
  .header__icon--logo{
     color: #212529;
     font-weight: bold;
    font-size: 16px;
-   transition: all 5s ease-in-out;
+    transition: 0.3s;
  }
 .HomePages .header__icon--logo {
    color: #f5f5f5;
@@ -115,7 +120,7 @@
  }
  .HomePages .NavBarHeader{
     position: absolute;
-    top:85px;
+    top:80px;
     width: 100%;
     height: auto;
     z-index: 2;

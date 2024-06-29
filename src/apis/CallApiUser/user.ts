@@ -134,11 +134,12 @@ export const useUpdateUser=(currentPage:number,oncloseModal:()=>void,handleReset
 }
 
 //upload avatar
-export const useUploadFile=()=>{
+export const useUploadFile=(payload?:any)=>{
   return useMutation(
     {
       mutationFn:async (values: any) => apiClient.post({
         url: '/users/upload-avatar',
+        params:payload,
         data: values,
       }),
       onSuccess:()=>{

@@ -13,7 +13,7 @@ export default function AuthenLayouts() {
     
   return (
     <>
-      <Header/>
+      <Header found={false}/>
       <div className="NavBarHeader">
       <div className="container ">
       <NavBarHeader/>
