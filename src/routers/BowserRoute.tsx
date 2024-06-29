@@ -30,13 +30,13 @@ const routes: CustomRouteType[] = [
                 path: "/",
                 element: <HomeTemplates />
             },
-            // {
-            //     path: "/user-detail",
-            //     element: <UserDetails />
-            // }
+            {
+                path: "/user-detail",
+                element: <UserDetails />
+            }
         ]
     },
-    {path:"/user-detail",element:<UserDetails/>},
+    
     {
         path: "/admin",
         element: <AdminLayout />,
