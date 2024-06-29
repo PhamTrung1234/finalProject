@@ -1,5 +1,5 @@
 import { TableProps, Tag, Table, Pagination, Button, Col, Form, Input, Row, Popconfirm,  Breadcrumb, Modal } from "antd";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { PAGE_SIZE } from "../../../constants";
 import { IconButton, Iconify } from "../../../icon";
 

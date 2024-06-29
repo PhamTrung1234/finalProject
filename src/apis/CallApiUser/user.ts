@@ -87,6 +87,21 @@ export const useGetListUser = (currentPage: number) => {
   });
 };
 
+//get user by id
+export const useGetUserById = (id: any) => {
+  return useQuery({
+    queryKey: ["Userbyid"],
+    queryFn: async () => {
+      try {
+        const response = await apiClient.get({ url: `/users/${id}` });
+        return response.content;
+      } catch (error) {
+        throw new Error("Error occurred while fetching user list.");
+      }
+    },
+  });
+};
+
 //add user form data
 export const useAddUserForm = (currentPage:number,onCloseModal: () => void,resetForm: () => void) => {
   return useMutation({
