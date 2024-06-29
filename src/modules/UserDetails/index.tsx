@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { CalendarOutlined, CameraOutlined, EditOutlined, EnvironmentOutlined, UploadOutlined } from "@ant-design/icons";
+import { useEffect, useState } from "react";
+import { CalendarOutlined, CameraOutlined, DeleteOutlined, EditOutlined, EnvironmentOutlined, UploadOutlined } from "@ant-design/icons";
 import { Row, Col, Avatar, Button, Form, Upload, message, Card } from "antd";
 import { useAppSelector } from "../../store/hook";
 import { Controller, useForm } from "react-hook-form";
@@ -9,20 +9,24 @@ export default function UserDetails() {
   const [form] = Form.useForm();
 
   const {user} = useAppSelector(state=>state.currentUser)
-  const { handleSubmit, control, watch, setValue, reset } = useForm({
+  const { handleSubmit,  watch,control,setValue } = useForm({
     defaultValues: {avatar: undefined,}
   })
   
-
-  const hinhAnhValue = watch("avatar");
-  const {mutateAsync:handleUpload}=useUploadFile()
+const hinhAnhValue = watch("avatar");
   const previewImage = (file: File) => {
     return URL.createObjectURL(file);
   };
+
+  
+  const {mutate:handleUpload}=useUploadFile()
+  
   const onSubmit=(values:any)=>{
-    const formData = new FormData();
-    formData.append("avatar", values.avatar);
-    handleUpload(formData);
+    console.log(values.avatar)
+    const formFile = new FormData();
+    formFile.append("formFile",values.avatar)
+   
+    handleUpload(formFile);
   }
  
   const memberSince = new Date().toLocaleString('en-US', {day: 'numeric', month: 'short', year: 'numeric' });
@@ -30,53 +34,29 @@ export default function UserDetails() {
     <div className="min-h-screen flex flex-col items-center justify-center pt-24 bg-lime-400">
       <Card className="profile-card" bordered={false}>
         <div className="profile-header">
-          <Form form={form} onFinish={handleSubmit(onSubmit)}>
-            <Controller
-              name="avatar"
-              control={control}
-              render={({ field: { onChange, ...filed } })=>{
-                return (
-                  <Upload
-                  beforeUpload={() => {
-                    return false;
-                  }}
-                    {...filed}
-                    showUploadList={false}
-                    multiple={false}
-                    onChange={({ file }) => {onChange(file);form.submit()}}
-                  >
-                    <div className="avatar-container">
-                      <Avatar
-                        size={200}
-                        className="profile-avatar"
-                        src={hinhAnhValue&&(typeof hinhAnhValue === "string"
-                          ? hinhAnhValue
-                          : previewImage(hinhAnhValue))||user?.avatar}
-                      >
-                        <CameraOutlined
-                          className="camera-icon"
-                          style={{ fontSize: "50px" }}
-                        />
-                      </Avatar>
-                      <Button
-                        className="mt-5 camera-icon"
-                        style={{
-                          fontSize: "15px",
-                          backgroundColor: "transparent",
-                          border: "none",
-                          boxShadow: "none",
-                        }}
-                        icon={<UploadOutlined />}
-                      >
-                        Upload hình
-                      </Button>
-                      <div className="avatar-overlay"></div>
-                    </div>
-                  </Upload>
-                );
-              }}
-            />
-            {/* {hinhAnhValue && (
+          <form onSubmit={handleSubmit(onSubmit)}>
+          <Row>
+          <Col span={24}>
+              <Controller
+                name="avatar"
+                control={control}
+                render={({ field: { onChange, ...filed } }) => {
+                  return (
+                    <Upload
+                      beforeUpload={() => {
+                        return false;
+                      }}
+                      {...filed}
+                      showUploadList={false}
+                      multiple={false}
+                      onChange={({ file }) => onChange(file)}
+                    >
+                      <Button icon={<UploadOutlined />}>Upload hình</Button>
+                    </Upload>
+                  );
+                }}
+              />
+              {hinhAnhValue && (
                 <div className="mt-2">
                   <img
                     src={
@@ -86,10 +66,18 @@ export default function UserDetails() {
                     }
                     className="w-[100px] h-[100px] object-cover rounded"
                   />
+                  <span
+                    className="inline-block ml-3 cursor-pointer"
+                    onClick={() => setValue("avatar", undefined)}
+                  >
+                    <DeleteOutlined />
+                  </span>
                 </div>
-              )} */}
-          
-          </Form>
+              )}
+            </Col>
+          </Row>
+          <input type="submit"></input>
+          </form>
           <div className="profile-status">
             <span className="status-indicator"></span>Online
           </div>

@@ -12,7 +12,7 @@ import { setCurrenUser } from "../../store/Slice/counterSlice";
 import "./style.css"
 export default function Header(props : {found:boolean}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
- console.log(props)
+
   const showModal = () => {
     setIsModalOpen(!isModalOpen);
   };
