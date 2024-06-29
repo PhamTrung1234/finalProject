@@ -93,6 +93,7 @@ export default function Typework() {
       render: (details: ListDetailJobType[]) => {
         const content = (
           <div>
+            
             {details.map(detail => (
               <Tooltip key={detail.id} title={`ID: ${detail.id}`}>
                 <Tag color="yellow">Name: {detail.tenChiTiet}</Tag>
@@ -264,7 +265,18 @@ export default function Typework() {
           />
         </div>
         <Modal
-        title="Job Details"
+        title={
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>Job Details</span>
+            <Button
+              type="primary"
+              style={{ backgroundColor: 'green', borderColor: 'green' }}
+             
+            >
+              Add New
+            </Button>
+          </div>
+        }
         centered
         open={isopenModal}
         onOk={()=>{setisopenModal(false); }}
