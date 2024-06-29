@@ -22,7 +22,7 @@ import { Controller, useForm } from "react-hook-form";
 import {  DeleteOutlined } from "@ant-design/icons";
 
 export default function Work() {
-  const { handleSubmit, control, watch, setValue, reset } = useForm<Career>({
+  const { handleSubmit, control, watch, setValue,trigger, reset, formState: { errors } } = useForm<Career>({
     defaultValues: {
       id: 0,
       tenCongViec: "",
@@ -194,6 +194,9 @@ export default function Work() {
   const handleAddJob=(form:Career)=>{
     addNewJob(form)
   }
+  const handleBlur = async (name:any) => {
+    await trigger(name); // Trigger validation for the specific field
+  };
   const onsubmit = (formValue: Career) => {
     if(!isupDate){
       const form={
@@ -327,15 +330,24 @@ export default function Work() {
                 <Controller
                   name="tenCongViec"
                   control={control}
+                  rules={
+                    {required: 'Vui lòng Nhập tên',
+                      pattern: {
+                        value: /^[A-Za-z ]+$/i,
+                        message: 'Vui Lòng nhập đúng định dạng'
+                      }}
+                  }
                   render={({ field }) => (
                     <Input
                       size="large"
                       className="mt-1"
                       placeholder="Tên công Việc"
                       {...field}
+                      onBlur={() => handleBlur('tenCongViec')}
                     />
                   )}
                 />
+                 {errors.tenCongViec && <span className="text-red-600">{errors.tenCongViec.message}</span>}
               </Col>
               <Col span={24}>
                 <label className="text-sm" htmlFor="">
@@ -344,6 +356,12 @@ export default function Work() {
                 <Controller
                   name="danhGia"
                   control={control}
+                  rules={{
+                    required: 'Vui lòng Nhập đánh giá',
+                    min: { value: 1, message: 'Đánh giá ít nhất là 0' }, 
+                    max: { value: 5, message: 'Đánh giá nhiều nhất là 5' }
+                  
+                  }}
                   render={({ field }) => {
                     return (
                       <Input
@@ -352,10 +370,13 @@ export default function Work() {
                         className="mt-1"
                         placeholder="Đánh Giá..."
                         {...field}
+                        onBlur={() => handleBlur('danhGia')}
+                        
                       />
                     );
                   }}
                 />
+                {errors.danhGia && <span className="text-red-600">{errors.danhGia.message}</span>}
               </Col>
               <Col span={24}>
                 <label className="text-sm" htmlFor="">
@@ -371,9 +392,15 @@ export default function Work() {
                       className="mt-1"
                       placeholder="Price..."
                       {...field}
+                      onBlur={() => handleBlur('giaTien')}
                     />
                   )}
+                  rules={{ 
+                    required: 'Vui Lòng Nhập giá tiền', 
+                    min: { value: 100000, message: 'Giá tiền ít nhất là 100,000Vnd' }
+                  }}
                 />
+                  {errors.giaTien && <span className="text-red-600">{errors.giaTien.message}</span>}
               </Col>
 
               <Col span={24}>
@@ -390,9 +417,18 @@ export default function Work() {
                       className="mt-1"
                       placeholder="Number..."
                       {...field}
+                      onBlur={() => handleBlur('nguoiTao')}
                     />
                   )}
+                  rules={{ 
+                    required: 'Vui lòng Nhập thông tin',
+                    pattern: {
+                      value: /^[0-9]+$/i,
+                      message: 'Vui lòng Nhập đúng định dạng'
+                    }
+                  }}
                 />
+                {errors.nguoiTao && <span className="text-red-600">{errors.nguoiTao.message}</span>}
               </Col>
               <Col span={12}>
                 <label className="text-sm" htmlFor="">
@@ -407,9 +443,19 @@ export default function Work() {
                       className="mt-1"
                       placeholder="Id..."
                       {...field}
+                      onBlur={() => handleBlur('maChiTietLoaiCongViec')}
                     />
                   )}
+                  rules={{ 
+                    required: 'Vui Lòng Nhập Mã',
+                    pattern: {
+                      value: /^[0-9]+$/i,
+                      message: 'Vui Lòng Nhập đúng định dạng'
+                    },
+                    
+                  }}
                 />
+                {errors.maChiTietLoaiCongViec && <span className="text-red-600">{errors.maChiTietLoaiCongViec.message}</span>}
               </Col>
               <Col span={12}>
                 <label className="text-sm" htmlFor="">
@@ -425,9 +471,16 @@ export default function Work() {
                       className="mt-1"
                       placeholder="Number..."
                       {...field}
+                      onBlur={() => handleBlur('saoCongViec')}
                     />
                   )}
+                  rules={{ 
+                    required: 'Vui Lòng Nhập thông tin', 
+                    min: { value: 1, message: 'Sao Công Việc nhỏ nhất là 1' }, 
+                    max: { value: 5, message: 'Sao Công Việc lớn nhất là 5' }
+                  }}
                 />
+                {errors.saoCongViec && <span className="text-red-600">{errors.saoCongViec.message}</span>}
               </Col>
               <Col span={24}>
                 <label className="text-sm" htmlFor="">
@@ -442,6 +495,7 @@ export default function Work() {
                       className="mt-1"
                       placeholder="mô tả ngắn..."
                       {...field}
+                      onBlur={() => handleBlur('moTaNgan')}
                     />
                   )}
                 />
@@ -460,9 +514,15 @@ export default function Work() {
                       className="mt-1"
                       placeholder="mô tả dài..."
                       {...field}
+                      onBlur={() => handleBlur('moTa')}
+
                     />
                   )}
+                  rules={{
+                    required: 'Vui lòng nhập thông tin'
+                  }}
                 />
+                {errors.moTa && <span className="text-red-600">{errors.moTa.message}</span>}
               </Col>
               <Col span={24}>
                 <label className="text-sm" htmlFor="">
@@ -478,10 +538,13 @@ export default function Work() {
                       className="mt-1"
                       placeholder="Nhập đường dẫn ảnh"
                       {...field}
+                      onBlur={() => handleBlur('hinhAnh')}
                     />
                     )
                   }}
+                  rules={{ required: 'Vui lòng Nhập link Ảnh' }}
                 />
+                {errors.hinhAnh && <span className="text-red-600">{errors.hinhAnh.message}</span>}
                 {hinhAnhValue && typeof hinhAnhValue === "string" && (
                   <div className="mt-2">
                     <img

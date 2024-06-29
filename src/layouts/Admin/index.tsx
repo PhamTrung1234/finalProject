@@ -16,7 +16,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { setCurrenUser } from "../../store/Slice/counterSlice";
-import { useAppDispatch } from "../../store/hook";
+import { useAppDispatch, useAppSelector } from "../../store/hook";
 
 
 const { Header, Sider, Content } = Layout;
@@ -30,11 +30,11 @@ export default function AdminLayout() {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-
+  const {user} = useAppSelector(state=>state.currentUser)
   const items = [
     {
       key: "1",
-      label: <span> Cài đặt tài khoản </span>,
+      label: <span> User: {user?.name} </span>,
     },
     {
       key: "2",
@@ -83,11 +83,11 @@ export default function AdminLayout() {
               icon: <CustomerServiceOutlined />,
               label: "Quản lý dịch vụ",
             },
-            {
-              key: "/admin/account-settings",
-              icon: <SettingOutlined />,
-              label: "Cài đặt",
-            },
+            // {
+            //   key: "/admin/account-settings",
+            //   icon: <SettingOutlined />,
+            //   label: "Cài đặt",
+            // },
           ]}
           onClick={({ key }) => navigate(key)}
         />
