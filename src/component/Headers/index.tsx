@@ -12,7 +12,7 @@ import { setCurrenUser } from "../../store/Slice/counterSlice";
 import "./style.css"
 export default function Header(props : {found:boolean}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
- console.log(props)
+
   const showModal = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -95,7 +95,7 @@ export default function Header(props : {found:boolean}) {
                 </button>
               </Col>
               {!user && (
-                <Col xs={6} sm={5} md={4} lg={3}>
+                <Col xs={0} sm={5} md={4} lg={3}>
                   <Button
                     type="primary"
                     className="header__button"
@@ -137,12 +137,16 @@ export default function Header(props : {found:boolean}) {
                       className="header__icon--logo"
                     >
                       <Space>
-                        
-                        <img
+                        {user?.avatar ? (
+                             <img
                          
-                          src={user?.avatar ? (user.avatar):(logouser)}
-                          alt="..."
-                        />
+                             src={user.avatar}
+                             alt="..."
+                           />
+                        ):(
+                          <div className="header__icon--logo--1 font-bold text-lg"> {logouser}</div>
+                        )}
+                        
                         <span className="whitespace-nowrap">{user?.name}</span>
                       </Space>
                     </a>

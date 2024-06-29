@@ -36,6 +36,7 @@ const routes: CustomRouteType[] = [
             }
         ]
     },
+    
     {
         path: "/admin",
         element: <AdminLayout />,

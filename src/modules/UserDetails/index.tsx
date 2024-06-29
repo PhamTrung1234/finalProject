@@ -116,8 +116,9 @@ export default function UserDetails() {
     return URL.createObjectURL(file);
   };
   const onSubmit=(values:any)=>{
+    console.log(values.avatar)
     const formData = new FormData();
-    formData.append("avatar", values.avatar);
+    formData.append("formFile", values.avatar);
     handleUpload(formData);
   }
  
@@ -142,10 +143,7 @@ export default function UserDetails() {
                         {...filed}
                         showUploadList={false}
                         multiple={false}
-                        onChange={({ file }) => {
-                          onChange(file);
-                          form.submit();
-                        }}
+                        onChange={({ file }) => onChange(file)}
                       >
                         <div className="avatar-container">
                           <Avatar
@@ -182,18 +180,7 @@ export default function UserDetails() {
                     );
                   }}
                 />
-                {/* {hinhAnhValue && (
-                <div className="mt-2">
-                  <img
-                    src={
-                      typeof hinhAnhValue === "string"
-                        ? hinhAnhValue
-                        : previewImage(hinhAnhValue)
-                    }
-                    className="w-[100px] h-[100px] object-cover rounded"
-                  />
-                </div>
-              )} */}
+                <button type="submit" className="btn btn-success ">Change Avatar</button>
               </Form>
               <div className="profile-status">
                 <span className="status-indicator"></span>Online
