@@ -16,7 +16,7 @@ export default function UserDetails() {
   const {user} = useAppSelector(state=>state.currentUser);
   const {mutateAsync:updateStatusJobHired}=useUpdateJobHired();
   const {mutateAsync:DeleteJobHired}=useDeleteJobHired();
-  const {data:userbyid,isLoading}=useGetUserById(user?.id);
+  const {data:userbyid}=useGetUserById(user?.id);
   
   const { handleSubmit, control, watch } = useForm({
     defaultValues: {avatar: user?.avatar,}
@@ -139,10 +139,7 @@ export default function UserDetails() {
   const [formData, setFormData] = useState({});
   const [userModal,setUsermodal]=useState(false);
   const {mutate: updateUser}=useUpdateUser(1,()=>setUsermodal(false))
-  useEffect(() => {
-    userform.setFieldsValue(formData);
-  }, [userform, formData]);
-
+ 
   useEffect(() => {
     if (userbyid) {
       const updatedData = {
@@ -151,7 +148,7 @@ export default function UserDetails() {
         email: userbyid?.email,
         password: userbyid?.password,
         phone: userbyid?.phone,
-        birthday: dayjs(userbyid?.birthday).format('DD/MM/YY'),
+        birthday: dayjs(userbyid?.birthday).format('DD/MM/YYYY'),
         avatar: userbyid?.avatar || undefined,
         gender: userbyid?.gender,
         role: "USER",
@@ -171,7 +168,7 @@ export default function UserDetails() {
       try {
         const updatedData = {
           ...values,
-          birthday: dayjs(values.birthday, 'DD/MM/YY').toISOString(), // Chuyển đổi ngày sinh về định dạng ISO
+          birthday: dayjs(values.birthday, 'DD/MM/YYYY').toISOString(), // Chuyển đổi ngày sinh về định dạng ISO
           role:'USER'
         };
         // Gọi API để cập nhật dữ liệu người dùng
@@ -262,7 +259,12 @@ export default function UserDetails() {
               </h2>
               <h3 className="profile-username">{user?.email}</h3>
               <EditOutlined className="edit-icon" />
-              <Button onClick={()=>setUsermodal(true)} className="profile-button">Preview Fiverr Profile</Button>
+              <Button
+                onClick={() => setUsermodal(true)}
+                className="profile-button"
+              >
+                Preview Fiverr Profile
+              </Button>
             </div>
             <Row className="profile-details">
               <Col span={24}>
@@ -292,11 +294,16 @@ export default function UserDetails() {
       </Row>
       <Modal
         title="Basic Modal"
-         open={userModal}
-         footer={false}      
-         onCancel={() => setUsermodal(false)} 
+        open={userModal}
+        footer={false}
+        onCancel={() => setUsermodal(false)}
       >
-        <Form form={userform} onFinish={handleSubmit(handleSave)} layout="vertical" initialValues={formData}>
+        <Form
+          form={userform}
+          onFinish={handleSubmit(handleSave)}
+          layout="vertical"
+          initialValues={formData}
+        >
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
@@ -337,9 +344,14 @@ export default function UserDetails() {
                 label="Birthday"
                 rules={[
                   { required: true, message: "Please input your birthday!" },
+                  {
+                    pattern:
+                      /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[0-2])\/\d{4}$/,
+                    message: "Please enter DD/MM/YYYY format!",
+                  },
                 ]}
               >
-                <Input disabled={!isEditing} />
+                <Input disabled={!isEditing} placeholder="DD/MM/YYYY" />
               </Form.Item>
             </Col>
           </Row>
@@ -354,17 +366,19 @@ export default function UserDetails() {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={16}>
-            <Col span={12}>
-              {isEditing ? (
-                <Button type="primary" htmlType="submit" >
-                  Save
-                </Button>
-              ) : (
-                <Button type="primary" onClick={()=>setIsEditing(true)} htmlType="button">
+          <Row gutter={12} justify="space-between">
+            <Col span={24}>
+                <Button
+                  className="mr-3"
+                  type="primary"
+                  onClick={() => setIsEditing(true)}
+                >
                   Edit
                 </Button>
-              )}
+              
+              <Button danger type="primary" htmlType="submit">
+                Save
+              </Button>
             </Col>
           </Row>
         </Form>
