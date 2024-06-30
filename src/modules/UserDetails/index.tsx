@@ -205,11 +205,11 @@ export default function UserDetails() {
   return (
     <div className="min-h-screen items-center pt-24 bg-lime-800 overflow-hidden pb-0">
       <Row
-        gutter={0}
+        
         justify="space-between"
         className="container items-center mt-5"
       >
-        <Col xs={24} lg={4} className="container flex flex-col">
+        <Col xs={24} lg={12} sm={24}  md={24} className=" flex flex-col">
           <Card className="profile-card" bordered={false}>
             <div className="profile-header">
               <Form form={form} onFinish={handleSubmit(onSubmit)} className=" flex items-center flex-column">
@@ -295,19 +295,19 @@ export default function UserDetails() {
             </Row>
           </Card>
         </Col>
-        <Col xs={24} lg={14}>
-          <Card title="Your Job" className="card-responsive">
-            <div className="table-responsive">
+        <Col xs={24} sm={24} lg={12} md={24}  >
+          <Card title="Your Job" >
+            
             <Table
               rowKey="id"
               pagination={{ pageSize: 3 }}
               bordered
               scroll={{ y: 500 }}
-              size="large"
+              size="small"
               columns={columns}
               dataSource={getJobhired}
             />
-            </div>
+        
             
           </Card>
         </Col>
