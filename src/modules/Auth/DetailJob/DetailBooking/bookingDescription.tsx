@@ -5,7 +5,7 @@ import { useState } from "react";
 import "../style.css"
 import ModalSignin from "../../../../component/Headers/ModalSignin";
 import { useAppSelector } from "../../../../store/hook";
-import BookingModal from "./bookingmodal";
+import BookingModal from "./BookingModal";
 
 
 

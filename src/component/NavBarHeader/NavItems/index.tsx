@@ -15,7 +15,7 @@ export default function NavItems(props:any) {
            option.push({
             key:job.id,
             label:(
-              <Link to={`/auth/list-job`}>{job.tenChiTiet}</Link>
+              <Link to={`/auth/detail/${job.id}`}>{job.tenChiTiet}</Link>
             )
           }) 
         })

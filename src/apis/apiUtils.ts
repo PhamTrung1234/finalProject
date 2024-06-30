@@ -11,11 +11,19 @@ const axiosInstance=axios.create({
 })
 axiosInstance.interceptors.request.use(
     (config:any) => {
+      const tokenLocal = localStorage.getItem("token")
       const userLocal = localStorage.getItem("user");
-      const currentUser = userLocal ? JSON.parse(userLocal) : null;
+      let currentUser = null;
+      if(userLocal){
+        currentUser = JSON.parse(userLocal).token
+      }else if(tokenLocal){
+        currentUser = tokenLocal
+      }else{
+        currentUser = null
+      }
       config.headers = { 
         ...config.headers,
-        token: currentUser ? `${currentUser.token}` : "",
+        token: currentUser ? `${currentUser}` : "",
         
         TokenCybersoft:
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCA2MiIsIkhldEhhblN0cmluZyI6IjE3LzEwLzIwMjQiLCJIZXRIYW5UaW1lIjoiMTcyOTEyMzIwMDAwMCIsIm5iZiI6MTcwMDE1NDAwMCwiZXhwIjoxNzI5MjcwODAwfQ.xKQVYYnO9233wkXRw5oU4Dtx41flqDuUnA0DbkDYRmM",

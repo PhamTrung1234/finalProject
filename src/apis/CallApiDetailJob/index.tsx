@@ -10,10 +10,10 @@ export const fetchDetailJob = async(id:string)=>{
     }
 }
 
-export const fetchDataSearch = async(id:string)=>{
+export const fetchDataById = async(id:string|number)=>{
     try{
         return await apiClient.get({
-            url:`/cong-viec/lay-danh-sach-cong-viec-theo-ten/${id}`
+            url:`/cong-viec/lay-cong-viec-theo-chi-tiet-loai/${id}`
         })
     }catch(error:any){
         throw Error(error)

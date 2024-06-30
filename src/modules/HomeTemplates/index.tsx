@@ -1,6 +1,7 @@
 
 
 import ModalSignin from "../../component/Headers/ModalSignin";
+import { useAppSelector } from "../../store/hook";
 import HomeBanner from "./HomeBanner";
 import HomeCarousels from "./HomeCarousel";
 import HomeContact from "./HomeContact";
@@ -11,7 +12,7 @@ import HomeTrusted from "./HomeTrusted";
 
 
 export default function HomeTemplates() {
-  const user = localStorage.getItem('user')
+  const user = useAppSelector(state=>state.currentUser.user)
   return (
     <>
      <ModalSignin found={user?false:true}/>

@@ -44,6 +44,7 @@ export default function Signin(props:any) {
         localStorage.setItem("user",JSON.stringify(user));
         dispatch(setCurrenUser(user));
       }else{
+        localStorage.setItem("token",data.content.token)
         dispatch(setCurrenUser(user));
       }
       props.onClose(false)
