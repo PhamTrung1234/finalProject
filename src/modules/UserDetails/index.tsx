@@ -213,7 +213,7 @@ export default function UserDetails() {
         justify="space-between"
         className="container items-center mt-5"
       >
-        <Col span={4} className="container flex flex-col">
+        <Col xs={24} lg={4} className="container flex flex-col">
           <Card className="profile-card" bordered={false}>
             <div className="profile-header">
               <Form form={form} onFinish={handleSubmit(onSubmit)} className=" flex items-center flex-column">
@@ -299,8 +299,9 @@ export default function UserDetails() {
             </Row>
           </Card>
         </Col>
-        <Col span={14}>
-          <Card title="Your Job">
+        <Col xs={24} lg={14}>
+          <Card title="Your Job" className="card-responsive">
+            <div className="table-responsive">
             <Table
               rowKey="id"
               pagination={{ pageSize: 3 }}
@@ -310,6 +311,8 @@ export default function UserDetails() {
               columns={columns}
               dataSource={getJobhired}
             />
+            </div>
+            
           </Card>
         </Col>
       </Row>

@@ -282,6 +282,89 @@ a:hover{
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
+  @media (max-width: 1200px) {
+    .profile-card {
+      max-width: 400px;
+      margin-bottom: 10px !important
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .profile-card {
+      max-width: 350px;
+      padding: 25px;
+      margin-bottom: 10px !important
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .profile-card {
+      max-width: 300px;
+      padding: 20px;
+      margin-bottom: 10px !important
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .profile-card {
+      max-width: 300px; /* Chiều rộng đầy đủ cho màn hình nhỏ */
+      padding: 10px;
+      
+    }
+  }
+
+
+  .card-responsive {
+    width: 100%;
+    max-width: 1000px; /* Giới hạn chiều rộng tối đa */
+    margin: 0 auto; /* Căn giữa thẻ */
+  }
+  
+  .table-responsive {
+    overflow-x: 'max-width'; /* Đảm bảo bảng có thể cuộn ngang trên màn hình nhỏ */
+  }
+  
+  @media (max-width: 1200px) {
+    .card-responsive {
+      max-width: 800px; /* Giảm chiều rộng tối đa trên màn hình nhỏ hơn */
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .card-responsive {
+      max-width: 600px; /* Giảm chiều rộng tối đa trên màn hình nhỏ hơn */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .card-responsive {
+      max-width: 100%;
+      padding: 10px;
+    }
+  
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+    }
+    .table-custom {
+        font-size: 12px !important; /* Giảm kích thước font cho màn hình nhỏ hơn */
+    
+        .ant-table-thead > tr > th {
+          font-size: 4px !important;
+        }
+    
+        .ant-table-tbody > tr > td {
+          font-size: 3px !important;
+        }
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .card-responsive {
+      padding: 5px;
+    }
+  }
+  
   
   .profile-header {
     position: relative;
