@@ -377,7 +377,7 @@ export default function UserDetails() {
                 </Button>
               
               <Button danger type="primary" htmlType="submit">
-                Sâve
+                Save
               </Button>
             </Col>
           </Row>
