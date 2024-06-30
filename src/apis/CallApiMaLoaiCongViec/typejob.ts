@@ -37,6 +37,20 @@ export const useGetListJobType = (currentPage: number) => {
     })
   }
 
+  //create Detail Job
+  export const useCreateDetailTypeJob=(onclose:()=>void)=>{
+    return useMutation({
+   mutationFn: async (values: any) => 
+     apiClient.post({ url: '/chi-tiet-loai-cong-viec/them-nhom-chi-tiet-loai', data: values }),
+   onSuccess: () => {
+     queryClient.invalidateQueries({ queryKey: ['ListDetailTypeJob'] });
+     message.success('Tạo thành công')
+     onclose();
+   }
+ });
+   
+ };
+
   //get detail job
   export const useDetailTypeJob=()=>{
     return useQuery({
