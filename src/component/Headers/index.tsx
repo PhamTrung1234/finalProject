@@ -30,7 +30,7 @@ export default function Header(props : {found:boolean}) {
     },
     {
       label: <span onClick={()=>{
-        
+        localStorage.removeItem("token")
         localStorage.removeItem("user");
         dispatch(setCurrenUser(null));
         navigate("/");

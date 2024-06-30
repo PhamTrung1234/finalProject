@@ -170,13 +170,9 @@ export default function UserDetails() {
       if(localStorage.getItem("user")){
         localStorage.removeItem("user")
         localStorage.setItem("user",JSON.stringify(newUser))
-        dispatch(setCurrenUser(null))
-        dispatch(setCurrenUser(newUser))
-      }else{
-        dispatch(setCurrenUser(null))
-        dispatch(setCurrenUser(newUser))
       }
-      
+      dispatch(setCurrenUser(null))
+        dispatch(setCurrenUser(newUser))
     }
   }, [userbyid, userform]);
  
