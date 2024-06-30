@@ -127,7 +127,7 @@ export const useAddUserForm = (currentPage:number,onCloseModal: () => void,reset
 };
 
 //Update User
-export const useUpdateUser=(currentPage:number,oncloseModal:()=>void,handleReset:()=>void)=>{
+export const useUpdateUser=(currentPage:number,oncloseModal:()=>void,handleReset?:()=>void)=>{
   return useMutation({
     mutationFn:async({ user, values }: { user: User, values: number })=>{
       try{
@@ -143,7 +143,9 @@ export const useUpdateUser=(currentPage:number,oncloseModal:()=>void,handleReset
       });
       message.success("Update Successfully");
       oncloseModal();
-      handleReset();
+      if (typeof handleReset === 'function') {
+        handleReset();
+      }
     }
   })
 }
