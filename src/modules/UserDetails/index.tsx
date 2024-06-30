@@ -2,12 +2,13 @@ import { CalendarOutlined, CameraOutlined, EditOutlined, EnvironmentOutlined, Up
 import { Row, Col, Avatar, Button, Form, Upload, Card, Tooltip, Tag,Image, Popconfirm, message, Modal, Input, Select, Switch } from "antd";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { Controller, useForm } from "react-hook-form";
-import { useGetUserById, useUploadFile } from "../../apis/CallApiUser/user";
+import { useGetUserById, useUpdateUser, useUploadFile } from "../../apis/CallApiUser/user";
 import Table from "antd/es/table";
 import { useDeleteJobHired, useGetJobHired, useUpdateJobHired } from "../../apis/CallApiJobHired/jobhire";
 import { setCurrenUser } from "../../store/Slice/counterSlice";
 import { IconButton, Iconify } from "../../icon";
 import { useState, useEffect } from "react";
+import dayjs from "dayjs";
 
 export default function UserDetails() {
   const [form] = Form.useForm();
@@ -16,20 +17,7 @@ export default function UserDetails() {
   const {mutateAsync:updateStatusJobHired}=useUpdateJobHired();
   const {mutateAsync:DeleteJobHired}=useDeleteJobHired();
   const {data:userbyid,isLoading}=useGetUserById(user?.id);
-  const initialData = {
-    id: userbyid?.id,
-    name: userbyid?.name,
-    email: userbyid?.email,
-    password: userbyid?.password,
-    phone: userbyid?.phone,
-    birthday: userbyid?.birthday,
-    avatar: userbyid?.avatar || undefined,
-    gender: userbyid?.gender,
-    role: 'USER',
-    skill: ['string'],
-    certification: ['string'],
-    bookingJob: ['string'],
-  };
+  
   const { handleSubmit, control, watch } = useForm({
     defaultValues: {avatar: user?.avatar,}
   })
@@ -148,21 +136,52 @@ export default function UserDetails() {
   }
   const [userform] = Form.useForm();
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState(initialData);
+  const [formData, setFormData] = useState({});
   const [userModal,setUsermodal]=useState(false);
+  const {mutate: updateUser}=useUpdateUser(1,()=>setUsermodal(false))
   useEffect(() => {
     userform.setFieldsValue(formData);
   }, [userform, formData]);
 
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
-
+  useEffect(() => {
+    if (userbyid) {
+      const updatedData = {
+        id: userbyid?.id,
+        name: userbyid?.name,
+        email: userbyid?.email,
+        password: userbyid?.password,
+        phone: userbyid?.phone,
+        birthday: dayjs(userbyid?.birthday).format('DD/MM/YY'),
+        avatar: userbyid?.avatar || undefined,
+        gender: userbyid?.gender,
+        role: "USER",
+        skill: ["string"],
+        certification: ["string"],
+        bookingJob: ["string"],
+      };
+      setFormData(updatedData);
+      userform.setFieldsValue(updatedData);
+    }
+  }, [userbyid, userform]);
+ 
+  
   const handleSave = () => {
-    form.validateFields().then((values) => {
-      setFormData(values);
-      setIsEditing(false);
-      console.log('Saved Data:', values);
+    userform.validateFields().then(async (values:any) => {
+      // Gọi API để cập nhật dữ liệu người dùng ở đây
+      try {
+        const updatedData = {
+          ...values,
+          birthday: dayjs(values.birthday, 'DD/MM/YY').toISOString(), // Chuyển đổi ngày sinh về định dạng ISO
+          role:'USER'
+        };
+        // Gọi API để cập nhật dữ liệu người dùng
+        await updateUser({ user: updatedData, values: userbyid.id });
+        setFormData(updatedData);
+        setIsEditing(false);
+        message.success('User information updated successfully!');
+      } catch (error) {
+        message.error('Failed to update user information.');
+      }
     }).catch((info) => {
       console.log('Validate Failed:', info);
     });
@@ -274,9 +293,10 @@ export default function UserDetails() {
       <Modal
         title="Basic Modal"
          open={userModal}
-         footer={false}       
+         footer={false}      
+         onCancel={() => setUsermodal(false)} 
       >
-        <Form form={userform} layout="vertical" initialValues={initialData}>
+        <Form form={userform} onFinish={handleSubmit(handleSave)} layout="vertical" initialValues={formData}>
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
@@ -337,11 +357,11 @@ export default function UserDetails() {
           <Row gutter={16}>
             <Col span={12}>
               {isEditing ? (
-                <Button type="primary" onClick={()=>{handleSave;setUsermodal(false);setIsEditing(false)}}>
+                <Button type="primary" htmlType="submit" >
                   Save
                 </Button>
               ) : (
-                <Button type="primary" onClick={handleEdit}>
+                <Button type="primary" onClick={()=>setIsEditing(true)} htmlType="button">
                   Edit
                 </Button>
               )}
