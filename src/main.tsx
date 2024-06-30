@@ -33,6 +33,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+analytics
 import { queryClient } from "./http/tanstack/react-query";
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <HelmetProvider>

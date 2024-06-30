@@ -1,5 +1,5 @@
 import { CalendarOutlined, CameraOutlined, EditOutlined, EnvironmentOutlined, UploadOutlined } from "@ant-design/icons";
-import { Row, Col, Avatar, Button, Form, Upload, Card, Tooltip, Tag,Image, Popconfirm, message, Modal, Input, Select, Switch } from "antd";
+import { Row, Col, Avatar, Button, Form, Upload, Card, Tooltip, Tag,Image, Popconfirm, message, Modal, Input, Switch } from "antd";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { Controller, useForm } from "react-hook-form";
 import { useGetUserById, useUpdateUser, useUploadFile } from "../../apis/CallApiUser/user";
@@ -9,18 +9,26 @@ import { setCurrenUser } from "../../store/Slice/counterSlice";
 import { IconButton, Iconify } from "../../icon";
 import { useState, useEffect } from "react";
 import dayjs from "dayjs";
+import { Navigate } from "react-router-dom";
+
+
 
 export default function UserDetails() {
+  const {user} = useAppSelector(state=>state.currentUser);
+  if(!user){
+    return <Navigate to={"/"}/>
+  }
   const [form] = Form.useForm();
   const {data: getJobhired}=useGetJobHired()
-  const {user} = useAppSelector(state=>state.currentUser);
+  
   const {mutateAsync:updateStatusJobHired}=useUpdateJobHired();
   const {mutateAsync:DeleteJobHired}=useDeleteJobHired();
   const {data:userbyid}=useGetUserById(user?.id);
-  
+ 
   const { handleSubmit, control, watch } = useForm({
     defaultValues: {avatar: user?.avatar,}
   })
+ 
   const columns= [
     {
       title: 'ID',
@@ -50,7 +58,7 @@ export default function UserDetails() {
       title: 'Ngày Thuê',
       dataIndex: 'ngayThue',
       key: 'ngayThue',
-      render: (text: string) => new Date(text).toLocaleDateString(),
+      
     },
    
     {
@@ -76,7 +84,7 @@ export default function UserDetails() {
       title: 'Action',
       dataIndex: 'action',
       key: 'action',
-      render: (text: string,record:any) => (
+      render: (record:any) => (
         <div className="text-gray flex w-full items-center justify-center">
           <IconButton  >
             <Iconify   icon="solar:pen-bold-duotone" onClick={()=>{if(record.hoanThanh){
@@ -93,7 +101,7 @@ export default function UserDetails() {
             placement="left"
             onConfirm={() => {
               DeleteJobHired(record.id)
-              // submitHandleDelete(record.id.toString());
+             
             }}
           >
             <IconButton>
@@ -112,28 +120,20 @@ export default function UserDetails() {
     },
   ];
   const dispatch = useAppDispatch();
-  const onSuccessCallback = (data: any) => {
-    dispatch(setCurrenUser({ avatar: data.avatar }));
-    const userString = localStorage.getItem('user');
-    if (userString) {
-      const user = JSON.parse(userString);
-      user.avatar = data.avatar; // Assume response contains the new avatar URL
-      localStorage.setItem('user', JSON.stringify(user));
-    }
-  };
+  
   const hinhAnhValue = watch("avatar");
   
-  const {mutateAsync:handleUpload}=useUploadFile(onSuccessCallback)
+  const {mutateAsync:handleUpload}=useUploadFile()
   const previewImage = (file: File) => {
     return URL.createObjectURL(file);
   };
-  
+ 
   const onSubmit=async (values:any)=>{
-    console.log(values.avatar)
     const formData = new FormData();
     formData.append("formFile", values.avatar);
     await handleUpload(formData);
   }
+   
   const [userform] = Form.useForm();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({});
@@ -158,6 +158,25 @@ export default function UserDetails() {
       };
       setFormData(updatedData);
       userform.setFieldsValue(updatedData);
+      const newUser = {
+          id:user?.id,
+          avatar:userbyid.avatar,
+          email:user?.email,
+          token:user?.token,
+          name:user?.name,
+          role:userbyid.role
+      }
+      
+      if(localStorage.getItem("user")){
+        localStorage.removeItem("user")
+        localStorage.setItem("user",JSON.stringify(newUser))
+        dispatch(setCurrenUser(null))
+        dispatch(setCurrenUser(newUser))
+      }else{
+        dispatch(setCurrenUser(null))
+        dispatch(setCurrenUser(newUser))
+      }
+      
     }
   }, [userbyid, userform]);
  
@@ -180,11 +199,13 @@ export default function UserDetails() {
         message.error('Failed to update user information.');
       }
     }).catch((info) => {
-      console.log('Validate Failed:', info);
+      throw(info)
     });
   };
  
   const memberSince = new Date().toLocaleString('en-US', {day: 'numeric', month: 'short', year: 'numeric' });
+
+ 
   return (
     <div className="min-h-screen items-center pt-24 bg-lime-800 overflow-hidden pb-0">
       <Row
@@ -195,7 +216,7 @@ export default function UserDetails() {
         <Col span={4} className="container flex flex-col">
           <Card className="profile-card" bordered={false}>
             <div className="profile-header">
-              <Form form={form} onFinish={handleSubmit(onSubmit)}>
+              <Form form={form} onFinish={handleSubmit(onSubmit)} className=" flex items-center flex-column">
                 <Controller
                   name="avatar"
                   control={control}
@@ -244,7 +265,7 @@ export default function UserDetails() {
                     );
                   }}
                 />
-                <button type="submit" className="btn btn-success ">
+                <button type="submit" className="btn btn-success mt-2">
                   Change Avatar
                 </button>
               </Form>

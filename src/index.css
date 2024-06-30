@@ -265,7 +265,7 @@ a:hover{
      border-radius: 50%;
      line-height: 50px;
      background-color: #b5b6ba;
-     opacity: 0.8;
+     opacity: 0.5;
   }
   .backtotop a{
     display: inline-block;
@@ -412,6 +412,11 @@ a:hover{
   overflow: hidden;
 }
 
-  
+@media (max-width:460px) {
+    .header__icon--logo img,.header__icon--logo--1{
+        width: 35px !important;
+        height: 35px !important;
+    }
+} 
   
   

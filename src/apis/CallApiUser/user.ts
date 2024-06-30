@@ -151,7 +151,7 @@ export const useUpdateUser=(currentPage:number,oncloseModal:()=>void,handleReset
 }
 
 //upload avatar
-export const useUploadFile=(avatarchange:(data:any)=>void,payload?:any)=>{
+export const useUploadFile=(payload?:any)=>{
   return useMutation(
     {
       mutationFn: async (values: any) => {
@@ -162,32 +162,12 @@ export const useUploadFile=(avatarchange:(data:any)=>void,payload?:any)=>{
         });
         return response.data; // Assuming response.data contains the updated user object
       },
-      onSuccess: (data) => {
+      onSuccess: () => {
         message.success('Upload successfully');
-        avatarchange(data)
-        // Update the avatar in localStorage
-        const userString = localStorage.getItem('user');
-        if (userString) {
-          const user = JSON.parse(userString);
-          user.avatar = data.avatar; // Assume response contains the new avatar URL
-          localStorage.setItem('user', JSON.stringify(user));
-        }
-
-        // Invalidate queries to refetch data
-        queryClient.invalidateQueries();
-        
-        // Reload the page to reflect the updated avatar
-         window.location.reload();
+        queryClient.invalidateQueries({ queryKey: ["Userbyid"] });
       },
     }
     
   )
 }
 
-export const fetchUser = async(id:string|number)=>{
-   try{
-     return await apiClient.get({url:`/users/${id}`})
-   }catch(error){
-    throw ('lỗi tùm lum')
-   }
-}

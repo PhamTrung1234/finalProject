@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { explore, fiverPro, handelNavMenu } from "./ButtonModal/NavMenu/Roots";
 import { GlobalOutlined } from "@ant-design/icons";
 import ButtonModal from "./ButtonModal";
-import { useState } from "react";
+import {  useState } from "react";
 import ModalSignin from "./ModalSignin";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { setCurrenUser } from "../../store/Slice/counterSlice";
@@ -25,19 +25,29 @@ export default function Header(props : {found:boolean}) {
   const logouser = user?.name?.trim().charAt(0).toUpperCase();
   const items: MenuProps["items"] = [
     {
-      label: <Link to="/user-detail">thông tin chi tiết</Link>,
+      label: <Link to="/user-detail">User details</Link>,
       key: "0",
     },
     {
-      label: <Button onClick={()=>{
+      label: <span onClick={()=>{
         
         localStorage.removeItem("user");
         dispatch(setCurrenUser(null));
         navigate("/");
-      }}> đăng xuất</Button>,
+      }}> Log out</span>,
       key: "1",
     },
+    
   ];
+  const pushItems = ()=>{
+    if(user && user.role === "ADMIN"){
+      items.push({
+       key:"2",
+       label: <Link to={"/admin/user-management"}>Admin pages</Link>
+      })
+   }
+  }
+  pushItems();
   return (
     <header
       className=" header py-4"
@@ -130,7 +140,7 @@ export default function Header(props : {found:boolean}) {
                 </Col>
               )}
               {user && (
-                <Col xs={10} sm={7} md={6} lg={4}>
+                <Col xs={13} sm={9} md={7} lg={5}>
                   <Dropdown menu={{ items }}>
                     <a
                       onClick={(e) => e.preventDefault()}

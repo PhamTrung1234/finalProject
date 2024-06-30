@@ -28,14 +28,14 @@ axiosInstance.interceptors.request.use(
   );
   axiosInstance.interceptors.response.use(
     (res: AxiosResponse<any>) => {
-        if (!res.data) throw new Error('The interface request failed, please try again later!');
+        if (!res.data) throw new Error('');
         const { message } = res.data;
         const hasSuccess = res.data && Reflect.has(res, 'status');
 
         if (hasSuccess) {
             return res.data;
         }
-        throw new Error(message || 'The interface request failed, please try again later!');
+        throw new Error(message);
     },
     async (error: AxiosError<Result>) => {
         let errMsg = '';
