@@ -19,7 +19,7 @@ export default function UserDetails() {
     return <Navigate to={"/"}/>
   }
   const [form] = Form.useForm();
-  const {data: getJobhired}=useGetJobHired()
+  const {data: getJobhired}=useGetJobHired(user?.id)
   
   const {mutateAsync:updateStatusJobHired}=useUpdateJobHired();
   const {mutateAsync:DeleteJobHired}=useDeleteJobHired();

@@ -88,9 +88,9 @@ export const useGetListUser = (currentPage: number) => {
 };
 
 //get user by id
-export const useGetUserById = (id: any) => {
+export const useGetUserById = (id: number|string) => {
   return useQuery({
-    queryKey: ["Userbyid"],
+    queryKey: ["Userbyid",{id}],
     queryFn: async () => {
       try {
         const response = await apiClient.get({ url: `/users/${id}` });

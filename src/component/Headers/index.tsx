@@ -34,6 +34,7 @@ export default function Header(props : {found:boolean}) {
         localStorage.removeItem("user");
         dispatch(setCurrenUser(null));
         navigate("/");
+        
       }}> Log out</span>,
       key: "1",
     },
