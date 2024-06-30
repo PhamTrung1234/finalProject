@@ -10,6 +10,7 @@ type Store = {
     name:string;
     email:string;
     id:string | number;
+    role:string;
   }|null;
 }
 

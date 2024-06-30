@@ -1,6 +1,6 @@
 import { Modal, Button, Input,Form, message } from 'antd'
 import { useState } from 'react';
-import { useCreateDetailTypeJob } from '../../../apis/CallApiMaLoaiCongViec/typejob';
+import { useCreateDetailTypeJob, useUpdateTypeJob } from '../../../apis/CallApiMaLoaiCongViec/typejob';
 
 
 
@@ -23,14 +23,14 @@ export default function DetailFormWork({formData,onclose}:detailFormProps) {
                  maLoaiCongViec:values.maLoaiCongViec
 
                 }
-               // await updateTypeJob(updateData)
+                await useUpdateTypeJob(updateData)
                 setloading(false);
               }else{
                 const createData:any={
                   ...values,
                   
                 };
-                // await createInvoice(createData);
+               
                 await useCreateDetailTypeJob(createData);
                 // await handleCreteTypeJob(createData)
                 setloading(false);
@@ -99,3 +99,5 @@ export default function DetailFormWork({formData,onclose}:detailFormProps) {
     </div>
   )
 }
+
+

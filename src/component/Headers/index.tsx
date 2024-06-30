@@ -25,7 +25,7 @@ export default function Header(props : {found:boolean}) {
   const logouser = user?.name?.trim().charAt(0).toUpperCase();
   const items: MenuProps["items"] = [
     {
-      label: <Link to="/user-detail">thông tin chi tiết</Link>,
+      label: <Link to="/user-detail">User details</Link>,
       key: "0",
     },
     {
@@ -34,7 +34,7 @@ export default function Header(props : {found:boolean}) {
         localStorage.removeItem("user");
         dispatch(setCurrenUser(null));
         navigate("/");
-      }}> đăng xuất</Button>,
+      }}> Log out</Button>,
       key: "1",
     },
   ];
@@ -130,7 +130,7 @@ export default function Header(props : {found:boolean}) {
                 </Col>
               )}
               {user && (
-                <Col xs={10} sm={7} md={6} lg={4}>
+                <Col xs={13} sm={9} md={7} lg={5}>
                   <Dropdown menu={{ items }}>
                     <a
                       onClick={(e) => e.preventDefault()}

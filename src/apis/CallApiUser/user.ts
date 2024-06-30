@@ -87,6 +87,21 @@ export const useGetListUser = (currentPage: number) => {
   });
 };
 
+//get user by id
+export const useGetUserById = (id: any) => {
+  return useQuery({
+    queryKey: ["Userbyid"],
+    queryFn: async () => {
+      try {
+        const response = await apiClient.get({ url: `/users/${id}` });
+        return response.content;
+      } catch (error) {
+        throw new Error("Error occurred while fetching user list.");
+      }
+    },
+  });
+};
+
 //add user form data
 export const useAddUserForm = (currentPage:number,onCloseModal: () => void,resetForm: () => void) => {
   return useMutation({
@@ -112,7 +127,7 @@ export const useAddUserForm = (currentPage:number,onCloseModal: () => void,reset
 };
 
 //Update User
-export const useUpdateUser=(currentPage:number,oncloseModal:()=>void,handleReset:()=>void)=>{
+export const useUpdateUser=(currentPage:number,oncloseModal:()=>void,handleReset?:()=>void)=>{
   return useMutation({
     mutationFn:async({ user, values }: { user: User, values: number })=>{
       try{
@@ -128,13 +143,15 @@ export const useUpdateUser=(currentPage:number,oncloseModal:()=>void,handleReset
       });
       message.success("Update Successfully");
       oncloseModal();
-      handleReset();
+      if (typeof handleReset === 'function') {
+        handleReset();
+      }
     }
   })
 }
 
 //upload avatar
-export const useUploadFile=(avatarchange:(data:any)=>void,payload?:any)=>{
+export const useUploadFile=(payload?:any)=>{
   return useMutation(
     {
       mutationFn: async (values: any) => {
@@ -145,22 +162,9 @@ export const useUploadFile=(avatarchange:(data:any)=>void,payload?:any)=>{
         });
         return response.data; // Assuming response.data contains the updated user object
       },
-      onSuccess: (data) => {
+      onSuccess: () => {
         message.success('Upload successfully');
-        avatarchange(data)
-        // Update the avatar in localStorage
-        const userString = localStorage.getItem('user');
-        if (userString) {
-          const user = JSON.parse(userString);
-          user.avatar = data.avatar; // Assume response contains the new avatar URL
-          localStorage.setItem('user', JSON.stringify(user));
-        }
-
-        // Invalidate queries to refetch data
-        queryClient.invalidateQueries();
-        
-        // Reload the page to reflect the updated avatar
-         window.location.reload();
+        queryClient.invalidateQueries({ queryKey: ["Userbyid"] });
       },
     }
     

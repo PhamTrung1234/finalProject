@@ -5,6 +5,7 @@ import { GlobalOutlined } from '@ant-design/icons'
 import { Button } from 'antd';
 import ModalSignin from '../../ModalSignin';
 import { useState } from 'react';
+import { useAppSelector } from '../../../../store/hook';
 export default function NavMenu() {
   const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
@@ -13,9 +14,11 @@ export default function NavMenu() {
     const callbackMOdal= (data:boolean)=>{
       setIsModalOpen(data)
 }
+  const user = useAppSelector(state=>state.currentUser.user)
   return (
    <div className="accordion mt-5" id="accordionExample">
-  <div className='accordion-item'>
+  {!user && (
+    <div className='accordion-item'>
     <h2 className='accordion-header accordion-body accordion navmenu__signin p-0'>
     <Button type="primary" onClick={showModal}>
       Join Fiverr
@@ -23,6 +26,7 @@ export default function NavMenu() {
       <ModalSignin found={isModalOpen} callbackMOdal={callbackMOdal}/>
     </h2>
   </div>
+  )}
   <div className="accordion-item">
     <h2 className="accordion-header">
       <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">

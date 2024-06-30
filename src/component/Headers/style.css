@@ -50,6 +50,9 @@
     color: #000;
     font-weight: bold;
 }
+.HomePages__block .header__icon--logo span{
+  color: #212529;
+}
 .btn,.HomePages .HomePages__block .header .btn {
     border: none !important;
     font-size: 16px !important;
@@ -160,3 +163,4 @@
 .fixed-top-header .header__icon--logo{
     color: #212529;
 }
+
