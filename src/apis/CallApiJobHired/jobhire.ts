@@ -41,9 +41,9 @@ export const useGetLisJobHired = (currentPage: number) => {
       })
   }
 
-  export const useGetJobHired = () => {
+  export const useGetJobHired = (id:number|string) => {
     return useQuery({
-      queryKey: ["JobHired"],
+      queryKey: ["JobHired",{id}],
       queryFn: async () => {
         try {
           const response = await apiClient.get({ url: '/thue-cong-viec/lay-danh-sach-da-thue' });
