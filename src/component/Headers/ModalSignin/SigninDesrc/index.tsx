@@ -31,7 +31,7 @@ export default function SigninDesrc(props:any) {
                 <div className="flex items-center justify-center flex-col">
                 <div>
                     <h3>Sign in to your account</h3>
-                    <p>Don’t have an account? <button onClick={()=>{setFound(true)}}>Join here</button></p>
+                    <p>Don’t have an account? <button className="font-bold" onClick={()=>{setFound(true)}}>Join here</button></p>
                 </div>
                 <Signin onClose = {onClose}/>
                 
@@ -41,7 +41,7 @@ export default function SigninDesrc(props:any) {
                 <div className="flex items-center justify-center flex-col">
                 <div>
                     <h3>Create a new account</h3>
-                    <p>Already have an account? <button onClick={()=>{setFound(false)}}>Sign in</button></p>
+                    <p>Already have an account? <button onClick={()=>{setFound(false)}} className="font-bold">Sign in</button></p>
                 </div>
                 <Signup nextPage={nextPage}/>
                 

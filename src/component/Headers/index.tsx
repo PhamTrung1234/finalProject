@@ -125,7 +125,7 @@ export default function Header(props : {found:boolean}) {
                   />
                 </Col>
               )}
-              {!user && (
+              {!user&&(
                 <Col xs={6} sm={5} md={4} lg={3}>
                   <Button
                     type="primary"
@@ -140,7 +140,7 @@ export default function Header(props : {found:boolean}) {
                   />
                 </Col>
               )}
-              {user && (
+              {user &&  (
                 <Col xs={13} sm={9} md={7} lg={5}>
                   <Dropdown menu={{ items }}>
                     <a

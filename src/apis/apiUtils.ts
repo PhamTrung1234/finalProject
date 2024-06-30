@@ -11,6 +11,7 @@ const axiosInstance=axios.create({
 })
 axiosInstance.interceptors.request.use(
     (config:any) => {
+      
       const userLocal = localStorage.getItem("user");
       const currentUser = userLocal ? JSON.parse(userLocal) : null;
       config.headers = { 

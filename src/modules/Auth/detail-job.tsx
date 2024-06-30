@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { Link, useParams } from "react-router-dom"
-import {  fetchListJobBySearch } from "../../apis/CallApiDetailJob"
+import {  fetchDataById, fetchListJobBySearch } from "../../apis/CallApiDetailJob"
 import NavAuthent from "../../component/NavAuthent"
 import { Card, Col, Empty, Pagination, Row, Spin } from "antd"
 import ExploreMore from "./ExploreMore"
@@ -18,7 +18,11 @@ export default function ListJobBySearch() {
     const {data,isPending} = useQuery({
         queryKey:["list-job",{derc}],
         queryFn:()=>{
-            return fetchListJobBySearch(id.slice(6))
+            if(Number(id)){
+              return fetchDataById(id)
+            }else{
+              return fetchListJobBySearch(id.slice(6))
+            }
         },
         
     })
