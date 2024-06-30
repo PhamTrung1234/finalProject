@@ -11,6 +11,7 @@ import {
 import { Avatar, Button, Dropdown, Layout, Menu, theme } from "antd";
 import {
   Link,
+  Navigate,
   Outlet,
   useLocation,
   useNavigate,
@@ -22,7 +23,11 @@ import { useAppDispatch, useAppSelector } from "../../store/hook";
 const { Header, Sider, Content } = Layout;
 
 export default function AdminLayout() {
-
+  const {user} = useAppSelector(state=>state.currentUser)
+  
+  if(!user || user.role === "USER" ){
+   return   <Navigate to={"/"}/>
+  }
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -30,7 +35,7 @@ export default function AdminLayout() {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const {user} = useAppSelector(state=>state.currentUser)
+  
   const items = [
     {
       key: "1",

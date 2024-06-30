@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { explore, fiverPro, handelNavMenu } from "./ButtonModal/NavMenu/Roots";
 import { GlobalOutlined } from "@ant-design/icons";
 import ButtonModal from "./ButtonModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalSignin from "./ModalSignin";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { setCurrenUser } from "../../store/Slice/counterSlice";
@@ -29,15 +29,25 @@ export default function Header(props : {found:boolean}) {
       key: "0",
     },
     {
-      label: <Button onClick={()=>{
+      label: <span onClick={()=>{
         
         localStorage.removeItem("user");
         dispatch(setCurrenUser(null));
         navigate("/");
-      }}> Log out</Button>,
+      }}> Log out</span>,
       key: "1",
     },
+    
   ];
+  const pushItems = ()=>{
+    if(user && user.role === "ADMIN"){
+      items.push({
+       key:"2",
+       label: <Link to={"/admin/user-management"}>Admin pages</Link>
+      })
+   }
+  }
+  pushItems();
   return (
     <header
       className=" header py-4"

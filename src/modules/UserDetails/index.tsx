@@ -9,13 +9,18 @@ import { setCurrenUser } from "../../store/Slice/counterSlice";
 import { IconButton, Iconify } from "../../icon";
 import { useState, useEffect } from "react";
 import dayjs from "dayjs";
+import { Navigate } from "react-router-dom";
 
 
 
 export default function UserDetails() {
+  const {user} = useAppSelector(state=>state.currentUser);
+  if(!user){
+    return <Navigate to={"/"}/>
+  }
   const [form] = Form.useForm();
   const {data: getJobhired}=useGetJobHired()
-  const {user} = useAppSelector(state=>state.currentUser);
+  
   const {mutateAsync:updateStatusJobHired}=useUpdateJobHired();
   const {mutateAsync:DeleteJobHired}=useDeleteJobHired();
   const {data:userbyid}=useGetUserById(user?.id);

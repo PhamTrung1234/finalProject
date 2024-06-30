@@ -171,10 +171,3 @@ export const useUploadFile=(payload?:any)=>{
   )
 }
 
-export const fetchUser = async(id:string|number)=>{
-   try{
-     return await apiClient.get({url:`/users/${id}`})
-   }catch(error){
-    throw ('lỗi tùm lum')
-   }
-}
