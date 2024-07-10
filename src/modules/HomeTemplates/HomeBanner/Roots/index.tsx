@@ -1,4 +1,5 @@
 import { Card } from "antd";
+import { Link } from "react-router-dom";
 
 type CardBanner = {
     title:string;
@@ -25,7 +26,7 @@ const bannerItems :CardBanner[] = [
 export const handelBanner = ()=>{
     return bannerItems.map(item=>{
         return (
-            <div key={item.key}>
+            <Link to={"/auth/list-job"} key={item.key}>
                 
     <Card className="card__item ">
        <img className="rounded-lg" src={item.image} alt="..." />
@@ -36,7 +37,7 @@ export const handelBanner = ()=>{
     </Card>
     
   
-            </div>
+            </Link>
         )
     })
 }

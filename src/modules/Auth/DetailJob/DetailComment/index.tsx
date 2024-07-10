@@ -36,7 +36,7 @@ export default function DetailComment(props: Props) {
   const today = new Date();
   const [found1, setFound1] = useState(false);
   const [found2, setFound2] = useState(false);
-
+  const [lazyLoad,setLazy] = useState(3);
 
   useEffect(()=>{
     if(newComment){
@@ -82,6 +82,7 @@ export default function DetailComment(props: Props) {
 
 }
   const handelComment = () => {
+    let count = 0;
     if(data){
       const listcComment = data.content;
       if ( listcComment.length <= 0) {
@@ -153,76 +154,78 @@ export default function DetailComment(props: Props) {
         );
       } else  {
         return listcComment.map((items: Comment) => {
-          
+          count++
           const date = dayjs(items.ngayBinhLuan).format("DD/MM/YYYY")
           
           const newdate = date ==="Invalid Date" ?`${items.ngayBinhLuan}`:date
           const logouser = items.tenNguoiBinhLuan.trim().charAt(0).toUpperCase();
-          return (
-            <div className="pb-5" key={items.id}>
-              <div className="flex items-center">
-                {items.avatar ? (
-                  <img className="comment__logo" src={items.avatar} alt="trump" />
-                ) : (
-                  <div
-                    className="comment__logo"
+          if(count<=lazyLoad){
+            return (
+              <div className="pb-5" key={items.id}>
+                <div className="flex items-center">
+                  {items.avatar ? (
+                    <img className="comment__logo" src={items.avatar} alt="trump" />
+                  ) : (
+                    <div
+                      className="comment__logo"
+                      
+                    >
+                      {logouser}
+                    </div>
+                  )}
+                  <span className="font-bold text-lg pl-3">{items.tenNguoiBinhLuan}</span>
+                </div>
+                <div className="flex items-center py-3">
+                  <span>
+                    <Rate
+                      defaultValue={items.saoBinhLuan}
+                      disabled={true}
+                      style={{ color: "#404145" }}
+                    />
+                  </span>{" "}
+                  <span className="text-base pl-5">
+                    {newdate}
+                  </span>
+                </div>
+                <p className="text-base">
+                  {items.noiDung}
+                </p>
+    
+                <div className="flex items-center font-bold">
+                  <span>Helpful?</span>
+                  <button
+                    onClick={onClickLike}
+                    
+                    className="px-3 "
+                  >
+                  <div>
+                    <label htmlFor={`like__${items.id}`}>
+                    <span className={`like__${items.id} cursor-pointer`}>
+                        <LikeOutlined /> Yes
+                      </span>
+                    </label>
+                    <input type="checkbox" className="hidden" id={`like__${items.id}`} />
+                  </div>
+                  </button>
+                  <button
+                  onClick={onClickDisLike}
                     
                   >
-                    {logouser}
-                  </div>
-                )}
-                <span className="font-bold text-lg pl-3">{items.tenNguoiBinhLuan}</span>
-              </div>
-              <div className="flex items-center py-3">
-                <span>
-                  <Rate
-                    defaultValue={items.saoBinhLuan}
-                    disabled={true}
-                    style={{ color: "#404145" }}
-                  />
-                </span>{" "}
-                <span className="text-base pl-5">
-                  {newdate}
-                </span>
-              </div>
-              <p className="text-base">
-                {items.noiDung}
-              </p>
-  
-              <div className="flex items-center font-bold">
-                <span>Helpful?</span>
-                <button
-                  onClick={onClickLike}
-                  
-                  className="px-3 "
-                >
-                <div>
-                  <label htmlFor={`like__${items.id}`}>
-                  <span className={`like__${items.id} cursor-pointer`}>
-                      <LikeOutlined /> Yes
-                    </span>
-                  </label>
-                  <input type="checkbox" className="hidden" id={`like__${items.id}`} />
+                    <div>
+                    <label htmlFor={`dislike__${items.id}`}>
+                    <span className={`dislike__${items.id} cursor-pointer`}>
+                        <DislikeOutlined /> No
+                        
+                      </span>
+                    </label>
+                      <input type="checkbox" className="hidden" id={`dislike__${items.id}`}/>
+                    </div>
+                  </button>
+                 
                 </div>
-                </button>
-                <button
-                onClick={onClickDisLike}
-                  
-                >
-                  <div>
-                  <label htmlFor={`dislike__${items.id}`}>
-                  <span className={`dislike__${items.id} cursor-pointer`}>
-                      <DislikeOutlined /> No
-                      
-                    </span>
-                  </label>
-                    <input type="checkbox" className="hidden" id={`dislike__${items.id}`}/>
-                  </div>
-                </button>
-               
               </div>
-            </div>
-          );
+            );
+          }
         });
       }
     }
@@ -239,6 +242,11 @@ export default function DetailComment(props: Props) {
   };
   return <div className="py-5">
     {handelComment()}
+    {data && data.content.length>3 && (
+      <div className="flex justify-center mb-3 border-1 border-gray-600">
+        <button className="btn" onClick={()=>{setLazy(lazyLoad+3)}}>Xem Thêm</button>
+      </div>
+    )}
     {user&&(
       <form className="DetailComment__formre">
       
