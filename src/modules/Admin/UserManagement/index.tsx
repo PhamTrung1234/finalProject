@@ -126,7 +126,7 @@ export default function UserManagement() {
           ),
           filterIcon: (filtered: boolean) => (
             <SearchOutlined
-              style={{ color: filtered ? "#1677ff" : undefined }}
+              style={{fontSize: '17px',alignContent:'center',width: '17px', color: filtered ? "#1677ff" : undefined }}
             />
           ),
           onFilter: (value, record) =>
