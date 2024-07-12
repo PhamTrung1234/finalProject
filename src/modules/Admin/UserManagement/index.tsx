@@ -1,13 +1,16 @@
-import { TableProps, Tag, Table, Pagination, Button, Col, Form, Input, Row, Popconfirm, Breadcrumb, Modal, DatePicker, Radio, Select } from "antd";
+import { TableProps, Tag, Table, Pagination, Button, Col, Form, Input, Row, Popconfirm, Breadcrumb, Modal, DatePicker, Radio, Select, InputRef, Space, TableColumnType } from "antd";
 import { Role, User } from "../../../types/user";
 import { useAddUserForm, useDeleteUser, useGetListUser, useUpdateUser } from "../../../apis/CallApiUser/user";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { PAGE_SIZE } from "../../../constants";
 import { IconButton, Iconify } from "../../../icon";
 import { Controller, useForm } from "react-hook-form";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMars, faVenus } from '@fortawesome/free-solid-svg-icons';
 import dayjs from "dayjs";
+import Highlighter from "react-highlight-words";
+import { FilterDropdownProps } from "antd/es/table/interface";
+import { SearchOutlined } from "@ant-design/icons";
 
 export default function UserManagement() {
   
@@ -27,12 +30,139 @@ export default function UserManagement() {
       certification: ['none'],
     },
   });
+  const [searchText,setSearchText]=useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef<InputRef>(null);
  
+  
+  const [currentPage,setCurrentPage]=useState(1);
+  //delete user
+  const { mutate: deleteUser } = useDeleteUser(currentPage);
+
+  //add user
+  const {mutate: handleaddUser,isPending}=useAddUserForm(currentPage,()=>setIsOpenModal(false),reset)
+  //update user
+  const {mutate: updateUser}=useUpdateUser(currentPage,()=>setIsOpenModal(false),reset)
+  const handleDelete = (userId:number) => {
+    deleteUser(userId);
+  };
+  //Search user
+  const handleSearch=(
+  selectedKeys:string[],
+  confirm:FilterDropdownProps["confirm"],
+  dataIndex:any)=>{
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+   const handleReset = (clearFilters: () => void) => {
+          clearFilters();
+          setSearchText("");
+        };
+
+  const getColumnSearchProps = (dataIndex: any ): TableColumnType<any> => ({
+          filterDropdown: ({
+            setSelectedKeys,
+            selectedKeys,
+            confirm,
+            clearFilters,
+            close,
+          }) => (
+            <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
+              <Input
+                ref={searchInput}
+                placeholder={`Search ${dataIndex}`}
+                value={selectedKeys[0]}
+                onChange={(e) =>
+                  setSelectedKeys(e.target.value ? [e.target.value] : [])
+                }
+                onPressEnter={() =>
+                  handleSearch(selectedKeys as string[], confirm, dataIndex)
+                }
+                style={{ marginBottom: 8, display: "block" }}
+              />
+              <Space>
+                <Button
+                  type="primary"
+                  onClick={() =>
+                    handleSearch(selectedKeys as string[], confirm, dataIndex)
+                  }
+                  icon={<SearchOutlined  />}
+                  size="small"
+                  style={{ width: 90, borderRadius: 5 }}
+                >
+                  Search
+                </Button>
+                <Button
+                  onClick={() => clearFilters && handleReset(clearFilters)}
+                  size="small"
+                  style={{ width: 90, borderRadius: 5 }}
+                >
+                  Reset
+                </Button>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => {
+                    confirm({ closeDropdown: false });
+                    setSearchText((selectedKeys as string[])[0]);
+                    setSearchedColumn(dataIndex);
+                  }}
+                >
+                  Filter
+                </Button>
+                <Button
+                  type="link"
+                  size="small"
+                  style={{ color: "red" }}
+                  onClick={() => {
+                    close();
+                  }}
+                >
+                  Close
+                </Button>
+              </Space>
+            </div>
+          ),
+          filterIcon: (filtered: boolean) => (
+            <SearchOutlined
+              style={{ color: filtered ? "#1677ff" : undefined }}
+            />
+          ),
+          onFilter: (value, record) =>
+            record[dataIndex]
+              .toString()
+              .toLowerCase()
+              .includes((value as string).toLowerCase()),
+          onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+              setTimeout(() => searchInput.current?.select(), 100);
+            }
+          },
+          render: (text) =>
+            searchedColumn === dataIndex ? (
+              <Highlighter
+                highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+                searchWords={[searchText]}
+                autoEscape
+                textToHighlight={text ? text.toString() : ""}
+              />
+            ) : (
+              text
+            ),
+        });
+  const handleUpdate=(form:any)=>{
+    updateUser({ user: form, values: form.id });
+  }
+  const handleAdd=(form:User)=>{
+    handleaddUser(form)
+  }
   const columns: TableProps<User>["columns"] = [
     {
       title: "ID",
       dataIndex: "id",
       key: "id",
+      sorter: (a, b) => b.id - a.id,
     },
     {
       title: "Avatar",
@@ -54,6 +184,7 @@ export default function UserManagement() {
       dataIndex: "name",
       key: "name",
       align: "center",
+      ...getColumnSearchProps("name"),
     },
     {
       title: "Email",
@@ -162,24 +293,6 @@ export default function UserManagement() {
       ),
     },
   ];
-  const [currentPage,setCurrentPage]=useState(1);
-  //delete user
-  const { mutate: deleteUser } = useDeleteUser(currentPage);
-
-  //add user
-  const {mutate: handleaddUser,isPending}=useAddUserForm(currentPage,()=>setIsOpenModal(false),reset)
-  //update user
-  const {mutate: updateUser}=useUpdateUser(currentPage,()=>setIsOpenModal(false),reset)
-  const handleDelete = (userId:number) => {
-    deleteUser(userId);
-  };
-  const handleUpdate=(form:any)=>{
-    updateUser({ user: form, values: form.id });
-  }
-  const handleAdd=(form:User)=>{
-    handleaddUser(form)
-  }
-  
   const {data, isLoading}=useGetListUser(currentPage);
   const dataSource=data?.data ||[]
   const [form] = Form.useForm();
@@ -244,26 +357,8 @@ export default function UserManagement() {
     <div className="mt-3 text-2xl">
     <Form form={form} onFinish={onFinishHandler}>
           <Row gutter={24}  justify="space-between">
-            <Col   xs={12} md={18} sm={14} lg={19} xl={20} xxl={18}>
-              <Row  gutter={[12,12]}>
-                <Col xs={24} md={21} sm={12}>
-                  <Row>
-                  <Col  xs={23} md={21} sm={24} lg={8}>
-                  <Form.Item name="Search">
-                    <Input placeholder="Search by name" allowClear />
-                  </Form.Item>
-                  </Col>
-                  
-                    <Col xs={24} md={3} sm={24} lg={16} >
-                      <Button  type="primary" onClick={resetHandler}>
-                        Reset
-                      </Button>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-            </Col>
-            <Col xs={12} sm={10} md={6} lg={5} xl={4} xxl={6}>
+            
+            <Col xs={12} sm={10} md={6} lg={24} xl={4} xxl={6}>
               <Row>
                 <Col xs={24} sm={12} lg={3}>
                   <Button type="primary" onClick={()=>{handleOpenModalForAdd()}}>Add new Adminstrator</Button>
@@ -376,6 +471,7 @@ export default function UserManagement() {
              }}
             render={({ field }) => (
               <Input.Password
+                disabled
                 size="large"
                 className="mt-1"
                 placeholder="password..."
