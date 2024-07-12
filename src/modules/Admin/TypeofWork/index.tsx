@@ -98,7 +98,7 @@ export default function Typework() {
             
             {details.map(detail => (
               <Tooltip key={detail.id} title={`ID: ${detail.id}`}>
-                <Tag color="yellow">Name: {detail.tenChiTiet}</Tag>
+                <Tag color="red"> {detail.tenChiTiet}</Tag>
               </Tooltip>
             ))}
           </div>
@@ -111,37 +111,7 @@ export default function Typework() {
         );
       },
     },
-    {
-      title: 'Action',
-      key: 'action',
-      align: 'center',
-      
-      render: () => (
-        <div className="text-gray flex w-full items-center justify-center">
-          <IconButton >
-            <Iconify icon="solar:pen-bold-duotone" size={18} />
-          </IconButton>
-          <Popconfirm
-            title="Delete This Type?"
-            okText="Yes"
-            cancelText="No"
-            placement="left"
-            onConfirm={() => {
-              // submitHandleDelete(record.id.toString());
-            }}
-          >
-            <IconButton>
-              <Iconify
-                icon="mingcute:delete-2-fill"
-                size={18}
-                className="text-error"
-              />
-            </IconButton>
-          </Popconfirm>
-          
-        </div>
-      ),
-    },
+    
   ]
   
   const [currentPage,setCurrentPage]=useState(1);
@@ -206,26 +176,7 @@ export default function Typework() {
     <div className="mt-3 text-2xl">
     <Form form={form} onFinish={onFinishHandler}>
           <Row gutter={12}  justify="space-evenly">
-            <Col   span={12}>
-              <Row  gutter={[24,24]}>
-                <Col xs={24} md={21} sm={12}>
-                  <Row>
-                  <Col  xs={23} md={21} sm={24} lg={14}>
-                  <Form.Item name="Search">
-                    <Input placeholder="Search by name" allowClear />
-                  </Form.Item>
-                  </Col>
-                  
-                    <Col xs={24} md={3} sm={24} lg={10} >
-                      <Button  type="primary" onClick={resetHandler}>
-                        Reset
-                      </Button>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-            </Col>
-            <Col span={12}>
+            <Col span={24}>
               <Row gutter={5}>
               <Col xs={24} sm={12} lg={12}>
                   <Button onClick={()=>setisopenModal(true)}  type="primary" danger >List Detail Job</Button>
@@ -267,18 +218,6 @@ export default function Typework() {
           />
         </div>
         <Modal
-        title={
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span>Job Details</span>
-            <Button
-              type="primary"
-              style={{ backgroundColor: 'green', borderColor: 'green' }}
-             
-            >
-              Add New
-            </Button>
-          </div>
-        }
         centered
         open={isopenModal}
         onOk={()=>{setisopenModal(false); }}

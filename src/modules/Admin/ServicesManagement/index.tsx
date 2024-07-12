@@ -16,6 +16,7 @@ export default function ServiceManagement() {
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
+      sorter: (a, b) => b.id - a.id,
     },
     {
       title: 'ID Job',
@@ -45,36 +46,7 @@ export default function ServiceManagement() {
       }
     },
     
-    // {
-    //   title: 'Action',
-    //   key: 'action',
-    //   align: 'center',
-      
-    //   render: () => (
-    //     <div className="text-gray flex w-full items-center justify-center">
-    //       <IconButton >
-    //         <Iconify icon="solar:pen-bold-duotone" size={18} />
-    //       </IconButton>
-    //       <Popconfirm
-    //         title="Delete This Services?"
-    //         okText="Yes"
-    //         cancelText="No"
-    //         placement="left"
-    //         onConfirm={() => {
-    //           // submitHandleDelete(record.id.toString());
-    //         }}
-    //       >
-    //         <IconButton>
-    //           <Iconify
-    //             icon="mingcute:delete-2-fill"
-    //             size={18}
-    //             className="text-error"
-    //           />
-    //         </IconButton>
-    //       </Popconfirm>
-    //     </div>
-    //   ),
-    // },
+    
   ];
   const commentcolumns: TableProps<any>['columns']=[
     {
@@ -119,9 +91,6 @@ export default function ServiceManagement() {
       
       render: (_,record) => (
         <div className="text-gray flex w-full items-center justify-center">
-          <IconButton >
-            <Iconify icon="solar:pen-bold-duotone"  size={18} />
-          </IconButton>
           <Popconfirm
             title="Delete This Type?"
             okText="Yes"
@@ -273,18 +242,7 @@ export default function ServiceManagement() {
               <Row  gutter={[12,12]}>
                 <Col xs={24} md={21} sm={12}>
                   <Row>
-                  <Col  xs={23} md={21} sm={24} lg={8}>
-                  <Form.Item name="Search">
-                    <Input placeholder="Search by name" allowClear />
-                  </Form.Item>
-                  </Col>
-                  
-                    <Col xs={24} md={3} sm={24} lg={8} >
-                      <Button  type="primary" onClick={resetHandler}>
-                        Reset
-                      </Button>
-                    </Col>
-                    <Col xs={24} sm={12} lg={8}>
+                    <Col xs={24} sm={12} lg={24}>
                   <Button type="primary" danger onClick={()=>setlistComment(true)} >List Comment</Button>
                 </Col>
                   </Row>
