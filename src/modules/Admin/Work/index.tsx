@@ -11,15 +11,20 @@ import {
   Tooltip,
   Breadcrumb,
   Modal,
+  InputRef,
+  Space,
+  TableColumnType,
   
 } from "antd";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { PAGE_SIZE } from "../../../constants";
 import { IconButton, Iconify } from "../../../icon";
 import { useAddJob, useDeleteJob, useGetListJob, useUpdateJob } from "../../../apis/CallApiCongViec/job";
 import { Career } from "../../../types/job";
 import { Controller, useForm } from "react-hook-form";
-import {  DeleteOutlined } from "@ant-design/icons";
+import {  DeleteOutlined, SearchOutlined } from "@ant-design/icons";
+import { FilterDropdownProps } from "antd/es/table/interface";
+import Highlighter from "react-highlight-words";
 
 export default function Work() {
   const { handleSubmit, control, watch, setValue,trigger, reset, formState: { errors } } = useForm<Career>({
@@ -38,135 +43,7 @@ export default function Work() {
   });
   const hinhAnh =
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbUxUTYzeP71ankRCJ2bhiC7ZXN_H7sjvd1g&s";
-  const columns: TableProps<Career>["columns"] = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-      sorter: (a, b) => b.id - a.id,
-    },
-    {
-      title: "Image",
-      dataIndex: "hinhAnh",
-      key: "hinhAnh",
-      render: (key: string) => (
-        <div>
-          <img
-            className="w-[80px] h-[80px] rounded object-cover"
-            src={key === "" ? hinhAnh : key}
-            alt="avatar"
-          />
-        </div>
-      ),
-    },
-    {
-      title: "Job name",
-      dataIndex: "tenCongViec",
-      key: "tenCongViec",
-      render: (text) => (
-        <Tooltip title={text}>
-          <div
-            style={{
-              maxWidth: "300px",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {text}
-          </div>
-        </Tooltip>
-      ),
-    },
-    {
-      title: "Price",
-      dataIndex: "giaTien",
-      key: "giaTien",
-    },
-    {
-      title: "Creator",
-      dataIndex: "nguoiTao",
-      key: "nguoiTao",
-    },
-    {
-      title: "ID Details job",
-      dataIndex: "maChiTietLoaiCongViec",
-      key: "maChiTietLoaiCongViec",
-    },
-    {
-      title: "Description",
-      dataIndex: "moTa",
-      key: "moTa",
-      render: (text) => (
-        <Tooltip title={text}>
-          <span>{text.length > 3 ? `${text.substring(0, 3)}...` : text}</span>
-        </Tooltip>
-      ),
-    },
-    {
-      title: "Star",
-      key: "saoCongViec",
-      dataIndex: "saoCongViec",
-      align: "center",
-      render: (_, { saoCongViec }) => (
-        <>
-          {Array.from({ length: saoCongViec }, (_, index) => (
-            <span key={index} style={{ color: "#ffcc00", fontSize: "16px" }}>
-              ★
-            </span>
-          ))}
-        </>
-      ),
-    },
-
-    {
-      title: "Action",
-      key: "action",
-      align: "center",
-
-
-      render: (_,{id,tenCongViec,danhGia,giaTien,nguoiTao,saoCongViec,moTa,hinhAnh,moTaNgan,maChiTietLoaiCongViec}) => (
-
-      
-        <div className="text-gray flex w-full items-center justify-center">
-          <IconButton onClick={()=>{
-            setisopenModal(true); 
-            setisupdate(true);
-            setValue("id",id);
-            setValue("tenCongViec",tenCongViec);
-            setValue("danhGia",danhGia);
-            setValue("giaTien",giaTien);
-            setValue("nguoiTao",nguoiTao);
-            setValue("moTa",moTa);
-            setValue("moTaNgan",moTaNgan);
-            setValue("hinhAnh",hinhAnh);
-            setValue("saoCongViec",saoCongViec);
-            setValue("maChiTietLoaiCongViec",maChiTietLoaiCongViec);
-
-          }}>
-            <Iconify icon="solar:pen-bold-duotone" size={18} />
-          </IconButton>
-          <Popconfirm
-            title="Delete This Job?"
-            okText="Yes"
-            cancelText="No"
-            placement="left"
-            onConfirm={() => {
-              submitHandleDelete(id);
-            }}
-          >
-            <IconButton>
-              <Iconify
-                icon="mingcute:delete-2-fill"
-                size={18}
-                className="text-error"
-              />
-            </IconButton>
-          </Popconfirm>
-        </div>
-      ),
-    },
-  ];
+  
   const [currentPage, setCurrentPage] = useState(1);
   const { data, isLoading } = useGetListJob(currentPage);
   const dataSource = data?.data || [];
@@ -178,7 +55,9 @@ export default function Work() {
   const {mutate: deleteJob}=useDeleteJob(currentPage);
   const {mutate:updateJob}=useUpdateJob(currentPage,()=>setisopenModal(false),reset)
   const hinhAnhValue = watch("hinhAnh");
-
+  const [searchText,setSearchText]=useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef<InputRef>(null);
   
   const onFinishHandler = (values: any) => {
     console.log(values);
@@ -189,12 +68,245 @@ export default function Work() {
   const handleUpdateJob=(form:any)=>{
     updateJob({ job: form, values: form.id });
   }
-  const resetHandler = () => {
-    form.resetFields();
-  };
   const handleAddJob=(form:Career)=>{
     addNewJob(form)
-  }
+  };
+  const handleSearch=(
+    selectedKeys:string[],
+    confirm:FilterDropdownProps["confirm"],
+    dataIndex:any)=>{
+      confirm();
+      setSearchText(selectedKeys[0]);
+      setSearchedColumn(dataIndex);
+    };
+     const handleReset = (clearFilters: () => void) => {
+            clearFilters();
+            setSearchText("");
+          };
+  
+    const getColumnSearchProps = (dataIndex: any ): TableColumnType<any> => ({
+            filterDropdown: ({
+              setSelectedKeys,
+              selectedKeys,
+              confirm,
+              clearFilters,
+              close,
+            }) => (
+              <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
+                <Input
+                  ref={searchInput}
+                  placeholder={`Search ${dataIndex}`}
+                  value={selectedKeys[0]}
+                  onChange={(e) =>
+                    setSelectedKeys(e.target.value ? [e.target.value] : [])
+                  }
+                  onPressEnter={() =>
+                    handleSearch(selectedKeys as string[], confirm, dataIndex)
+                  }
+                  style={{ marginBottom: 8, display: "block" }}
+                />
+                <Space>
+                  <Button
+                    type="primary"
+                    onClick={() =>
+                      handleSearch(selectedKeys as string[], confirm, dataIndex)
+                    }
+                    icon={<SearchOutlined  />}
+                    size="small"
+                    style={{ width: 90, borderRadius: 5 }}
+                  >
+                    Search
+                  </Button>
+                  <Button
+                    onClick={() => clearFilters && handleReset(clearFilters)}
+                    size="small"
+                    style={{ width: 90, borderRadius: 5 }}
+                  >
+                    Reset
+                  </Button>
+                  <Button
+                    type="link"
+                    size="small"
+                    onClick={() => {
+                      confirm({ closeDropdown: false });
+                      setSearchText((selectedKeys as string[])[0]);
+                      setSearchedColumn(dataIndex);
+                    }}
+                  >
+                    Filter
+                  </Button>
+                  <Button
+                    type="link"
+                    size="small"
+                    style={{ color: "red" }}
+                    onClick={() => {
+                      close();
+                    }}
+                  >
+                    Close
+                  </Button>
+                </Space>
+              </div>
+            ),
+            filterIcon: (filtered: boolean) => (
+              <SearchOutlined
+                style={{fontSize: '17px',alignContent:'center',width: '17px', color: filtered ? "#1677ff" : undefined }}
+              />
+            ),
+            onFilter: (value, record) =>
+              record[dataIndex]
+                .toString()
+                .toLowerCase()
+                .includes((value as string).toLowerCase()),
+            onFilterDropdownOpenChange: (visible) => {
+              if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+              }
+            },
+            render: (text) =>
+              searchedColumn === dataIndex ? (
+                <Highlighter
+                  highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+                  searchWords={[searchText]}
+                  autoEscape
+                  textToHighlight={text ? text.toString() : ""}
+                />
+              ) : (
+                text
+              ),
+          });
+          const columns: TableProps<Career>["columns"] = [
+            {
+              title: "ID",
+              dataIndex: "id",
+              key: "id",
+              sorter: (a, b) => b.id - a.id,
+            },
+            {
+              title: "Image",
+              dataIndex: "hinhAnh",
+              align:'center',
+              key: "hinhAnh",
+              render: (key: string) => (
+                <div>
+                  <img
+                    className="w-[80px] h-[80px] rounded object-cover"
+                    src={key === "" ? hinhAnh : key}
+                    alt="avatar"
+                  />
+                </div>
+              ),
+            },
+            {
+              title: "Job name",
+              dataIndex: "tenCongViec",
+              align:'center',
+              key: "tenCongViec",
+              ...getColumnSearchProps("tenCongViec"),
+              render: (text) => (
+                <Tooltip title={text}>
+                  <div
+                    style={{
+                      maxWidth: "300px",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    {text}
+                  </div>
+                </Tooltip>
+              ),
+            },
+            {
+              title: "Price",
+              dataIndex: "giaTien",
+              key: "giaTien",
+            },
+            {
+              title: "Creator",
+              dataIndex: "nguoiTao",
+              key: "nguoiTao",
+            },
+            {
+              title: "ID Details job",
+              dataIndex: "maChiTietLoaiCongViec",
+              key: "maChiTietLoaiCongViec",
+            },
+            {
+              title: "Description",
+              dataIndex: "moTa",
+              key: "moTa",
+              render: (text) => (
+                <Tooltip title={text}>
+                  <span>{text.length > 3 ? `${text.substring(0, 3)}...` : text}</span>
+                </Tooltip>
+              ),
+            },
+            {
+              title: "Star",
+              key: "saoCongViec",
+              dataIndex: "saoCongViec",
+              align: "center",
+              render: (_, { saoCongViec }) => (
+                <>
+                  {Array.from({ length: saoCongViec }, (_, index) => (
+                    <span key={index} style={{ color: "#ffcc00", fontSize: "16px" }}>
+                      ★
+                    </span>
+                  ))}
+                </>
+              ),
+            },
+        
+            {
+              title: "Action",
+              key: "action",
+              align: "center",
+        
+        
+              render: (_,{id,tenCongViec,danhGia,giaTien,nguoiTao,saoCongViec,moTa,hinhAnh,moTaNgan,maChiTietLoaiCongViec}) => (
+        
+              
+                <div className="text-gray flex w-full items-center justify-center">
+                  <IconButton onClick={()=>{
+                    setisopenModal(true); 
+                    setisupdate(true);
+                    setValue("id",id);
+                    setValue("tenCongViec",tenCongViec);
+                    setValue("danhGia",danhGia);
+                    setValue("giaTien",giaTien);
+                    setValue("nguoiTao",nguoiTao);
+                    setValue("moTa",moTa);
+                    setValue("moTaNgan",moTaNgan);
+                    setValue("hinhAnh",hinhAnh);
+                    setValue("saoCongViec",saoCongViec);
+                    setValue("maChiTietLoaiCongViec",maChiTietLoaiCongViec);
+        
+                  }}>
+                    <Iconify icon="solar:pen-bold-duotone" size={18} />
+                  </IconButton>
+                  <Popconfirm
+                    title="Delete This Job?"
+                    okText="Yes"
+                    cancelText="No"
+                    placement="left"
+                    onConfirm={() => {
+                      submitHandleDelete(id);
+                    }}
+                  >
+                    <IconButton>
+                      <Iconify
+                        icon="mingcute:delete-2-fill"
+                        size={18}
+                        className="text-error"
+                      />
+                    </IconButton>
+                  </Popconfirm>
+                </div>
+              ),
+            },
+          ];
   const handleBlur = async (name:any) => {
     await trigger(name); // Trigger validation for the specific field
   };
@@ -243,23 +355,6 @@ export default function Work() {
         <Form form={form} onFinish={onFinishHandler}>
           <Row gutter={24} justify="space-between">
             <Col xs={12} md={18} sm={14} lg={19} xl={20} xxl={18}>
-              <Row gutter={[12, 12]}>
-                <Col xs={24} md={21} sm={12}>
-                  <Row>
-                    <Col xs={23} md={21} sm={24} lg={8}>
-                      <Form.Item name="Search">
-                        <Input placeholder="Search by name" allowClear />
-                      </Form.Item>
-                    </Col>
-
-                    <Col xs={24} md={3} sm={24} lg={16}>
-                      <Button type="primary" onClick={resetHandler}>
-                        Reset
-                      </Button>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
             </Col>
             <Col xs={12} sm={10} md={6} lg={5} xl={4} xxl={6}>
               <Row>

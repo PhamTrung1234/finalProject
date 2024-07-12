@@ -313,7 +313,7 @@ export default function UserDetails() {
         </Col>
       </Row>
       <Modal
-        title="Basic Modal"
+        title="User details"
         open={userModal}
         footer={false}
         onCancel={() => setUsermodal(false)}
