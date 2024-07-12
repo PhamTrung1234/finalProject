@@ -8,7 +8,7 @@ import {
   CustomerServiceOutlined,
   AppstoreOutlined,
 } from "@ant-design/icons";
-import { Avatar, Button, Dropdown, Layout, Menu, theme } from "antd";
+import { Avatar, Button, Dropdown, Layout, Menu, Tag, theme } from "antd";
 import {
   Link,
   Navigate,
@@ -39,7 +39,14 @@ export default function AdminLayout() {
   const items = [
     {
       key: "1",
-      label: <span> User: {user?.name} </span>,
+      label: <span> User: <Tag color="green-inverse">{user?.name}</Tag> </span>,
+    },
+    {
+      key: "1",
+      label: <Button type="link" onClick={()=>{
+        
+        navigate("/");
+      }}>Home Page</Button>, 
     },
     {
       key: "2",
