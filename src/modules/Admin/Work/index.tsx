@@ -43,6 +43,7 @@ export default function Work() {
       title: "ID",
       dataIndex: "id",
       key: "id",
+      sorter: (a, b) => b.id - a.id,
     },
     {
       title: "Image",
@@ -358,9 +359,6 @@ export default function Work() {
                   control={control}
                   rules={{
                     required: 'Vui lòng Nhập đánh giá',
-                    min: { value: 1, message: 'Đánh giá ít nhất là 0' }, 
-                    max: { value: 5, message: 'Đánh giá nhiều nhất là 5' }
-                  
                   }}
                   render={({ field }) => {
                     return (
@@ -397,7 +395,7 @@ export default function Work() {
                   )}
                   rules={{ 
                     required: 'Vui Lòng Nhập giá tiền', 
-                    min: { value: 100000, message: 'Giá tiền ít nhất là 100,000Vnd' }
+                    
                   }}
                 />
                   {errors.giaTien && <span className="text-red-600">{errors.giaTien.message}</span>}
