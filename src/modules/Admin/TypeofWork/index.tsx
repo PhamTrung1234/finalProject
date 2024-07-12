@@ -14,6 +14,7 @@ export default function Typework() {
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
+      sorter: (a, b) => b.id - a.id,
     },
     {
       title: 'Name Type Of Job',
@@ -61,6 +62,7 @@ export default function Typework() {
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
+      sorter: (a, b) => b.id - a.id,
     },
     {
       title: 'Group Name',
