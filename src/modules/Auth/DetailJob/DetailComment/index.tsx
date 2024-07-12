@@ -84,7 +84,7 @@ export default function DetailComment(props: Props) {
   const handelComment = () => {
     let count = 0;
     if(data){
-      const listcComment = data.content;
+      const listcComment = data.content.slice().reverse();
       if ( listcComment.length <= 0) {
         return (
           <div className="pb-5" >
