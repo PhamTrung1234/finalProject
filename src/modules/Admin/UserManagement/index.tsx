@@ -464,10 +464,7 @@ export default function UserManagement() {
             name="password"
             control={control}
             rules={{ required: 'Password is required',
-              pattern:{
-                value: /^(?=.*[A-Za-z])(?=.*\d{4,})[A-Za-z\d]{5,}$/,
-                message: 'Password must be at least one letter and least 4 numbers'
-              }
+              
              }}
             render={({ field }) => (
               <Input.Password
