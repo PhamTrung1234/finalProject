@@ -331,7 +331,7 @@ export default function UserDetails() {
                 label="Name"
                 rules={[{ required: true, message: "Please input your name!" }]}
               >
-                <Input disabled={!isEditing} />
+                <Input disabled />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -342,7 +342,7 @@ export default function UserDetails() {
                   { required: true, message: "Please input your email!" },
                 ]}
               >
-                <Input disabled={!isEditing} />
+                <Input disabled/>
               </Form.Item>
             </Col>
           </Row>
