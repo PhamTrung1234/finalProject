@@ -1,4 +1,4 @@
-import { TableProps,Image , Table, Pagination, Button, Col, Form, Input, Row, Popconfirm, Tooltip, Breadcrumb, Modal, Popover, Tag } from "antd";
+import { TableProps,Image , Table, Pagination, Button, Col, Form,  Row, Popconfirm, Tooltip, Breadcrumb, Modal, Popover, Tag } from "antd";
 import {  useState } from "react";
 import {  PAGE_SIZE_TYPEJOB } from "../../../constants";
 import { IconButton, Iconify } from "../../../icon";
