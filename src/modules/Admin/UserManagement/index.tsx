@@ -305,9 +305,7 @@ export default function UserManagement() {
   const onFinishHandler = (values: any) => {
     console.log(values);
   };
-  const resetHandler = () => {
-    form.resetFields();
-  };
+  
 
   const onsubmit=(formValues:User)=>{
    if(!isupDate){
