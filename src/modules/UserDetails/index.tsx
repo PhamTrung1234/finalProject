@@ -84,7 +84,7 @@ export default function UserDetails() {
       title: 'Action',
       dataIndex: 'action',
       key: 'action',
-      render: (record:any) => (
+      render: (_:any,record:any) => (
         <div className="text-gray flex w-full items-center justify-center">
           <IconButton  >
             <Iconify   icon="solar:pen-bold-duotone" onClick={()=>{if(record.hoanThanh){

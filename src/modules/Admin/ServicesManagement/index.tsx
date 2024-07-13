@@ -1,4 +1,4 @@
-import { TableProps, Tag, Table, Pagination, Button, Col, Form, Input, Row, Popconfirm,  Breadcrumb, Modal } from "antd";
+import { TableProps, Tag, Table, Pagination, Button, Col, Form, Row, Popconfirm,  Breadcrumb, Modal } from "antd";
 import {  useState } from "react";
 import { PAGE_SIZE } from "../../../constants";
 import { IconButton, Iconify } from "../../../icon";
@@ -211,9 +211,7 @@ export default function ServiceManagement() {
     console.log(values);
   };
   
-  const resetHandler = () => {
-    form.resetFields();
-  };
+
   
   const handlecomment=()=>{
     setcomModal(true)

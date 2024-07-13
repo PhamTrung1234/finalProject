@@ -139,9 +139,7 @@ export default function Typework() {
   const onFinishHandler = (values: any) => {
     console.log(values);
   };
-  const resetHandler = () => {
-    form.resetFields();
-  };
+  
   
   const handledetailJob = () => {
     setDetailOpenModal(true);
