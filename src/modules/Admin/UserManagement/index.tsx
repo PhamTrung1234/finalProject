@@ -466,7 +466,7 @@ export default function UserManagement() {
              }}
             render={({ field }) => (
               <Input.Password
-                disabled
+                disabled={isupDate}
                 size="large"
                 className="mt-1"
                 placeholder="password..."
